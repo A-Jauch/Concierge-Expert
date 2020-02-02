@@ -8,7 +8,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-// gcc main.c qrcode.c $(sdl2-config --cflags --libs) -o prog
+//  gcc main.c qrcode.c $(sdl2-config --cflags --libs) -lSDL2_image  -o prog
+
 
 static void doBasicDemo(void);
 static void printQr(const uint8_t qrcode[]);
