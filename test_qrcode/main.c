@@ -34,7 +34,7 @@ static void doBasicDemo(void) {
 static void printQr(const uint8_t qrcode[]) {
 
     /* Initialisation fichier */
-    const char *path = "qr_code_1.png";
+    const char *path = "./receive_qrcode/qr_code_1.png";
 
     /* Initialisation SDL */
     SDL_Window *window = NULL;
