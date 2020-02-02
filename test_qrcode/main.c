@@ -6,13 +6,13 @@
 #include "qrcode.h"
 #include <math.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 // gcc main.c qrcode.c $(sdl2-config --cflags --libs) -o prog
 
 static void doBasicDemo(void);
 static void printQr(const uint8_t qrcode[]);
 void SDL_ExitWithError(const char *message);
-
 int main(int argc, char **argv) {
     doBasicDemo();
     return EXIT_SUCCESS;
@@ -34,7 +34,7 @@ static void doBasicDemo(void) {
 static void printQr(const uint8_t qrcode[]) {
 
     /* Initialisation fichier */
-    const char *path = "qr_code_1.bmp";
+    const char *path = "qr_code_1.png";
 
     /* Initialisation SDL */
     SDL_Window *window = NULL;
@@ -117,10 +117,11 @@ static void printQr(const uint8_t qrcode[]) {
 
                     program_lanched = SDL_FALSE;
 
+                    /* Exportation PNG */
                     screen = SDL_CreateRGBSurface(0, 750, 750, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGBA32, screen->pixels, screen->pitch);
-                    SDL_SaveBMP(screen, path);
-                    if (SDL_SaveBMP(screen,path) != 0)
+                    IMG_SavePNG(screen, path);
+                    if (IMG_SavePNG(screen,path) != 0)
                         SDL_ExitWithError("Failed screenshot");
                     SDL_FreeSurface(screen);
                     break;
