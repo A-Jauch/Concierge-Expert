@@ -34,7 +34,7 @@ static void doBasicDemo(void) {
 static void printQr(const uint8_t qrcode[]) {
 
     /* Initialisation fichier */
-    const char *path = "qr_code_1.png";
+    const char *path = "../decode_qrcode/qr_code_1.png";
 
     /* Initialisation SDL */
     SDL_Window *window = NULL;
@@ -73,7 +73,7 @@ static void printQr(const uint8_t qrcode[]) {
             fputs((qrcodegen_getModule(qrcode, x, y) ? "##" : "  "), stdout);
 
             if( qrcodegen_getModule(qrcode, x, y) ){
-                for(int w=0;w<20;w++){
+                for(int w=0;w<3;w++){
                     SDL_SetRenderDrawColor(renderer,0, 0, 0, 255);
                     SDL_Rect rect;
                     rect.x = x*10+20;
@@ -84,7 +84,7 @@ static void printQr(const uint8_t qrcode[]) {
                     SDL_RenderPresent(renderer);
                 }
             } else {
-                for(int z=0;z<20;z++) {
+                for(int z=0;z<3;z++) {
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
                     SDL_Rect rect;
                     rect.x = x*10+20;
