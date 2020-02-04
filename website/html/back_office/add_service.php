@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <title>Add Service</title>
+    <title>Ajouter un service</title>
   </head>
 
 <body class="bodi">
@@ -22,7 +22,7 @@
     <div class="col-lg-12 col-xl-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-         <center><h3 class="font">Add a service</h3></center>
+         <center><h3 class="font">Ajouter un service</h3></center>
         </div>
         <div class="panel-body">
           <form action="verif_service.php" method="POST" enctype="multipart/form-data">
@@ -40,10 +40,10 @@
                   ?>
                 <div class="form-group">
                   <!-- Affiche -->
-                  <label class="font">Select a file(png, jpg, jpeg) : </label>
+                  <label class="font">Choix du fichier(png, jpg, jpeg) : </label>
                   <input type="file" name="image" class="form-control input-md" multiple><br>
                    <!-- Service's name -->
-                  <label class="font">Enter the service's name : </label>
+                  <label class="font">Entre le nom du service : </label>
                    <input type="text" name="name" placeholder="Service's name" class="form-control input-sm"><br>
 
                 </div>

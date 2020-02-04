@@ -26,26 +26,26 @@ if(isset($_FILES['image']) && !empty($_FILES['image'])){
         $fileDestination = 'images/' . $fileNameNew . '.' . $fileActualExtension ;
         move_uploaded_file($fileTmpName, $fileDestination);
       } else {
-        echo '<small> *You file is too big! </small><br>';
+        echo '<small> *Le fichier est trop volumineux ! </small><br>';
         exit;
       }
     } else {
-      echo '<small> *There was an error uploading your file! </small><br>';
+      echo '<small> *Il y a une erreur avec le fichier! </small><br>';
       exit;
     }
   } else {
-    echo '<small> *You cannot upload files of this type! </small><br>';
+    echo '<small> *Vous ne pouvez pas insérer ce type de fichier ! </small><br>';
     exit;
   }
 
 } else {
-  echo "<small> *You need to upload a file! </small><br>";
+  echo "<small> *Vous avez besoin d'insérer une image ! </small><br>";
   header('Location:add_service.php?error=1');
   exit;
 }
 
 if (isset($name) && empty($name)){
-  echo "<small> *Enter a service's name </small><br>";
+  echo "<small> *Entrez le nom d'un service </small><br>";
 }
 
 if( isset($name) && !empty($name) ){
