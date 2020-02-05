@@ -29,28 +29,20 @@ include 'config.php';
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
                                 <div class="form-group">
-                                    <!-- Affiche -->
                                     <label class="font">Nom : </label>
                                     <input type="text" name="lastName" placeholder="Nom" class="form-control input-md" multiple><br>
-                                    <!-- Service's name -->
                                     <label class="font">Prénom : </label>
                                     <input type="text" name="firstName" placeholder="Prénom" class="form-control input-sm"><br>
-                                    <!-- Affiche -->
                                     <label class="font">Mail : </label>
                                     <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
-                                    <!-- Affiche -->
                                     <label class="font">Confirmation mail : </label>
                                     <input type="text" name="confMail" placeholder="Confirmation mail" class="form-control input-md" multiple><br>
-                                    <!-- Affiche -->
                                     <label class="font">Mot de passe : </label>
                                     <input type="password" name="password" placeholder="Mot de passe" class="form-control input-md" multiple><br>
-                                    <!-- Affiche -->
                                     <label class="font">Confirmation mot de passe : </label>
                                     <input type="password" name="confPassword" placeholder="Confirmation mot de passe" class="form-control input-md" multiple><br>
-                                    <!-- Affiche -->
                                     <label class="font">Adresse : </label>
                                     <input type="text" name="address" placeholder="Adresse" class="form-control input-md" multiple><br>
-                                    <!-- Affiche -->
                                     <label class="font">Numéro de téléphone : </label>
                                     <input type="text" name="phoneNumber" placeholder="Téléphone" class="form-control input-md" multiple><br>
 

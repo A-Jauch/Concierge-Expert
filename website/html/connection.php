@@ -29,12 +29,11 @@ include 'config.php';
                             <div class="row">
                                 <div class="col-lg-12 col-xl-126">
                                     <div class="form-group">
-                                        <!-- Affiche -->
                                         <label class="font">Mail : </label>
                                         <input type="text" name="mail" placeholder="Nom" class="form-control input-md" multiple><br>
-                                        <!-- Service's name -->
                                         <label class="font">Mot de passe : </label>
                                         <input type="text" name="password" placeholder="Prénom" class="form-control input-sm"><br>
+                                        <a href="inscription.php">S'inscrire</a>
                                     </div>
                                 </div>
                             </div>
