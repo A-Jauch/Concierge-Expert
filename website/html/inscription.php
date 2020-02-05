@@ -22,7 +22,7 @@ include 'config.php';
         <div class="col-lg-12 col-xl-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <center><h3 class="font">Add a service</h3></center>
+                    <center><h3 class="font">Inscription</h3></center>
                 </div>
                 <div class="panel-body">
                     <form action="verif_inscription.php" method="POST" enctype="multipart/form-data">
@@ -53,16 +53,16 @@ include 'config.php';
                                     <input type="text" name="confMail" placeholder="Confirmation mail" class="form-control input-md" multiple><br>
                                     <!-- Affiche -->
                                     <label class="font">Mot de passe : </label>
-                                    <input type="text" name="password" placeholder="Mot de passe" class="form-control input-md" multiple><br>
+                                    <input type="password" name="password" placeholder="Mot de passe" class="form-control input-md" multiple><br>
                                     <!-- Affiche -->
                                     <label class="font">Confirmation mot de passe : </label>
-                                    <input type="text" name="confPassword" placeholder="Confirmation mot de passe" class="form-control input-md" multiple><br>
+                                    <input type="password" name="confPassword" placeholder="Confirmation mot de passe" class="form-control input-md" multiple><br>
                                     <!-- Affiche -->
                                     <label class="font">Adresse : </label>
                                     <input type="text" name="address" placeholder="Adresse" class="form-control input-md" multiple><br>
                                     <!-- Affiche -->
                                     <label class="font">Numéro de téléphone : </label>
-                                    <input type="text" name="tel" placeholder="Téléphone" class="form-control input-md" multiple><br>
+                                    <input type="text" name="phoneNumber" placeholder="Téléphone" class="form-control input-md" multiple><br>
 
                                 </div>
                             </div>
