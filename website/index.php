@@ -16,7 +16,7 @@
               <li><a href="#">Services</a></li>
               <a href="index.php" id="logo"><img src="img/logo.png" width="200px"></a>
               <li><a href="#">Contact</a></li>
-              <li><a href="#"><button type="button" class="btn btn-primary">Client area</button></a></li>
+              <li><a href="html/connection.php"><button type="button" class="btn btn-primary">Client area</button></a></li>
             </ul>
           </div>
         </nav>

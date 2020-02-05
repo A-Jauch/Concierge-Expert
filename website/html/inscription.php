@@ -9,7 +9,7 @@ include 'config.php';
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Add Service</title>
+    <title>Inscription</title>
 </head>
 
 <body class="bodi">
@@ -28,16 +28,6 @@ include 'config.php';
                     <form action="verif_inscription.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
-                                <?php
-                                if($_GET['error'] === 'yes'){
-                                    echo '<h6>*a service with this name has been already created </h6>';
-                                }
-                                ?>
-                                <?php
-                                if($_GET['error'] === '1'){
-                                    echo '<h6>*One or more input are empty or invalid</h6>';
-                                }
-                                ?>
                                 <div class="form-group">
                                     <!-- Affiche -->
                                     <label class="font">Nom : </label>
