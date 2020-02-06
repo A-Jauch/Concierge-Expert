@@ -45,7 +45,6 @@
                    <!-- Service's name -->
                   <label class="font">Entre le nom du service : </label>
                    <input type="text" name="name" placeholder="Service's name" class="form-control input-sm"><br>
-
                 </div>
               </div>
             </div>
