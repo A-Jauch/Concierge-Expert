@@ -1,8 +1,12 @@
 <?php
 
+var_dump($_POST);
+
 include '../config.php';
 
 $name = $_POST['name'];
+$price = $_POST['price'];
+$add_index = $_POST['add_index'];
 
 if(isset($_FILES['image']) && !empty($_FILES['image'])){
 
@@ -44,6 +48,10 @@ if(isset($_FILES['image']) && !empty($_FILES['image'])){
   exit;
 }
 
+if (isset($price) && empty($price)){
+  echo "<small> *Entrez un tarif</small><br>";
+}
+
 if (isset($name) && empty($name)){
   echo "<small> *Entrez le nom d'un service </small><br>";
 }
@@ -51,10 +59,12 @@ if (isset($name) && empty($name)){
 if( isset($name) && !empty($name) ){
   /* Insertion des éléments dans la base de données*/
 
-  $req = $bdd -> prepare("INSERT INTO SERVICE(name, image) VALUES (:name, :image)");
+  $req = $bdd -> prepare("INSERT INTO SERVICE(name, image, price, add_index) VALUES (:name, :image, :price, :add_index)");
   $req -> execute(array(
       'name' => htmlspecialchars($name),
-      'image' => htmlspecialchars($fileDestination)
+      'image' => htmlspecialchars($fileDestination),
+      'price' => htmlspecialchars($price),
+      'add_index' => htmlspecialchars($add_index)
     )
   );
 
