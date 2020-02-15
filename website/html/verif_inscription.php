@@ -5,7 +5,7 @@ include 'config.php';
 $firstName = htmlspecialchars($_POST['firstName']);
 $lastName = htmlspecialchars($_POST['lastName']);
 $mail = htmlspecialchars($_POST['mail']);
-$password = htmlspecialchars($_POST['password']);
+$password = hash( 'sha256',$_POST['password']);
 $address = htmlspecialchars($_POST['address']);
 $phoneNumber = htmlspecialchars($_POST['phoneNumber']);
 
@@ -33,14 +33,16 @@ if(isset($mail) && !empty($mail)) {
                                         VALUES (:firstName, :lastName, :mail, :password, :address, :tel)");
 
         $req -> execute(array(
-                'firstName' => htmlspecialchars($firstName),
-                'lastName' => htmlspecialchars($lastName),
-                'mail' => htmlspecialchars($mail),
-                'password' => htmlspecialchars($password),
-                'address' => htmlspecialchars($address),
-                'tel' => htmlspecialchars($phoneNumber)
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'mail' => $mail,
+                'password' => $password,
+                'address' => $address,
+                'tel' => $phoneNumber
             )
         );
+
+        header('Location: index.php?inscription=ok');
     }
 }
 

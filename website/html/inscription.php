@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors','off');
 include 'config.php';
 ?>
 
@@ -9,6 +8,7 @@ include 'config.php';
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
+
     <title>Inscription</title>
 </head>
 
@@ -22,6 +22,11 @@ include 'config.php';
         <div class="col-lg-12 col-xl-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
+                    <?php
+                    if(isset($_GET['error']) && $_GET['error'] == 'mail_taken') {
+                        echo '<h4 style="color : red">L\'email est déjà utilisé</h4>';
+                    }
+                    ?>
                     <center><h3 class="font">Inscription</h3></center>
                 </div>
                 <div class="panel-body">

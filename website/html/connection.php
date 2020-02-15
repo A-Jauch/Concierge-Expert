@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors','off');
 include 'config.php';
 ?>
 
@@ -25,19 +24,19 @@ include 'config.php';
                         <center><h3 class="font">Connexion</h3></center>
                     </div>
                     <div class="panel-body">
-                        <form action="verif_inscription.php" method="POST" enctype="multipart/form-data">
+                        <form action="verif_connection.php" method="POST" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-lg-12 col-xl-126">
                                     <div class="form-group">
                                         <label class="font">Mail : </label>
-                                        <input type="text" name="mail" placeholder="Nom" class="form-control input-md" multiple><br>
+                                        <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
                                         <label class="font">Mot de passe : </label>
-                                        <input type="text" name="password" placeholder="Prénom" class="form-control input-sm"><br>
+                                        <input type="password" name="password" placeholder="Mot de passe" class="form-control input-sm"><br>
                                         <a href="inscription.php">S'inscrire</a>
                                     </div>
                                 </div>
                             </div>
-                            <br><center><input type="submit" name="" value="S'inscrire" class="btn btn-primary"></center><br>
+                            <br><center><input type="submit" name="" value="Se connecter" class="btn btn-primary"></center><br>
                         </form>
                         <form action="../index.php" method="POST">
                             <center><input type="submit" name="" value="Accueil" class="btn btn-danger"></center>
