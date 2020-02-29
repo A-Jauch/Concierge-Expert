@@ -28,6 +28,11 @@ include 'config.php';
                             <div class="row">
                                 <div class="col-lg-12 col-xl-126">
                                     <div class="form-group">
+                                        <?php
+                                        if(isset($_GET['error']) && $_GET['error'] == 'password') {
+                                            echo '<p style="color:red">Votre mail ou votre mot de passe est incorrect</p>';
+                                        }
+                                        ?>
                                         <label class="font">Mail : </label>
                                         <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
                                         <label class="font">Mot de passe : </label>

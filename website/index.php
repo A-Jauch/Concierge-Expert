@@ -1,4 +1,5 @@
-<?php include 'html/config.php'; ?>
+<?php session_start();
+include 'html/config.php'; ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,12 +17,13 @@
               <li><a href="#">Services</a></li>
               <a href="index.php" id="logo"><img src="img/logo.png" width="200px"></a>
               <li><a href="#">Contact</a></li>
-              <li><a href="html/connection.php"><button type="button" class="btn btn-primary">Client area</button></a></li>
+
                 <?php
-                session_start();
                 $connected = isset($_SESSION['mail']) ? true : false;
                 if($connected) { ?>
                     <li><a href="html/deconnection.php"><button type="button" class="btn btn-primary">Déconnexion</button></a></li>
+                <?php } else { ?>
+                    <li><a href="html/connection.php"><button type="button" class="btn btn-primary">Client area</button></a></li>
                 <?php } ?>
             </ul>
           </div>

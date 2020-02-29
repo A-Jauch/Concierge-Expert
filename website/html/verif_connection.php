@@ -14,7 +14,7 @@ if (empty($result)) {
     exit;
 } else {
     session_start();
-    $_SESSION['mail'] = $result['mail'];
+    $_SESSION['mail'] = $mail;
     header("location: ../index.php?connection=ok");
     exit;
 }
