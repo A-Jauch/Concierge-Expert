@@ -16,7 +16,7 @@ include 'html/config.php'; ?>
               <li><a href="#">Home</a></li>
               <li><a href="#">Services</a></li>
               <a href="index.php" id="logo"><img src="img/logo.png" width="200px"></a>
-              <li><a href="#">Contact</a></li>
+              <li><a href="html/subscription.php">Abonnement</a></li>
 
                 <?php
                 $connected = isset($_SESSION['mail']) ? true : false;
