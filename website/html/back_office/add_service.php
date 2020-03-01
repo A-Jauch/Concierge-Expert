@@ -29,35 +29,31 @@ include 'html/config.php';
                     <form action="verif_service.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
-                                <?php
-                                if ($_GET['error'] === 'yes') {
-                                    echo '<h6>*a service with this name has been already created </h6>';
-                                }
-                                ?>
-                                <?php
-                                if ($_GET['error'] === '1') {
-                                    echo '<h6>*One or more input are empty or invalid</h6>';
-                                }
-                                ?>
                                 <div class="form-group">
+                                  <?php
+                                    if (isset($_GET['error']) && $_GET['error'] === 'size') {
+                                        echo '<small> *Le fichier est trop volumineux ! </small><br>';
+                                    }
+                                    if (isset($_GET['error']) && $_GET['error'] === 'corrupted') {
+                                        echo '<small> *Le fichier est corrompu ! </small><br>';
+                                    }
+                                    if (isset($_GET['error']) && $_GET['error'] === 'type') {
+                                        echo '<small> *Vous ne pouvez pas envoyer des fichiers de ce type ! </small><br>';
+                                    }
+                                    if (isset($_GET['error']) && $_GET['error'] === 'empty') {
+                                        echo "<small> *Vous avez besoin d'insérer une image ! </small><br>";
+                                    }
+                                   ?>
                                     <!-- Affiche -->
                                     <label class="font">Choix du fichier(png, jpg, jpeg) : </label>
                                     <input type="file" name="image" class="form-control input-md" multiple><br>
                                     <!-- Service's name -->
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="md-form">
                                                 <label class="font">Entrez le nom du service : </label>
                                                 <input type="text" name="name" placeholder="Nom du service"
                                                        class="form-control input-sm"><br>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="md-form">
-                                                <label class="font">Prix (TTC/heure) : </label>
-                                                <input type="number" name="price" placeholder="Prix"
-                                                       class="form-control input-sm"></br>
-
                                             </div>
                                         </div>
                                     </div>
@@ -66,7 +62,7 @@ include 'html/config.php';
                                       <p class="inline" class="font">Cochez la case pour afficher ce service à la page index :</p>
                                     </div>
                                 </div>
-                                <center><input type="submit" name="" value="Valider" class="btn btn-primary"></center>
+                                <center><input type="submit" value="Valider" class="btn btn-primary"></center>
                                 <br>
                     </form>
                     <form action="../../index.php" method="POST">

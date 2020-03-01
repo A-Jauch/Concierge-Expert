@@ -41,7 +41,7 @@
     </div>
 
     </br>
-    <center><h1 class="font">Nos services les plus demandés</h1></center>
+    <center><h1 class="font">Nos catégories de services les plus demandées</h1></center>
 
     <?php
     $req2 = $bdd->prepare("SELECT * FROM SERVICE WHERE add_index = 'yes'");
@@ -60,7 +60,10 @@
                                          src="<?= 'html/back_office/' . $row['image']; ?>"></center>
                             <div class="card-body">
                                 <h5 class="card-title"><?= '<h3><b>' . $row['name'] . '</b></h3>'; ?></h5>
-                                <a href="html/reservation.php?name=<?= $row['name']; ?>" class="btn btn-primary">Reservation</a>
+                                <form action="html/reservation.php" method="post">
+                                  <input type="hidden" name="name" value=<?= $row['name'] ?>>
+                                  <input type="submit" value="Visionner les services" class="btn btn-primary">
+                                </form>
                             </div>
                         </div>
                     </div>
