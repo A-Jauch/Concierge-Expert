@@ -8,7 +8,6 @@ include 'config.php';
     <meta charset="utf-8">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-
     <title>Inscription</title>
 </head>
 
@@ -30,31 +29,31 @@ include 'config.php';
                     <center><h3 class="font">Inscription</h3></center>
                 </div>
                 <div class="panel-body">
-                    <form action="verif_inscription.php" method="POST" enctype="multipart/form-data">
+                    <form method="POST" action="verif_inscription.php" onsubmit="return checkFields()">
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
                                 <div class="form-group">
                                     <label class="font">Nom : </label>
-                                    <input type="text" name="lastName" placeholder="Nom" class="form-control input-md" multiple><br>
+                                    <input type="text" name="lastName" placeholder="Nom" class="form-control input-md"><br>
                                     <label class="font">Prénom : </label>
                                     <input type="text" name="firstName" placeholder="Prénom" class="form-control input-sm"><br>
                                     <label class="font">Mail : </label>
-                                    <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
+                                    <input type="text" name="mail" placeholder="Mail" class="form-control input-md"><br>
                                     <label class="font">Confirmation mail : </label>
-                                    <input type="text" name="confMail" placeholder="Confirmation mail" class="form-control input-md" multiple><br>
+                                    <input type="text" name="confMail" placeholder="Confirmation mail" class="form-control input-md"><br>
                                     <label class="font">Mot de passe : </label>
-                                    <input type="password" name="password" placeholder="Mot de passe" class="form-control input-md" multiple><br>
+                                    <input type="password" name="password" placeholder="Mot de passe" class="form-control input-md"><br>
                                     <label class="font">Confirmation mot de passe : </label>
-                                    <input type="password" name="confPassword" placeholder="Confirmation mot de passe" class="form-control input-md" multiple><br>
+                                    <input type="password" name="confPassword" placeholder="Confirmation mot de passe" class="form-control input-md"><br>
                                     <label class="font">Adresse : </label>
-                                    <input type="text" name="address" placeholder="Adresse" class="form-control input-md" multiple><br>
+                                    <input type="text" name="address" placeholder="Adresse" class="form-control input-md"><br>
                                     <label class="font">Numéro de téléphone : </label>
-                                    <input type="text" name="phoneNumber" placeholder="Téléphone" class="form-control input-md" multiple><br>
+                                    <input type="text" name="phoneNumber" placeholder="Téléphone" class="form-control input-md"><br>
 
                                 </div>
                             </div>
                         </div>
-                        <br><center><input type="submit" name="" value="Validate" class="btn btn-primary"></center><br>
+                        <br><center><input type="submit" name="validate" value="S'inscrire" class="btn btn-primary"></center><br>
                     </form>
                     <form action="../index.php" method="POST">
                         <center><input type="submit" name="" value="Return" class="btn btn-danger"></center>
@@ -62,6 +61,7 @@ include 'config.php';
                 </div>
             </div>
         </div>
+        <script type="text/javascript" src="verif_inscription.js"></script>
 </body>
 
 </html>

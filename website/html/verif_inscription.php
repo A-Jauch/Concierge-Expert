@@ -42,7 +42,7 @@ if(isset($mail) && !empty($mail)) {
             )
         );
 
-        header('Location: index.php?inscription=ok');
+        header('Location: ../index.php?inscription=ok');
     }
 }
 
