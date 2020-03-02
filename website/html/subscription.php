@@ -55,7 +55,7 @@ include 'config.php';
                                 echo '<p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p>';
                             }
 
-                            if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'premiumm') {
+                            if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'premium') {
                                 echo '<p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p>';
                             }
                             ?>

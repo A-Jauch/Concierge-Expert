@@ -11,7 +11,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
             'dateStart' => $date
         )
     );
-    header('location: ../subscription.php?error=succeed&sub=famille');
+    header('location: ../subscription.php?error=succeed&sub=family');
     exit;
 } else {
     header('location: ../subscription.php?error=connected');
