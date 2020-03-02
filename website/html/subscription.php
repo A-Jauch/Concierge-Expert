@@ -58,6 +58,10 @@ include 'config.php';
                             if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'premium') {
                                 echo '<p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p>';
                             }
+
+                            if(isset($_GET['error']) && $_GET['error'] == 'subscribed') {
+                                echo '<p style="color: red;">Vous êtes déjà abonné</p>';
+                            }
                             ?>
                             <div class="card" style="width: 33%; display: inline-block;">
                                 <div class="card-body">
