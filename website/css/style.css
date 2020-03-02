@@ -99,7 +99,7 @@ nav a:hover{
   color: #000000;
 }
 
-#text{
+.text{
   font-family: "BreeSerif", serif;
   font-size: 25px;
   display: inline-block;

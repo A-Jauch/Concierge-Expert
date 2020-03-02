@@ -9,35 +9,7 @@ include 'html/config.php'; ?>
     <title>Concierge Expert</title>
 </head>
 <body>
-<header>
-    <nav>
-        <div class="align container">
-            <div class="row">
-                <div class="col-lg-12   ">
-                    <ul>
-                        <li><a href="#">Accueil</a></li>
-                        <li><a href="html/service.php">Services</a></li>
-                        <a href="index.php" id="logo"><img src="img/logo.png" width="200px"></a>
-                        <li><a href="html/subscription.php">Abonnement</a></li>
-
-                        <?php
-                        $connected = isset($_SESSION['mail']) ? true : false;
-                        if ($connected) { ?>
-                            <li><a href="html/deconnection.php">
-                                    <button type="button" class="btn btn-primary">Déconnexion</button>
-                                </a></li>
-                        <?php } else { ?>
-                            <li><a href="html/connection.php">
-                                    <button type="button" class="btn btn-primary">Espace Client</button>
-                                </a></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-</header>
-
+<?php include 'html/includes/header.php'?>
 <main>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -125,19 +97,19 @@ include 'html/config.php'; ?>
                 <div class="col-md-4">
                     <div class="md-form">
                         <center><img src="img/character.png" width="150px"><br>
-                            <p id="text">Des expert(e)s confirmé(e)s </br>& certifié(e)s</p></center>
+                            <p class="text">Des expert(e)s confirmé(e)s </br>& certifié(e)s</p></center>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="md-form">
                         <center><img src="img/euros.png" width="190px"><br>
-                            <p id="text">Des prix défiants </br>toute concurrence</p></center>
+                            <p class="text">Des prix défiants </br>toute concurrence</p></center>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="md-form">
                         <center><img src="img/client.png" width="160px"><br>
-                            <p id="text">Un service client </br>des plus réactifs</p></center>
+                            <p class="text">Un service client </br>des plus réactifs</p></center>
                     </div>
                 </div>
             </div>
