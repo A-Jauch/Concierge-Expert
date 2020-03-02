@@ -44,7 +44,19 @@ include 'config.php';
                             <br><br>
                             <?php
                             if(isset($_GET['error']) && $_GET['error'] == 'connected') {
-                                echo '<p>Il faut être connecté pour s\'abonner</p>';
+                                echo '<p style="color: red;">Il faut être connecté pour s\'abonner</p>';
+                            }
+
+                            if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'base') {
+                                echo '<p style="color: red;">Achat de l\'abonnement de ' . $_GET['sub'] . ' réussi</p>';
+                            }
+
+                            if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'family') {
+                                echo '<p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p>';
+                            }
+
+                            if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'premiumm') {
+                                echo '<p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p>';
                             }
                             ?>
                             <div class="card" style="width: 33%; display: inline-block;">
@@ -53,7 +65,7 @@ include 'config.php';
                                     <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 5j/7 de 9h à 20h</p>
                                     <br>
                                     <p class="card-text" style="text-align: center">12h de services/mois</p><br>
-                                    <center><a href="#" class="btn btn-primary">S'abonner</a></center>
+                                    <center><a href="subscription/subscription_base.php" class="btn btn-primary">S'abonner</a></center>
                                 </div>
                             </div>
                             <div class="card" style="width: 33%; display: inline-block;">
@@ -62,7 +74,7 @@ include 'config.php';
                                     <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 6j/7 de 9h à 20h</p>
                                     <br>
                                     <p class="card-text" style="text-align: center">25h de services/mois</p><br>
-                                    <center><a href="#" class="btn btn-primary">S'abonner</a></center>
+                                    <center><a href="subscription/subscription_family.php" class="btn btn-primary">S'abonner</a></center>
                                 </div>
                             </div>
                             <div class="card" style="width: 33%; display: inline-block;">
@@ -71,7 +83,7 @@ include 'config.php';
                                     <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 7j/7 24h/24</p>
                                     <br>
                                     <p class="card-text" style="text-align: center">50h de services/mois</p><br>
-                                    <center><a href="#" class="btn btn-primary">S'abonner</a></center>
+                                    <center><a href="subscription/subscription_premium.php" class="btn btn-primary">S'abonner</a></center>
                                 </div>
                             </div>
                         </div>
