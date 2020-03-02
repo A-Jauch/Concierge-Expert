@@ -42,6 +42,11 @@ include 'config.php';
                         <div class="panel-heading">
                             <center><h3 class="font">Abonnement</h3></center>
                             <br><br>
+                            <?php
+                            if(isset($_GET['error']) && $_GET['error'] == 'connected') {
+                                echo '<p>Il faut être connecté pour s\'abonner</p>';
+                            }
+                            ?>
                             <div class="card" style="width: 33%; display: inline-block;">
                                 <div class="card-body">
                                     <h5 class="card-title" style="text-align: center">Abonnement de base</h5><br>
