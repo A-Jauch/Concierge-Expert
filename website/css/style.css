@@ -47,6 +47,10 @@ nav a:hover{
   border: none;
 }
 
+#area{
+  font-size: 22px;
+}
+
 .btn-danger{
   background-color: #CF1717;
   border: none;
@@ -54,6 +58,58 @@ nav a:hover{
 
 .background{
 
+}
+
+.presentation{
+  background-color: #DDDDDD;
+  display: inline-block;
+  width: 100%;
+}
+
+.costumer{
+  margin: 50px;
+  display: inline-block;
+}
+
+#description{
+  font-family: "BreeSerif";
+  font-size: 20px;
+  display: inline-block;
+  color: #000000;
+}
+
+#bio{
+  font-family: "BreeSerif";
+  display: inline-block;
+  color: #000000;
+}
+
+#grey_box{
+  display: inline-block;
+}
+
+.inline{
+  display: inline-block;
+}
+
+#title{
+  font-family: "BreeSerif";
+  display: inline-block;
+  margin: 50px;
+  color: #000000;
+}
+
+#text{
+  font-family: "BreeSerif";
+  font-size: 25px;
+  display: inline-block;
+  padding: 5px;
+  color: #000000;
+}
+
+.icones{
+  display: inline-block;
+  padding: 65px;
 }
 
 .box{
@@ -70,7 +126,7 @@ nav a:hover{
 
 .font{
   font-family: "BreeSerif";
-  color: #374b52;
+  color: #000000;
 }
 
 footer{
