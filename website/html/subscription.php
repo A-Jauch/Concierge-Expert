@@ -13,26 +13,34 @@ include 'config.php';
 
 <body class="bodi">
 
-    <header>
-        <nav>
-            <div class="align">
-                <ul>
-                    <li><a href="../index.php">Home</a></li>
-                    <li><a href="#">Services</a></li>
-                    <a href="../index.php" id="logo"><img src="../img/logo.png" width="200px"></a>
-                    <li><a href="subscription.php">Abonnement</a></li>
+<header>
+    <nav>
+        <div class="align container">
+            <div class="row">
+                <div class="col-lg-12   ">
+                    <ul>
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="../html/service.php">Services</a></li>
+                        <a href="../index.php" id="logo"><img src="../img/logo.png" width="200px"></a>
+                        <li><a href="../html/subscription.php">Abonnement</a></li>
 
-                    <?php
-                    $connected = isset($_SESSION['mail']) ? true : false;
-                    if($connected) { ?>
-                        <li><a href="deconnection.php"><button type="button" class="btn btn-primary">Déconnexion</button></a></li>
-                    <?php } else { ?>
-                        <li><a href="connection.php"><button type="button" class="btn btn-primary">Client area</button></a></li>
-                    <?php } ?>
-                </ul>
+                        <?php
+                        $connected = isset($_SESSION['mail']) ? true : false;
+                        if ($connected) { ?>
+                            <li><a href="../html/deconnection.php">
+                                    <button type="button" class="btn btn-primary">Déconnexion</button>
+                                </a></li>
+                        <?php } else { ?>
+                            <li><a href="../html/connection.php">
+                                    <button type="button" class="btn btn-primary">Espace Client</button>
+                                </a></li>
+                        <?php } ?>
+                    </ul>
+                </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
     <main>
         <div class="container">
