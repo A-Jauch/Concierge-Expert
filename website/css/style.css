@@ -21,7 +21,7 @@ header{
   background-color: #DDDDDD;
   color: #000000;
   text-align: center;
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   font-size: 28px;
 }
 
@@ -72,14 +72,14 @@ nav a:hover{
 }
 
 #description{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   font-size: 20px;
   display: inline-block;
   color: #000000;
 }
 
 #bio{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   display: inline-block;
   color: #000000;
 }
@@ -93,14 +93,14 @@ nav a:hover{
 }
 
 #title{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   display: inline-block;
   margin: 50px;
   color: #000000;
 }
 
 #text{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   font-size: 25px;
   display: inline-block;
   padding: 5px;
@@ -125,7 +125,7 @@ nav a:hover{
 }
 
 .font{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   color: #000000;
 }
 
