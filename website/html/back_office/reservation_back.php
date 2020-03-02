@@ -16,7 +16,7 @@
 <div id="accept"></div>
 <center>
     <h1>Prévisualisation de votre nouveau service</h1></br>
-    <form action="new_service.php" id="addOption" method="post">
+    <form action="new_service.php" id="addOption" method="post" enctype="multipart/form-data">
         <?php
           if (isset($_GET['error']) && $_GET['error'] === 'size') {
               echo '<small> *Le fichier est trop volumineux ! </small><br>';
@@ -28,7 +28,7 @@
               echo '<small> *Vous ne pouvez pas envoyer des fichiers de ce type ! </small><br>';
           }
           if (isset($_GET['error']) && $_GET['error'] === 'empty') {
-              echo "<small> *Vous avez besoin d'insérer une image ! </small><br>";
+              echo "<small> *Vous avez besoin de remplir tous les champs ! </small><br>";
           }
          ?>
         <label class="font">Choix du fichier(png, jpg, jpeg) : </label></br>
@@ -100,12 +100,12 @@
 
 </br>
 <center>
-    <form  onsubmit="addListe()" method="POST" enctype="multipart/form-data"id="column">
+    <form  action="verif_reservation.php" method="POST" enctype="multipart/form-data" id="column">
         <label>Pour une meilleure visibilité entrez le nom de la colonne à créer sous cette forme sans espace (nomColonne)</label></br>
         <input type="text" id="columnName" name="columnName" placeholder="Entrez le nom de la colonne à rajouter"
                onblur="verifyColumn()">
         <select name="type" id="choice" onchange="verify()">
-            <option value="INT">INT</option>
+            <option value="INT" selected>INT</option>
             <option value="DOUBLE">DOUBLE</option>
             <option value="DATE">DATE</option>
             <option value="TIMESTAMP">TIMESTAMP</option>

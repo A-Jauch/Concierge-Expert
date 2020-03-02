@@ -13,6 +13,8 @@ function verify(){
 
   const inputAdded = document.getElementById("inputAdded");
 
+  console.log(value);
+
   if( value === "CHAR" || value === "VARCHAR"){
     if (inputAdded != null) {
       const parent = inputAdded.parentNode;
@@ -85,6 +87,7 @@ function traitement(){
 }
 
 function newInput() {
+
    let liste = document.getElementById("liste2");
    let listeLength = document.getElementById("liste2").options.length;
    const container = document.getElementById('newInput2');
@@ -97,11 +100,13 @@ function newInput() {
        label.innerHTML = liste.options[i].text + " :";
        input.name = liste.options[i].text;
        input.placeholder = liste.options[i].text;
+       input.value = liste.options[i].text;
 
        container.appendChild(label);
        container.appendChild(input);
        container.appendChild(br);
      }
+
 }
 
 // ALTER TABLE new DROP liste.options[i].value
@@ -162,6 +167,7 @@ function addListe(){
     }
   }
   request.send(`name=${nameCategorie}`);
+}
 
   /*const container = document.getElementById('accept');
   const inputHidden = document.createElement('input');
@@ -169,19 +175,3 @@ function addListe(){
   input.name="nameCategorie";
   input.id="nameCategorie";
   container.appendChild(input);*/
-
-}
-
-/*function sendData(){
-
-    const request = new XMLHttpRequest();
-    request.open('POST','new_service.php');
-    request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-    request.onreadystatechange = function(){
-      if(request.readyState === 4){
-        const accept = document.getElementById('accept');
-        accept.innerHTML += request.responseText;
-      }
-    }
-    request.send(`array=${array}`);
-}*/

@@ -16,7 +16,7 @@
                     <div class="align">
                         <ul>
                             <li><a href="#">Accueil</a></li>
-                            <li><a href="#">Services</a></li>
+                            <li><a href="html/service.php">Services</a></li>
                             <a href="index.php" id="logo"><img src="img/logo.png" width="200px"></a>
                             <li><a href="#">Contact</a></li>
                             <li><a href="#">
@@ -54,9 +54,9 @@
                 <?php while ($row = $req2->fetch(PDO::FETCH_ASSOC)) { ?>
                     <!-- Ajout d'un service sur l'écran d'accueil -->
 
-                    <div class="col-lg-4 col-sm-6 col-xs-12">
-                        <div class="card text-center box" style="width: 20rem;">
-                            <center><img class="size" width="300px" height="300px"
+                    <div class="col-lg-3 col-sm-6 col-xs-12">
+                        <div class="card text-center box" style="width: 15rem;">
+                            <center><img class="size" width="100px" height="100px"
                                          src="<?= 'html/back_office/' . $row['image']; ?>"></center>
                             <div class="card-body">
                                 <h5 class="card-title"><?= '<h3><b>' . $row['name'] . '</b></h3>'; ?></h5>
