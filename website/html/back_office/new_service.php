@@ -71,7 +71,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                     )
                 );
 
-                header('Location: ../reservation.php');
+                header('Location: ../../index.php');
 
             } else {
                 header('Location: reservation_back.php?error=size');

@@ -2,7 +2,6 @@
   include '../config.php';
 
   $name = $_POST['name'];
-  var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -117,7 +116,7 @@
         <input type="hidden" name="nameCategorie" value="<?= $name ?>" id="inputHidden">
         <div id="newInput"></div>
       </br><input type="submit" value="Ajouter" class="btn btn-primary">
-    </form>
+    </form><br>
 </center>
 
 <script type="text/javascript" src="input.js"></script>
