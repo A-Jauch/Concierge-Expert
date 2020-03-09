@@ -25,15 +25,16 @@ $req2->execute();
         <?php if ($req2->rowCount() > 0) { ?>
             <?php while ($row = $req2->fetch(PDO::FETCH_BOTH)) { ?>
                 <center><img src="<?= "back_office/" . $row['image'] ?>" width="200px"></center>
-            <?php } ?>
-        <?php } ?>
     </div>
     <br>
     <div class="row centered-form">
         <div class="col-lg-12 col-xl-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <center><h1 class="font"><?= $name ?></h3></center>
+                    <center><h1 class="font"><?= str_replace('_',' ',$name) ?></h3></center><br>
+                    <center><h6><?= $row['description']; ?></h6><br></center>
+                  <?php } ?>
+              <?php } ?>
                 </div>
                 <div class="panel-body">
                     <form action="" method="POST" enctype="multipart/form-data">
@@ -67,12 +68,21 @@ $req2->execute();
                                             $i++;
                                             if ($i > 4) {
                                                 ?>
+                                                <?php if($nameColumn['Field'] == "niveau") { ?>
+                                                  <label class="font"><?= $nameColumn['Field'] ?> : </label>
+                                                  <select name="index" class="form-control input-sm">
+                                                      <option value="">--Choississez une option--</option>
+                                                      <option value="1">Collège</option>
+                                                      <option value="2">Lycée</option>
+                                                      <option value="3">Supérieur</option>
+                                                  </select><br>
+                                                <?php }else{ ?>
                                                 <label class="font"><?= $nameColumn['Field'] ?> : </label>
                                                 <input type="<?= $res['native_type'] ?>"
                                                        name="<?= $nameColumn['Field'] ?>"
                                                        placeholder="<?= $nameColumn['Field'] ?>"
                                                        class="form-control input-sm"><br>
-
+                                                <?php } ?>
                                             <?php } ?>
                                         <?php } ?>
                                     <?php } ?>

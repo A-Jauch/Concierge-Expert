@@ -30,7 +30,7 @@
                         <center><img class="size" width="100px" height="100px"
                                      src="<?= 'back_office/' . $row['image']; ?>"></center>
                           <div class="card-body">
-                              <h5 class="card-title"><?= '<h3><b>' . $row['name'] . '</b></h3>'; ?></h5>
+                              <h5 class="card-title"><?= '<h3><b>' . str_replace('_',' ',$row['name']) . '</b></h3>'; ?></h5>
                               <form action="subcategory.php" method="post">
                                 <input type="hidden" name="categorie" value="<?= $name ?>">
                                 <input type="hidden" name="name" value=<?= $row['name'] ?>>

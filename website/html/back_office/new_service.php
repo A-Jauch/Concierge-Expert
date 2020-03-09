@@ -48,7 +48,6 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                   }
                   //echo '<br>';
                 }
-                echo $string;
 
                 $req = $bdd->prepare("CREATE TABLE " . $variable[0] . "(image VARCHAR(255), serviceName VARCHAR(255) PRIMARY KEY, price DOUBLE, description TEXT". $string . ")");
                 $req->execute();
@@ -59,9 +58,9 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                         'serviceName' => htmlspecialchars($variable[0]),
                         'price' => htmlspecialchars($variable[1]),
                         'description' => htmlspecialchars($variable[2])
-                        for($k=0; $k<count($variable)-1 ; $k++){
+                        /*for($k=3 ; $k<count($variable)-1 ; $k++){
                           $variable[$k] => htmlspecialchars($variable[$k])
-                        }
+                        }*/
                     )
                 );
 
@@ -72,7 +71,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                     )
                 );
 
-                //header('Location: ../../index.php');
+                header('Location: ../../index.php');
 
             } else {
                 header('Location: reservation_back.php?error=size');

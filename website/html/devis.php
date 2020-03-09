@@ -39,7 +39,7 @@ include 'config.php';
                                     <center><select name="index" class="form-control input-sm">
                                             <?php if ($req2->rowCount() > 0) { ?>
                                                 <?php while ($row = $req2->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                    <option value="<?= $row['name']; ?>"><?= $row['name']; ?></option>
+                                                    <option value="<?= $row['name']; ?>"><?= str_replace('_',' ',$row['name']) ?></option>
                                                 <?php } ?>
                                             <?php } ?>
 
