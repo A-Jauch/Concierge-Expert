@@ -9,7 +9,38 @@ include 'html/config.php'; ?>
     <title>Concierge Expert</title>
 </head>
 <body>
-<?php include 'html/includes/header.php'?>
+  <header>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-12 col-md-11 col-xs-12">
+                  <nav>
+                      <div class="align">
+                          <ul>
+                              <li><a href="#">Accueil</a></li>
+                              <li><a href="html/service.php">Services</a></li>
+                              <a href="index.php" id="logo"><img src="img/logo.png" width="150px" alt="logo"></a>
+                              <li><a href="html/subscription.php">Abonnement</a></li>
+                                      <?php
+                                      $connected = isset($_SESSION['mail']) ? true : false;
+                                      if ($connected) { ?>
+                              <li><a href="html/deconnection.php">
+                                      <button type="button" class="btn btn-primary">Déconnexion</button>
+                                  </a>
+                              </li>
+                              <?php } else { ?>
+                                  <li><a href="html/connection.php">
+                                          <button type="button" class="btn btn-primary">Espace Client</button>
+                                      </a>
+                                  </li>
+                              <?php } ?>
+                          </ul>
+                      </div>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+
 <main>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -39,7 +70,7 @@ include 'html/config.php'; ?>
                             <center><img class="size" width="100px" height="100px"
                                          src="<?= 'html/back_office/' . $row['image']; ?>"></center>
                             <div class="card-body">
-                                <h5 class="card-title"><?= '<h3><b>' . $row['name'] . '</b></h3>'; ?></h5>
+                                <h5 class="card-title"><?= '<h3><b>' . str_replace('_',' ',$row['name']) . '</b></h3>'; ?></h5>
                                 <form action="html/reservation.php" method="post">
                                   <input type="hidden" name="name" value=<?= $row['name'] ?>>
                                   <input type="submit" value="Visionner les services" class="btn btn-primary">
@@ -47,7 +78,6 @@ include 'html/config.php'; ?>
                             </div>
                         </div>
                     </div>
-
                 <?php } ?>
             <?php } ?>
         </div>
@@ -66,13 +96,13 @@ include 'html/config.php'; ?>
     <section class="presentation">
         <div class="container">
             <div class="row" id="grey_box">
-                <div class="col-md-6">
+                <div class="col-lg-5">
                     <div class="md-form">
                         <img src="img/description.jpg" width="400px" class="costumer" class="col-lg-4 col-md-12">
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="md-form">
+                <div class="col-lg-5">
+                    <div class="md-form" id="textarea">
                         <h2 id="bio">L'excellence avant tout !</h2></br>
                         <p id="description">Depuis plus de 40 ans, notre société tend à se perfectionner pour
                             vous proposer les meilleurs services d'une qualité toujours exemplaire.</p></br>
