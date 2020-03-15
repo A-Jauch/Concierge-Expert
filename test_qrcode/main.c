@@ -46,7 +46,7 @@ const char *receiveFirstName,
 
 const char *path = "../decode_qrcode/qr_code_1.png";
 
-
+//GTK Entry Function
 
 static void lastName_clicked(GtkWidget *widget, GtkWidget *entry) {
 
@@ -98,7 +98,7 @@ static void phoneNumber_clicked(GtkWidget *widget, GtkWidget *entry) {
 }
 
 
-
+//Insert on DATABASE
 
 void finish_with_error(MYSQL *con) {
 
@@ -163,6 +163,7 @@ void finish_with_error(MYSQL *con) {
     mysql_close(con);
 }
 
+//Verif Insert 
 
 void verif(GtkWidget *widget, GtkWidget *window) {
 
@@ -207,6 +208,7 @@ void verif(GtkWidget *widget, GtkWidget *window) {
     mysql_close(con);
 }
 
+//Input GTK Form
 void form(){
 
     GtkWidget *window;
@@ -237,6 +239,7 @@ void form(){
 
     button = GTK_WIDGET(gtk_builder_get_object(builder, "button"));
 
+//To send the variable entry 
     g_signal_connect(button, "clicked", G_CALLBACK(lastName_clicked), lastNameForm);
     g_signal_connect(button, "clicked", G_CALLBACK(firstName_clicked), firstNameForm);
     g_signal_connect(button, "clicked", G_CALLBACK(address_clicked), addressForm);
@@ -267,28 +270,21 @@ int main(int argc, char **argv) {
 }
 
 static void doBasicDemo(void) {
-  //  char nom[5] = "NOM:";
- //   char prenom[15]= "Prenom:";
+ 
     char metier[15]="Job:";
     char num[15]="Tel:";
     char test[255] = " ";
     char test2[255]=" ";
- //char *concatnom = strcat(nom,receiveLastName); //Nom:jauch
- char *concat = strcat(test,strcat(metier,receiveJob)); // Prenom:anthony
+ //For QR_Code concat GTK-Entry variable for Job and Phone Number Export
+   char *concat = strcat(test,strcat(metier,receiveJob)); 
    char *step = strcat(num,receivePhoneNumber);
-       char *step2 = strcat(step,concat);
-       char *step3= strcat(test2,step2);
-  /*  char vide[5] = "et:";
-    char *concatjob = strcat(metier,receiveJob);
- //   char *concatnum = strcat(num,receivePhoneNumber);
-
- //   char *finalstep= strcat(step,step2);*/
+   char *step2 = strcat(step,concat);
+   char *step3= strcat(test2,step2);
+ 
 
 
-    const char *text =step2;
-    printf("%s\n",text);
-    printf("D:%s\n",step);
-    printf("F:%s\n",step2);
+   const char *text =step2;
+   
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_HIGH;  // Error correction level
 
     // Make and print the QR Code symbol
