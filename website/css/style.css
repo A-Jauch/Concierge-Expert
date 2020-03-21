@@ -74,18 +74,19 @@ nav a:hover{
 #description{
   font-family: "BreeSerif", serif;
   font-size: 20px;
-  display: inline-block;
   color: #000000;
 }
 
 #bio{
   font-family: "BreeSerif", serif;
-  display: inline-block;
   color: #000000;
 }
 
+#textarea{
+  padding-top: 60px;
+}
+
 #grey_box{
-  display: inline-block;
 }
 
 .inline{

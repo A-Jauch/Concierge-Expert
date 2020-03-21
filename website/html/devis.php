@@ -22,32 +22,50 @@ include 'config.php';
         <div class="col-lg-12 col-xl-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <center><h3 class="font">Demande de devis</h3></center>
+                    <center><h3 class="font">Demande de devis</h3></center><br>
                 </div>
                 <div class="panel-body">
-                    <form action="verif_devis.php" method="POST" enctype="multipart/form-data">
+                    <form action="verif_devis.php" method="POST" enctype="multipart/form-data" id="formDevis">
+
+                      <!-- Catégorie de prestation -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="md-form">
 
                                     <?php
-                                    $req2 = $bdd->prepare("SELECT name FROM SERVICE");
-                                    $req2->execute();
+                                      $req2 = $bdd->prepare("SELECT name FROM SERVICE");
+                                      $req2->execute();
                                     ?>
 
-                                    <label class="font">Sélectionner le type de prestation</label>
+                                    <label class="font">Sélectionner une catégorie de prestation</label>
                                     <center><select name="index" class="form-control input-sm">
                                             <?php if ($req2->rowCount() > 0) { ?>
                                                 <?php while ($row = $req2->fetch(PDO::FETCH_ASSOC)) { ?>
                                                     <option value="<?= $row['name']; ?>"><?= str_replace('_',' ',$row['name']) ?></option>
                                                 <?php } ?>
-                                            <?php } ?>
-
+                                             <?php } ?>
                                         </select></center>
                                     </br>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Sous-catégorie de prestation -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="md-form">
+
+                                    <label class="font">Sélectionner une sous-catégorie de prestation</label>
+                                    <center><select name="index" class="form-control input-sm">
+                                        <option value=""> --- Choississez une sous-catégorie --- </option>
+                                        </select></center>
+                                    </br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Menu déroulant Bis -->
+
                         <!-- Information -->
                         <div class="row">
                             <div class="col-md-6">
@@ -78,8 +96,9 @@ include 'config.php';
                     <div class="col-md-6">
                         <div class="md-form">
                             <label class="font">Adresse e-mail : </label>
+                            <div id="errorEmail"></div>
                             <input type="text" name="email" placeholder="E-mail"
-                                   class="form-control input-sm"></br>
+                                   class="form-control input-sm" id="email" onblur="verif_mail()"></br>
                         </div>
                     </div>
                 </div>
@@ -112,7 +131,7 @@ include 'config.php';
     </br>
 </div>
 </div>
-</div>
+<script type="text/javascript" src="devis.js"></script>
 </body>
 
 </html>
