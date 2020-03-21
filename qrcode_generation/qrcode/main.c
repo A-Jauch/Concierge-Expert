@@ -14,27 +14,32 @@
 
 GtkWidget *lastName,
         *lastNameForm,
+        *lastNameSize,
 
         *firstName,
         *firstNameForm,
+        *firstNameSize,
 
         *address,
         *addressForm,
+        *addressSize,
 
         *mail,
         *mailForm,
+        *mailSize,
 
         *job,
         *jobForm,
+        *jobSize,
 
         *phoneNumber,
         *phoneNumberForm,
+        *phoneNumberSize,
 
-
-          *hbox, *button, *entry;
+        *hbox, *button, *entry;
 
 GtkBuilder *builder;
-
+GtkWidget *window;
 
 const char *receiveFirstName,
         *receiveLastName,
@@ -47,52 +52,82 @@ const char *path = "../receive_qrcode/qr_code_1.png";
 
 //GTK Entry Function
 
-static void lastName_clicked(GtkWidget *widget, GtkWidget *entry) {
+static bool lastName_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receiveLastName = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receiveLastName);
-
+    lastNameSize = gtk_entry_get_text_length (GTK_ENTRY(entry));
+    if( lastNameSize == 0 ){
+        return false;
+    }else{
+        g_print("%s\n", receiveLastName);
+        return true;
+    }
 
 }
 
-
-static void firstName_clicked(GtkWidget *widget, GtkWidget *entry) {
+static bool firstName_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receiveFirstName = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receiveFirstName);
-
+    firstNameSize = gtk_entry_get_text_length(GTK_ENTRY(entry));
+    if( firstNameSize == 0 ){
+        return false;
+    }else{
+        g_print("%s\n", receiveFirstName);
+        return true;
+    }
 
 }
 
-static void address_clicked(GtkWidget *widget, GtkWidget *entry) {
+static bool address_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receiveAddress = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receiveAddress);
-
-
+    addressSize = gtk_entry_get_text_length(GTK_ENTRY(entry));
+    if( addressSize == 0 ){
+        return false;
+    }else{
+        g_print("%s\n", receiveAddress);
+        return true;
+    }
 
 }
 
 static void email_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receiveEmail = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receiveEmail);
+    mailSize = gtk_entry_get_text_length(GTK_ENTRY(entry));
+    if( strchr(receiveEmail,'@') == NULL || mailSize == 0){
+        gtk_entry_set_text(GTK_ENTRY(entry),"Email non valide");
+        return false;
+    }else{
+        g_print("%s\n", receiveEmail);
+        return true;
+    }
 
 }
 
 static void job_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receiveJob = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receiveJob);
-
+    jobSize = gtk_entry_get_text_length(GTK_ENTRY(entry));
+    if( jobSize == 0 ){
+        return false;
+    }else{
+        g_print("%s\n", receiveJob);
+        return true;
+    }
 
 }
-
 
 static void phoneNumber_clicked(GtkWidget *widget, GtkWidget *entry) {
 
     receivePhoneNumber = gtk_entry_get_text(GTK_ENTRY(entry));
-    g_print("%s\n", receivePhoneNumber);
+    phoneNumberSize = gtk_entry_get_text_length(GTK_ENTRY(entry));
+    if( phoneNumberSize == 0 ){
+        return false;
+    }else{
+        g_print("%s\n", receivePhoneNumber);
+        return true;
+    }
 
 }
 
@@ -123,7 +158,6 @@ void finish_with_error(MYSQL *con) {
     strcat(testMail, receiveEmail);
     strcat(testMail, "'");
 
-
     if (mysql_query(con, testMail)) {
         finish_with_error(con);
     }
@@ -137,11 +171,23 @@ void finish_with_error(MYSQL *con) {
     int num_rows = mysql_num_rows(result);
 
     if (num_rows == 0) {
+
+        int8_t reqInsertJob[255] = "INSERT INTO job (name) VALUES('";
+        strcat(reqInsertJob, receiveJob);
+        strcat(reqInsertJob, "')");
+
+        if (mysql_query(con, reqInsertJob)) {
+            finish_with_error(con);
+        }
+
+        char testJob[] = "SELECT id FROM job WHERE name = '";
+        strcat(testJob, receiveJob);
+        strcat(testJob, "'");
+
         int8_t reqInsert[255] = "INSERT INTO serviceprovider (firstName, lastName, mail, tel, qrcode) VALUES('";
         strcat(reqInsert, receiveFirstName);
         strcat(reqInsert, "','");
         strcat(reqInsert, receiveLastName);
-
         strcat(reqInsert, "','");
         strcat(reqInsert, receiveEmail);
         strcat(reqInsert, "','");
@@ -153,6 +199,7 @@ void finish_with_error(MYSQL *con) {
         if (mysql_query(con, reqInsert)) {
             finish_with_error(con);
         }
+
     } else {
 
         printf("The email is already used");
@@ -210,7 +257,6 @@ void verif(GtkWidget *widget, GtkWidget *window) {
 //Input GTK Form
 void form(){
 
-    GtkWidget *window;
     GError *err = NULL;
 
     /* Creation d'un nouveau GtkBuilder */
@@ -218,10 +264,6 @@ void form(){
 
     if( builder != NULL){
         gtk_builder_add_from_file(builder,"provider.glade",&err);
-
-        if(gtk_builder_add_from_file(builder, "provider.glade", &err) == 0){
-            fprintf(stderr, "Error adding build from file. Error: %s\n", err->message);
-        }
 
         gtk_builder_connect_signals(builder, NULL);
 
@@ -249,6 +291,8 @@ void form(){
 
         button = GTK_WIDGET(gtk_builder_get_object(builder, "button"));
 
+
+
         //To send the variable entry
         g_signal_connect(button, "clicked", G_CALLBACK(lastName_clicked), lastNameForm);
         g_signal_connect(button, "clicked", G_CALLBACK(firstName_clicked), firstNameForm);
@@ -256,7 +300,7 @@ void form(){
         g_signal_connect(button, "clicked", G_CALLBACK(email_clicked), mailForm);
         g_signal_connect(button, "clicked", G_CALLBACK(job_clicked), jobForm);
         g_signal_connect(button, "clicked", G_CALLBACK(phoneNumber_clicked), phoneNumberForm);
-        g_signal_connect(button,"clicked",G_CALLBACK(add),window);
+        g_signal_connect(button, "clicked", G_CALLBACK(add),window);
         g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
         g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
@@ -278,19 +322,31 @@ void SDL_ExitWithError(const char *message);
 int main(int argc, char **argv) {
     gtk_init(&argc, &argv);
     form();
-    doBasicDemo();
+    if( lastName_clicked &&
+       firstName_clicked &&
+       address_clicked &&
+       email_clicked &&
+       job_clicked &&
+       phoneNumber_clicked ){
+        printf("\n Insertion OK");
+        insertBdd();
+        doBasicDemo();
+    }else{
+        printf("\n Insertion FAIL");
+    }
     return EXIT_SUCCESS;
 }
 
 static void doBasicDemo(void) {
 
     char metier[15]="Job:";
-    char num[15]="Tel:";
-    char test[255] = " ";
+    char mail[15]="Mail:";
+    char test[255] =" ";
     char test2[255]=" ";
- //For QR_Code concat GTK-Entry variable for Job and Phone Number Export
+
+    //For QR_Code concat GTK-Entry variable for Job and Phone Number Export
    char *concat = strcat(test,strcat(metier,receiveJob));
-   char *step = strcat(num,receivePhoneNumber);
+   char *step = strcat(mail,receiveEmail);
    char *step2 = strcat(step,concat);
    char *step3= strcat(test2,step2);
 

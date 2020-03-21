@@ -38,7 +38,7 @@ function verify(){
     container.appendChild(input);*/
   }
 
-  else if( value === "TIMESTAMP"){
+  else if( value === "TIME"){
     if (inputAdded != null) {
       const parent = inputAdded.parentNode;
       parent.removeChild(inputAdded);

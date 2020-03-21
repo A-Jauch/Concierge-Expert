@@ -108,7 +108,7 @@
             <option value="INT" selected>INT</option>
             <option value="DOUBLE">DOUBLE</option>
             <option value="DATE">DATE</option>
-            <option value="TIMESTAMP">TIMESTAMP</option>
+            <option value="TIME">TIME</option>
             <option value="CHAR">CHAR</option>
             <option value="VARCHAR">VARCHAR</option>
             <option value="TEXT">TEXT</option>

@@ -28,14 +28,14 @@
     }
   }
 
-  if ($type === "TIMESTAMP"){
+  if ($type === "TIME"){
     if (isset($_POST['time']) && !empty($_POST['time'])){
       $time = $_POST['time'];
       $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type /*. "(" . $time . ")*/);
       $req->execute();
       header('Location: reservation_back.php');
     }else{
-      echo "Entrez une date";
+      echo "Entrez un temps";
       exit;
     }
   }

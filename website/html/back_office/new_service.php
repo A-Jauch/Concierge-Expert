@@ -49,7 +49,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                   //echo '<br>';
                 }
 
-                $req = $bdd->prepare("CREATE TABLE " . $variable[0] . "(image VARCHAR(255), serviceName VARCHAR(255) PRIMARY KEY, price DOUBLE, description TEXT". $string . ")");
+                $req = $bdd->prepare("CREATE TABLE " . $variable[0] . "(id INT(11) NOT NULL AUTO_INCREMENT, image VARCHAR(255), serviceName VARCHAR(50), price DOUBLE, description TEXT". $string . ", idUser INT REFERENCES CLIENT(id) )");
                 $req->execute();
 
                 $req2 = $bdd->prepare("INSERT INTO " . $variable[0] . "(image,serviceName, price, description) VALUES(:image,:serviceName, :price, :description)");
