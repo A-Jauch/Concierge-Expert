@@ -294,8 +294,6 @@ static void doBasicDemo(void) {
    char *step2 = strcat(step,concat);
    char *step3= strcat(test2,step2);
 
-
-
    const char *text =step2;
 
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_HIGH;  // Error correction level
@@ -349,33 +347,27 @@ static void printQr(const uint8_t qrcode[]) {
         for (int x = -border; x < size + border; x++) {
 
             if( qrcodegen_getModule(qrcode, x, y) ){
-                for(int w=0;w<3;w++){
-                    SDL_SetRenderDrawColor(renderer,0, 0, 0, 255);
-                    SDL_Rect rect;
-                    rect.x = x*10+20;
-                    rect.y = new_y;
-                    rect.w = 10;
-                    rect.h = 10;
-                    SDL_RenderFillRect(renderer, &rect);
-                    SDL_RenderPresent(renderer);
-                }
+                SDL_SetRenderDrawColor(renderer,0, 0, 0, 255);
+                SDL_Rect rect;
+                rect.x = x*10+20;
+                rect.y = new_y;
+                rect.w = 10;
+                rect.h = 10;
+                SDL_RenderFillRect(renderer, &rect);
+                SDL_RenderPresent(renderer);
             } else {
-                for(int z=0;z<3;z++) {
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-                    SDL_Rect rect;
-                    rect.x = x*10+20;
-                    rect.y = new_y;
-                    rect.w = 10;
-                    rect.h = 10;
-                    SDL_RenderFillRect(renderer, &rect);
-                    SDL_RenderPresent(renderer);
-                }
+                SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+                SDL_Rect rect;
+                rect.x = x*10+20;
+                rect.y = new_y;
+                rect.w = 10;
+                rect.h = 10;
+                SDL_RenderFillRect(renderer, &rect);
+                SDL_RenderPresent(renderer);
             }
 
         }
     }
-
-    //IMG_SaveJPG(path,screen,50);
 
     SDL_bool program_lanched = SDL_TRUE;
 
@@ -405,8 +397,6 @@ static void printQr(const uint8_t qrcode[]) {
             }
         }
     }
-
-
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

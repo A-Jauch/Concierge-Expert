@@ -5749,3 +5749,15 @@
 
 1582171770 c:\msys32\mingw32\include\gtk-3.0\gtk\gtk-autocleanups.h
 
+1584570340 source:c:\wamp64\www\concierge_expert\qrcode_generation\qrcode\qrcode.c
+	<assert.h>
+	<limits.h>
+	<stdlib.h>
+	<string.h>
+	"qrcode.h"
+
+1584570312 c:\wamp64\www\concierge_expert\qrcode_generation\qrcode\qrcode.h
+	<stdbool.h>
+	<stddef.h>
+	<stdint.h>
+
