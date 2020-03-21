@@ -117,6 +117,7 @@
           <object class="GtkEntry" id="phoneNumberForm">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="max_length">10</property>
             <property name="invisible_char">&#x25CF;</property>
           </object>
           <packing>
@@ -137,4 +138,5 @@
       </object>
     </child>
   </object>
+  <object class="GtkAction" id="action1"/>
 </interface>
