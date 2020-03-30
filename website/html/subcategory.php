@@ -66,7 +66,7 @@ $req2->execute();
                                             }
                                             $i++;
                                             if ($i > 5){
-                                                if($nameColumn['Field'] == 'idUser'){ ?>
+                                                if($nameColumn['Field'] == 'idUser' || $nameColumn['Field'] == 'order_id' ){ ?>
                                                     <input type="hidden"
                                                            name="<?= $nameColumn['Field'] ?>"
                                                            placeholder="<?= $nameColumn['Field'] ?>"

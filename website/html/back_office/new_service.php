@@ -6,9 +6,12 @@ $i = 0;
 $variable = array();
 $name = $_GET['service'];
 foreach ($_POST as $key => $value) {
+    if ($key != 'description'){
+
     $key = $value;
     $variable[$i] = explode(" ",$key);
     $i++;
+    }
 }
 var_dump($variable);
 
@@ -58,13 +61,13 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                   echo "," . $variable[$j] . " " . $res['native_type'];
                 }*/
                 var_dump(count($variable)-1);
-                for($j=4 ; $j<count($variable) ; $j++){
+                for($j=3 ; $j<count($variable) ; $j++){
                     $string .= "," . $variable[$j][0] . " " . $variable[$j][1];
 
                 }
                 echo " Request : " . $string;
 
-                $req = $bdd->prepare("CREATE TABLE " . $variable[0][0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,name VARCHAR(50), image VARCHAR(255),  price DOUBLE,description TEXT, heureSemaine TIME". $string . ", idUser INT REFERENCES CLIENT(id) )");
+                $req = $bdd->prepare("CREATE TABLE " . $variable[0][0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,name VARCHAR(50), image VARCHAR(255),  price DOUBLE,description TEXT, heureSemaine TIME". $string . ", idUser INT REFERENCES CLIENT(id), order_id INT(11) NULL )");
                 $req->execute();
 
                 $req2 = $bdd->prepare("INSERT INTO " . $variable[0][0] . "(name,image, price, description) VALUES(:name,:image, :price, :description)");
@@ -72,7 +75,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                         'name' => htmlspecialchars($variable[0][0]),
                         'image' => htmlspecialchars($fileDestination),
                         'price' => htmlspecialchars($variable[1][0]),
-                        'description' => htmlspecialchars($variable[2][0])
+                        'description' => $_POST['description']
                     )
                 );
 

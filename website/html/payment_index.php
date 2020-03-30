@@ -8,10 +8,6 @@ function debug($variable)
     echo '<pre>' . print_r($variable, true) . '</pre>';
 }
 
-?>
-
-<?
-
 if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
 
     $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,date,name,idUser)" . "VALUES (?,?,?,?)");
@@ -22,9 +18,9 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['da
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
 
-    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name)" . "VALUES (?,?,?,?)");
+    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name,idUser)" . "VALUES (?,?,?,?,?)");
 
-    $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name]);
+    $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name , $_SESSION['id']]);
     $last_id = $bdd->lastInsertId();
 }
 
@@ -44,11 +40,16 @@ foreach ($test as $rows) {
     //  debug($constprice);
     $hour = strtotime($_POST['heureSemaine']);
 
-    if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['dateDebut']) && isset($_POST['dateDebut'])) {
+    if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['dateDebut']) && isset($_POST['dateFin'])) {
+
         $dateDebut = idate('w', strtotime($_POST['dateDebut']));
         $dateFin = idate('w', strtotime($_POST['dateFin']));
-        $dateDif = $dateDebut - $dateFin;
+
+        $dateDif =$dateFin - $dateDebut  ;
+        debug($dateDebut);
+        debug($dateFin);
         debug($dateDif);
+
     }
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
         $stockHmin = idate('H', $hour) * 60;
@@ -81,14 +82,6 @@ foreach ($test as $rows) {
     }
 }
 
-/*if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine']))
-{
-
-    foreach ($price as $row) {
-       debug($row['id']);
-    }
-}*/
-
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
     $total_price = 0;
@@ -111,15 +104,17 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
               <tr>
                <td>' . $rows["name"] . '</td>
                <td>' . $rows["heureSemaine"] . '</td>
-               <td align="right">$ ' . $constprice . '</td>
-               <td align="right">$ ' . number_format($rows["price"], 2) . '</td>
+               <td align="right"> ' . $constprice . '€</td>
+               <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
               </tr>
   
             ';
         }
 
     }
-    $order_details .= '</table>';
+    $result_cmd = number_format($rows['price']);
+    $item_details = $rows["name"];
+    $order_details .= '</table></div>';
 
 }
 
@@ -152,14 +147,16 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <td>' . $rows["dateFin"] . '</td>
     <td>' . $dateDif . '</td>
 
-   <td align="right">$ ' . $constprice . '</td>
-   <td align="right">$ ' . number_format($rows["price"], 2) . '</td>
+   <td align="right"> ' . $constprice . '€</td> 
+   <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
   </tr>
   
             ';
         }
 
     }
+    $result_cmd = number_format($rows['price']);
+    $item_details = $rows["name"];
     $order_details .= '</table></div>';
 }
 
@@ -172,9 +169,13 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 <head>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://js.stripe.com/v2/"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="js/jquery.creditCardValidator.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
 
     <title>Payment Home</title>
 </head>
@@ -220,8 +221,9 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <span id="message"></span>
     <div class="panel panel-default">
         <div class="panel-heading">Order Process</div>
+
         <div class="panel-body">
-            <form method="post" id="order_process_form" action="payment.php">
+            <form method="post" id="order_process_form" action="back_office/payment.php">
                 <div class="row">
                     <div class="col-md-8" style="border-right:1px solid #ddd;">
                         <h4 align="center">Customer Details</h4>
@@ -267,11 +269,23 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                                 </div>
                             </div>
                             <div class="col-sm-6">
+                                <?php
+                                $req = $bdd->prepare('SELECT * FROM pays ORDER BY nom_fr_fr');
+                                $req->execute();
+                                $country = $req->fetchAll(PDO::FETCH_ASSOC);
+
+                                ?>
                                 <div class="form-group">
                                     <label><b>Country <span class="text-danger">*</span></b></label>
-                                    <input type="text" name="customer_country" id="customer_country"
-                                           class="form-control"/>
-                                    <span id="error_customer_country" class="text-danger"></span>
+                                    <select class="custom-select my-1 mr-sm-2" name="customer_country" id="customer_country">
+                                        <?php $cont = 0;?>
+                                        <?php $cont = $cont+1;?>
+                                        <?php foreach($country as $countrys):?>
+                                            <option value="<?=$country[$cont]['nom_fr_fr']?>"><?=$country[$cont]['nom_fr_fr']?></option>
+                                        <?php $cont=$cont+1;?>
+                                        <?php endforeach;?>
+                                    </select>
+                                    <span id="error_customer_country" class="text-danger" ></span>
                                 </div>
                             </div>
                         </div>
@@ -309,13 +323,17 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                         </div>
                         <br/>
                         <div align="center">
-                            <input type="hidden" name="total_amount" value="<?php echo $total_price; ?>"/>
-                            <input type="hidden" name="currency_code" value="USD"/>
+                            <input type="hidden" name="total_amount" value="<?php echo $result_cmd; ?>"/>
+                            <?php  debug($result_cmd);?>
+                            <input type="hidden" name="currency" value="EUR"/>
                             <input type="hidden" name="item_details" value="<?php echo $item_details; ?>"/>
-                            <input type="button" name="button_action" id="button_action" class="btn btn-success btn-sm"
-                                   value="Pay Now"/>
+                            <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>
+
+                            <input type="submit" name="button_action" id="button_action" class="btn btn-success btn-sm"
+                                 onclick="stripePay(event)"  value="Pay Now"/>
                         </div>
                         <br/>
+                        </form>
                     </div>
                     <div class="col-md-4">
                         <h4 align="center">Order Details</h4>
@@ -343,21 +361,199 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 </html>
 
 <script>
-    $(document).ready(function () {
 
-        function load_project() {
-            $.ajax({
-                url: "fetch_item.php",
-                method: "POST",
-                success: function (data) {
-                    $('#display_item').html(data); // to display product on webpage
-                }
 
-            })
+    function validate_form()
+    {
+        let valid_card = 0;
+        let valid = false;
+        let card_cvc = $('#card_cvc').val();
+        let card_expiry_month = $('#card_expiry_month').val();
+        let card_expiry_year = $('#card_expiry_year').val();
+        let card_holder_number = $('#card_holder_number').val();
+        let email_address = $('#email_address').val();
+        let customer_name = $('#customer_name').val();
+        let customer_address = $('#customer_address').val();
+        let customer_city = $('#customer_city').val();
+        let customer_pin = $('#customer_pin').val();
+        let customer_country = $('#customer_country').val();
+        let name_expression = /^[a-z ,.'-]+$/i;
+        let email_expression = /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
+        let month_expression = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
+        let year_expression = /^2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
+        let cvv_expression = /^[0-9]{3,3}$/;
+
+        $('#card_holder_number').validateCreditCard(function(result){
+            if(result.valid)
+            {
+                $('#card_holder_number').removeClass('require');
+                $('#error_card_number').text('');
+                valid_card = 1;
+            }
+            else
+            {
+                $('#card_holder_number').addClass('require');
+                $('#error_card_number').text('Invalid Card Number');
+                valid_card = 0;
+            }
+        });
+
+        if(valid_card == 1)
+        {
+            if(!month_expression.test(card_expiry_month))
+            {
+                $('#card_expiry_month').addClass('require');
+                $('#error_card_expiry_month').text('Invalid Data');
+                valid = false;
+            }
+            else
+            {
+                $('#card_expiry_month').removeClass('require');
+                $('#error_card_expiry_month').text('');
+                valid = true;
+            }
+
+            if(!year_expression.test(card_expiry_year))
+            {
+                $('#card_expiry_year').addClass('require');
+                $('#error_card_expiry_year').error('Invalid Data');
+                valid = false;
+            }
+            else
+            {
+                $('#card_expiry_year').removeClass('require');
+                $('#error_card_expiry_year').error('');
+                valid = true;
+            }
+
+            if(!cvv_expression.test(card_cvc))
+            {
+                $('#card_cvc').addClass('require');
+                $('#error_card_cvc').text('Invalid Data');
+                valid = false;
+            }
+            else
+            {
+                $('#card_cvc').removeClass('require');
+                $('#error_card_cvc').text('');
+                valid = true;
+            }
+            if(!name_expression.test(customer_name))
+            {
+                $('#customer_name').addClass('require');
+                $('#error_customer_name').text('Invalid Name');
+                valid = false;
+            }
+            else
+            {
+                $('#customer_name').removeClass('require');
+                $('#error_customer_name').text('');
+                valid = true;
+            }
+
+            if(!email_expression.test(email_address))
+            {
+                $('#email_address').addClass('require');
+                $('#error_email_address').text('Invalid Email Address');
+                valid = false;
+            }
+            else
+            {
+                $('#email_address').removeClass('require');
+                $('#error_email_address').text('');
+                valid = true;
+            }
+
+            if(customer_address == '')
+            {
+                $('#customer_address').addClass('require');
+                $('#error_customer_address').text('Enter Address Detail');
+                valid = false;
+            }
+            else
+            {
+                $('#customer_address').removeClass('require');
+                $('#error_customer_address').text('');
+                valid = true;
+            }
+
+            if(customer_city == '')
+            {
+                $('#customer_city').addClass('require');
+                $('#error_customer_city').text('Enter City');
+                valid = false;
+            }
+            else
+            {
+                $('#customer_city').removeClass('require');
+                $('#error_customer_city').text('');
+                valid = true;
+            }
+
+            if(customer_pin == '')
+            {
+                $('#customer_pin').addClass('require');
+                $('#error_customer_pin').text('Enter Zip code');
+                valid = false;
+            }
+            else
+            {
+                $('#customer_pin').removeClass('require');
+                $('#error_customer_pin').text('');
+                valid = true;
+            }
+
+            if(customer_country == '')
+            {
+                $('#customer_country').addClass('require');
+                $('#error_customer_country').text('Enter Country Detail');
+                valid = false;
+            }
+            else
+            {
+                $('#customer_country').removeClass('require');
+                $('#error_customer_country').text('');
+                valid = true;
+            }
+
 
         }
+        return valid;
+    }
 
-    });
+    Stripe.setPublishableKey('pk_test_0ZNFRCxwqh6nRz8Z7tmYzRyg00R6iW6ao7');
 
+    function stripeResponseHandler(status, response)
+    {
+        if(response.error)
+        {
+            $('#button_action').attr('disabled', false);
+            $('#message').html(response.error.message).show();
+        }
+        else
+        {
+            var token = response['id'];
+            $('#order_process_form').append("<input type='hidden' name='token' value='" + token + "' />");
 
+            $('#order_process_form').submit();
+        }
+    }
+
+    function stripePay(event)
+    {
+        event.preventDefault();
+
+        if(validate_form() == true)
+        {
+            $('#button_action').attr('disabled', 'disabled');
+            $('#button_action').val('Payment Processing....');
+            Stripe.createToken({
+                number:$('#card_holder_number').val(),
+                cvc:$('#card_cvc').val(),
+                exp_month : $('#card_expiry_month').val(),
+                exp_year : $('#card_expiry_year').val()
+            }, stripeResponseHandler);
+            return false;
+        }
+    }
 </script>
