@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'config.php';
 $name = $_POST['name'];
 $categorie = $_POST['categorie'];
@@ -33,12 +34,13 @@ $req2->execute();
                 <div class="panel-heading">
                     <center><h1 class="font"><?= str_replace('_',' ',$name) ?></h3></center><br>
                     <center><h6><?= $row['description']; ?></h6></center>
+
                     <center><h6><i>Prix unitaire pour 1 heure : <?= $row['price']; ?>€</i></h6><br></center>
-                  <?php } ?>
-              <?php } ?>
+                    <?php } ?>
+                    <?php } ?>
                 </div>
                 <div class="panel-body">
-                    <form action="" method="POST" enctype="multipart/form-data">
+                    <form action="payment_index.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
                                 <div class="form-group">
@@ -84,6 +86,7 @@ $req2->execute();
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="name" value="<?= $_POST['name'] ?>">
                         <center><input type="submit" value="Valider" class="btn btn-primary"></center>
                         </br>
                     </form>

@@ -51,9 +51,13 @@ include 'config.php';
             <br><div class="col-lg-12 col-sm-12 col-xs-12">
                 <center><h3 class="font">Abonnement</h3>
                 <?php
-                $req=$bdd->query('SELECT subscriptionType FROM SUBSCRIPTION WHERE idUser =' . $_SESSION['id']);
-                $subscription = $req->fetch(PDO::FETCH_ASSOC);
-                echo 'Abonnement actuel pour votre compte : <b>' . $subscription['subscriptionType'] . '</b></center>';
+                if (isset($_SESSION['id']))
+                {
+                  $req=$bdd->query('SELECT subscriptionType FROM SUBSCRIPTION WHERE idUser =' . $_SESSION['id']);
+                  $subscription = $req->fetch(PDO::FETCH_ASSOC);
+                  echo 'Abonnement actuel pour votre compte : <b>' . (isset($subscription['subscriptionType']) ? $subscription['subscriptionType'] : 'Aucun')  . '</b></center>';
+                }
+
                  ?>
                   <?php
                   if(isset($_GET['error']) && $_GET['error'] == 'connected') {
