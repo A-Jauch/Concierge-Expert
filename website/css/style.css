@@ -21,7 +21,7 @@ header{
   background-color: #DDDDDD;
   color: #000000;
   text-align: center;
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   font-size: 28px;
 }
 
@@ -60,6 +60,11 @@ nav a:hover{
 
 }
 
+.inlineButton{
+  display: flex;
+  justify-content: center;
+}
+
 .presentation{
   background-color: #DDDDDD;
   display: inline-block;
@@ -72,35 +77,36 @@ nav a:hover{
 }
 
 #description{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   font-size: 20px;
-  display: inline-block;
   color: #000000;
 }
 
 #bio{
-  font-family: "BreeSerif";
-  display: inline-block;
+  font-family: "BreeSerif", serif;
   color: #000000;
 }
 
-#grey_box{
-  display: inline-block;
+#textarea{
+  padding-top: 60px;
 }
 
-#inline{
+#grey_box{
+}
+
+.inline{
   display: inline-block;
 }
 
 #title{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   display: inline-block;
   margin: 50px;
   color: #000000;
 }
 
-#text{
-  font-family: "BreeSerif";
+.text{
+  font-family: "BreeSerif", serif;
   font-size: 25px;
   display: inline-block;
   padding: 5px;
@@ -125,14 +131,31 @@ nav a:hover{
 }
 
 .font{
-  font-family: "BreeSerif";
+  font-family: "BreeSerif", serif;
   color: #000000;
+}
+
+.card{
+  background-color: #DDDDDD;
 }
 
 footer{
   background-color: #DDDDDD;
   color: #000000;
   text-align: center;
+  margin-top: auto;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer{
+  background-color: #DDDDDD;
+  color: #000000;
+  text-align: center;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 #bottom{

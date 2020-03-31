@@ -13,6 +13,7 @@ foreach ($_POST as $key => $value) {
   }
 }
 
+
 if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
     ( isset($_POST['price']) && !empty($_POST['price']) ) && ( isset($_POST['description']) && !empty($_POST['description']) ) && isset($_FILES['image']) ) {
 
@@ -43,6 +44,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                   $string .= "," . $variable[$j][0] . " " . $variable[$j][1];
                 }
 
+
                 $req = $bdd->prepare("CREATE TABLE " . $variable[0][0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,name VARCHAR(50), image VARCHAR(255),  price DOUBLE,description TEXT, heureSemaine TIME". $string . ", idUser INT REFERENCES CLIENT(id), order_id INT(11) NULL )");
                 $req->execute();
 
@@ -52,6 +54,7 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                         'image' => htmlspecialchars($fileDestination),
                         'price' => htmlspecialchars($variable[1][0]),
                         'description' => htmlspecialchars($_POST['description'])
+
                     )
                 );
 

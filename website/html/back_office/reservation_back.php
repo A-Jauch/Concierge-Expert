@@ -1,4 +1,5 @@
 <?php
+
   session_start();
   include '../config.php';
 
@@ -11,6 +12,36 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../css/style.css">
+    <title>Reservation</title>
+</head>
+<body>
+<div id="accept"></div>
+<center>
+    <h1>Prévisualisation de votre nouveau service</h1></br>
+    <form action="new_service.php?service=<?= $name; ?>" id="addOption" method="post" enctype="multipart/form-data">
+        <?php
+        if (isset($_GET['error']) && $_GET['error'] === 'size') {
+            echo '<small> *Le fichier est trop volumineux ! </small><br>';
+        }
+        if (isset($_GET['error']) && $_GET['error'] === 'corrupted') {
+            echo '<small> *Le fichier est corrompu ! </small><br>';
+        }
+        if (isset($_GET['error']) && $_GET['error'] === 'type') {
+            echo '<small> *Vous ne pouvez pas envoyer des fichiers de ce type ! </small><br>';
+        }
+        if (isset($_GET['error']) && $_GET['error'] === 'empty') {
+            echo "<small> *Vous avez besoin de remplir tous les champs ! </small><br>";
+        }
+        ?>
+        <label class="font">Choix du fichier(png, jpg, jpeg) : </label></br>
+        <input type="file" name="image" multiple><br>
+        <label class="">Entrez le nom du service : </label></br>
+        <input type="text" name="columName" placeholder="Nom du service"></br>
+        <label class="">Prix unitiare (pour 1heure) : </label></br>
+        <input type="number" name="price" placeholder="Prix"></br>
+        <label class="">Description du service : </label></br>
+
     <link rel="stylesheet" href="../../css/style.css">
     <title>Reservation Back</title>
 </head>
@@ -79,6 +110,7 @@
         </br><input type="submit" value="Créer le service" class="btn btn-primary">
     </form>
 
+
     </form>
     <br></center>
 
@@ -102,6 +134,7 @@
                                 <?php $i++; if($i > 4){ ?>
                                   <option value="<?= $row[0]; ?>" id="<?= $row[0]; ?>"><?= $row[0] . " " . $row[1]; ?></option>
                                   <?php } ?>
+
                             <?php } ?>
                         <?php } ?>
                 </td>
@@ -155,6 +188,7 @@
         <input type="hidden" name="nameCategorie" value="<?= $name ?>" id="inputHidden">
         <div id="newInput"></div>
       </br><input type="submit" value="Ajouter" class="btn btn-primary" onclick="inputNumber()">
+
     </form><br>
 </center>
 
@@ -169,5 +203,6 @@
     <div><small> Concierge Expert - All rights reserved © </small></div>
     <br>
 </footer>
+
 
 </html>
