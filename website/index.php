@@ -75,7 +75,7 @@ include 'html/config.php'; ?>
                                 <form action="html/reservation.php" method="post">
                                   <input type="hidden" name="name" value="<?= $row['name']; ?>">
                                   <input type="submit" value="Visionner" class="btn btn-primary"><?php
-                                    $connected = isset($_SESSION['mail']) && $_SESSION['mail'] = 'concierge_expert@gmail.com' ? true : false;
+                                    $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
                                     if ($connected) {
                                   ?>
                                   <input type="button" value="X" class="btn btn-danger" onclick="deleteService('<?= $row['name'] ?>')">
@@ -91,7 +91,7 @@ include 'html/config.php'; ?>
 
     <br>
     <?php
-      $connected = isset($_SESSION['mail']) && $_SESSION['mail'] = 'concierge_expert@gmail.com' ? true : false;
+      $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
       if ($connected) {
     ?>
       <center><a href="html/back_office/add_service.php">
