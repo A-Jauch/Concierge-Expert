@@ -37,11 +37,11 @@ include 'config.php';
                                         <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
                                         <label class="font">Mot de passe : </label>
                                         <input type="password" name="password" placeholder="Mot de passe" class="form-control input-sm"><br>
-                                        <a href="inscription.php">S'inscrire</a>
+                                        <a href="inscription.php" class="btn btn-success">S'inscrire</a>
                                     </div>
                                 </div>
                             </div>
-                            <br><center><input type="submit" name="" value="Se connecter" class="btn btn-primary"></center><br>
+                            <center><input type="submit" name="" value="Se connecter" class="btn btn-primary"></center><br>
                         </form>
                         <form action="../index.php" method="POST">
                             <center><input type="submit" name="" value="Retour" class="btn btn-danger"></center>

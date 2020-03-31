@@ -1,7 +1,6 @@
 let columnName = document.getElementsByName("columnName").value;
 let size = document.getElementsByName("size").value;
-const firstData = document.getElementById("nameCategorie");
-firstData.hidden =  true; //comme ça il y aura forcément une colonne dans notre bdd
+const test = document.getElementById('inputAdded');
 
 function verify(){
   let select = document.getElementById("choice");
@@ -10,10 +9,7 @@ function verify(){
 
   const container = document.getElementById("newInput");
   const input = document.createElement("input");
-
   const inputAdded = document.getElementById("inputAdded");
-
-  console.log(value);
 
   if( value === "CHAR" || value === "VARCHAR"){
     if (inputAdded != null) {
@@ -32,10 +28,6 @@ function verify(){
       const parent = inputAdded.parentNode;
       parent.removeChild(inputAdded);
     }
-    /*input.type="date";
-    input.name="date";
-    input.id="inputAdded";
-    container.appendChild(input);*/
   }
 
   else if( value === "TIME"){
@@ -43,10 +35,6 @@ function verify(){
       const parent = inputAdded.parentNode;
       parent.removeChild(inputAdded);
     };
-    /*input.type="time";
-    input.name="time";
-    input.id="inputAdded";
-    container.appendChild(input);*/
   }
 
   else if( value === "TEXT"){
@@ -54,11 +42,6 @@ function verify(){
       const parent = inputAdded.parentNode;
       parent.removeChild(inputAdded);
     }
-    /*input.type="text";
-    input.name="text";
-    input.id="inputAdded";
-    input.placeholder="Entrez votre texte";
-    container.appendChild(input);*/
   }
 
   else{
@@ -67,6 +50,7 @@ function verify(){
       parent.removeChild(inputAdded);
     };
   }
+
 }
 
 function deplacer(l1,l2,l3) {
@@ -109,7 +93,6 @@ function newInput() {
 
 }
 
-// ALTER TABLE new DROP liste.options[i].value
 function deleteBdd(){
   let nameCategorie = document.getElementById("inputHidden").value;
   let liste = document.getElementById("liste3");
@@ -128,50 +111,58 @@ function deleteBdd(){
     if(request.readyState === 4){
       const accept = document.getElementById('accept');
       accept.innerHTML += request.responseText;
+      const parent = document.getElementById('liste3');
+      const div = document.getElementById(nameCategorie);
+      parent.removeChild(div);
     }
   }
   request.send(`array=${array}&nameCategorie=${nameCategorie}`);
 
-  /*for(let j=0; j<listeLength; j++){
-    let containerValue = liste.options[j].value;
-    console.log(containerValue);
-    let container = document.getElementById(containerValue);
-    console.log(container);
-    const parent = container.parentNode;
-    console.log(parent);
-    parent.removeChild(container);
-  }*/
 }
 
 function verifyColumn(){
   const field = document.getElementById("columnName");
-  const fieldValue = document.getElementById("columnName").value;
-  console.log(fieldValue);
-  if( fieldValue == "" ){
-    field.style="border: 1.5px solid red;";
-  }else{
-    field.style="border: 1px solid grey;";
-  }
+  const nameSuccess = check(field.value);
+  displayErrors(field,nameSuccess);
 }
 
-function addListe(){
-  let nameCategorie = document.getElementById("inputHidden").value;
-  console.log(nameCategorie);
-  const request = new XMLHttpRequest();
-  request.open('POST','verif_reservation.php');
-  request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-  request.onreadystatechange = function(){
-    if(request.readyState === 4){
-      const accept = document.getElementById('accept');
-      accept.innerHTML += request.responseText;
+function check(variable){
+  let countNumbers = 0;
+  for(let i=0; i < variable.length; i++){
+      const code = variable.charCodeAt(i);
+      if(code >= 48 && code <= 57){
+          countNumbers++;
+      }
+  }
+  return countNumbers > 0;
+}
+
+function space(variable){
+  for(let i=0; i < variable.length; i++){
+    const name = variable.indexOf(" ");
+    if(name != -1){
+        return true;
     }
   }
-  request.send(`name=${nameCategorie}`);
+  return false;
 }
 
-  /*const container = document.getElementById('accept');
-  const inputHidden = document.createElement('input');
-  input.type="hidden";
-  input.name="nameCategorie";
-  input.id="nameCategorie";
-  container.appendChild(input);*/
+function displayErrors(input, success){
+  if( success ){
+      input.style="border: 1.5px solid red;";
+  }else{
+      input.style="border: 1px solid grey;";
+  }
+}
+
+function empty(value){
+  if( value != ""){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+function inputNumber(){
+
+}

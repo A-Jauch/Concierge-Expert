@@ -1,12 +1,7 @@
 <?php
   include '../config.php';
 
-  var_dump($_POST);
   $nameCategorie = $_POST['nameCategorie'];
-  /*$size = $_POST['size'];
-  $time = $_POST['time'];
-  $date = $_POST['date'];
-  $text = $_POST['text'];*/
 
   if (isset($_POST['columnName']) && !empty($_POST['columnName'])){
       $columnName = $_POST['columnName'];
@@ -21,7 +16,7 @@
       $size = $_POST['size'];
       $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type . "(" . $size . ")");
       $req->execute();
-      header('Location: reservation_back.php');
+      header("Location: reservation_back.php?service=" . $_GET['service'] );
     }else{
       echo "Entrez une taille valide";
       exit;
@@ -29,53 +24,31 @@
   }
 
   if ($type === "TIME"){
-    if (isset($_POST['time']) && !empty($_POST['time'])){
-      $time = $_POST['time'];
-      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type /*. "(" . $time . ")*/);
+      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type);
       $req->execute();
-      header('Location: reservation_back.php');
-    }else{
-      echo "Entrez un temps";
-      exit;
-    }
-  }
-
-  if ($type === "DATE"){
-    if (isset($_POST['date']) && !empty($_POST['date'])){
-      $date = $_POST['date'];
-      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type /*. "(" . $date . ")*/);
+      header("Location: reservation_back.php?service=" . $_GET['service'] );
+    }else if ($type === "DATE"){
+      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type);
       $req->execute();
-      header('Location: reservation_back.php');
-    }else{
-      echo "Entrez une date";
-      exit;
-    }
-  }
-
-  if ($type === "TEXT"){
-    if (isset($_POST['text']) && !empty($_POST['text'])){
-      $text = $_POST['text'];
-      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type /*. "(" . $text . ")*/);
+      header("Location: reservation_back.php?service=" . $_GET['service'] );
+    }else if ($type === "TEXT"){
+      $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type);
       $req->execute();
-      header('Location: reservation_back.php');
-    }else{
-      echo "Entrez un texte";
-      exit;
+      header("Location: reservation_back.php?service=" . $_GET['service'] );
     }
-  }
 
   if ($type === "INT"){
     $newSize = 11;
     $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type . "(" . $newSize . ")");
     $req->execute();
-    header('Location: reservation_back.php');
+    header("Location: reservation_back.php?service=" . $_GET['service'] );
     exit;
   }
 
   if ($type === "DOUBLE"){
     $req = $bdd->prepare("ALTER TABLE " . $nameCategorie . " ADD " . $columnName . " ". $type);
     $req->execute();
-    header('Location: reservation_back.php');
+    header("Location: reservation_back.php?service=" . $_GET['service'] );
     exit;
   }
 

@@ -1,12 +1,16 @@
 <?php
 include '../config.php';
+
 $string = "";
 $i = 0;
 $variable = array();
+$name = $_GET['service'];
 foreach ($_POST as $key => $value) {
+  if( $key != 'description' ){
     $key = $value;
-    $variable[$i] = $key;
+    $variable[$i] = explode(" ",$key);
     $i++;
+  }
 }
 
 if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
@@ -35,38 +39,25 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                 $fileDestination = 'images/' . $fileNameNew . '.' . $fileActualExtension;
                 move_uploaded_file($fileTmpName, $fileDestination);
 
-                for($j=3 ; $j<count($variable)-1 ; $j++){
-                  $test = $bdd->prepare("SELECT $variable[$j] FROM " . $variable[count($variable)-1]);
-                  $test->execute();
-                  $res = $test->getColumnMeta(0);
-                  //echo $variable[$j] . " " . $res['native_type'];
-                  if($res['native_type'] == "VAR_STRING"){
-                    $res['native_type'] = "VARCHAR(255)";
-                    $string .= "," . $variable[$j] . " " . $res['native_type'];
-                  }else{
-                    $string .= "," . $variable[$j] . " " . $res['native_type'];
-                  }
-                  //echo '<br>';
+                for($j=3 ; $j<count($variable) ; $j++){
+                  $string .= "," . $variable[$j][0] . " " . $variable[$j][1];
                 }
 
-                $req = $bdd->prepare("CREATE TABLE " . $variable[0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT, image VARCHAR(255), serviceName VARCHAR(50), price DOUBLE, description TEXT". $string . ", idUser INT REFERENCES CLIENT(id) )");
+                $req = $bdd->prepare("CREATE TABLE " . $variable[0][0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,name VARCHAR(50), image VARCHAR(255),  price DOUBLE,description TEXT, heureSemaine TIME". $string . ", idUser INT REFERENCES CLIENT(id), order_id INT(11) NULL )");
                 $req->execute();
 
-                $req2 = $bdd->prepare("INSERT INTO " . $variable[0] . "(image,serviceName, price, description) VALUES(:image,:serviceName, :price, :description)");
+                $req2 = $bdd->prepare("INSERT INTO " . $variable[0][0] . "(name,image, price, description) VALUES(:name,:image, :price, :description)");
                 $req2->execute(array(
+                        'name' => htmlspecialchars($variable[0][0]),
                         'image' => htmlspecialchars($fileDestination),
-                        'serviceName' => htmlspecialchars($variable[0]),
-                        'price' => htmlspecialchars($variable[1]),
-                        'description' => htmlspecialchars($variable[2])
-                        /*for($k=3 ; $k<count($variable)-1 ; $k++){
-                          $variable[$k] => htmlspecialchars($variable[$k])
-                        }*/
+                        'price' => htmlspecialchars($variable[1][0]),
+                        'description' => htmlspecialchars($_POST['description'])
                     )
                 );
 
-                $req3 = $bdd->prepare("INSERT INTO " . $variable[count($variable)-1] . "(name,image) VALUES(:name,:image)");
+                $req3 = $bdd->prepare("INSERT INTO " . $name . "(name,image) VALUES(:name,:image)");
                 $req3->execute(array(
-                        'name' => htmlspecialchars($variable[0]),
+                        'name' => htmlspecialchars($variable[0][0]),
                         'image' => htmlspecialchars($fileDestination)
                     )
                 );
@@ -74,20 +65,20 @@ if ( (isset($_POST['columName']) && !empty($_POST['columName']) ) &&
                 header('Location: ../../index.php');
 
             } else {
-                header('Location: reservation_back.php?error=size');
+                header('Location: reservation_back.php?service='. $name . '&error=size');
                 exit;
             }
           } else {
-              header('Location: reservation_back.php?error=corrupted');
+              header('Location: reservation_back.php?service='. $name . '&error=corrupted');
               exit;
           }
       } else {
-          header('Location: reservation_back.php?error=type');
+          header('Location: reservation_back.php?service='. $name . '&error=type');
           exit;
       }
 
     } else {
-        header('Location: reservation_back.php?error=empty');
+        header('Location: reservation_back.php?service='. $name . '&error=empty');
         exit;
     }
 

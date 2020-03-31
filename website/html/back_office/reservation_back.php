@@ -1,7 +1,9 @@
 <?php
+  session_start();
   include '../config.php';
 
-  $name = $_POST['name'];
+  $name = $_GET['service'];
+
 ?>
 
 <!DOCTYPE html>
@@ -9,14 +11,46 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
-    <link rel="stylesheet" href="./../css/style.css">
-    <title>Reservation</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <title>Reservation Back</title>
 </head>
+
 <body>
+  <header>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-12 col-md-11 col-xs-12">
+                  <nav>
+                      <div class="align">
+                          <ul>
+                              <li><a href="../../index.php">Accueil</a></li>
+                              <li><a href="../service.php">Services</a></li>
+                              <a href="../../index.php" id="logo"><img src="../../img/logo.png" width="150px" alt="logo"></a>
+                              <li><a href="subscription.php">Abonnement</a></li>
+                              <?php
+                                      $connected = isset($_SESSION['mail']) ? true : false;
+                                      if ($connected) { ?>
+                              <li><a href="../deconnection.php">
+                                      <button type="button" class="btn btn-primary">Déconnexion</button>
+                                  </a>
+                              </li>
+                              <?php } else { ?>
+                                  <li><a href="../connection.php">
+                                          <button type="button" class="btn btn-primary">Espace Client</button>
+                                      </a>
+                                  </li>
+                              <?php } ?>
+                          </ul>
+                      </div>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
 <div id="accept"></div>
 <center>
-    <h1>Prévisualisation de votre nouveau service</h1></br>
-    <form action="new_service.php" id="addOption" method="post" enctype="multipart/form-data">
+    <br><h1 class="font">Prévisualisation de votre nouveau service</h1></br>
+    <form action="new_service.php?service=<?= $name; ?>" id="addOption" method="post" enctype="multipart/form-data">
         <?php
           if (isset($_GET['error']) && $_GET['error'] === 'size') {
               echo '<small> *Le fichier est trop volumineux ! </small><br>';
@@ -33,14 +67,15 @@
          ?>
         <label class="font">Choix du fichier(png, jpg, jpeg) : </label></br>
         <input type="file" name="image" multiple><br>
-        <label class="">Entrez le nom du service : </label></br>
+        <label class="font">Entrez le nom du service : </label></br>
         <input type="text" name="columName" placeholder="Nom du service"></br>
-        <label class="">Prix (TTC/heure) : </label></br>
+        <label class="font">Prix unitiare (pour 1heure) : </label></br>
         <input type="number" name="price" placeholder="Prix"></br>
-        <label class="">Description du service : </label></br>
+        <label class="font">Description du service : </label></br>
         <input type="text" name="description" placeholder="Entrez la description du service" style="width:180px; height:100px;"></br>
+        <label class="">Heure par semaine: </label></br>
+        <input type="time" name="heureSemaine" placeholder="heureSemaine"></br>
         <div id="newInput2"></div>
-        <input type="hidden" name="name" value=<?= $name ?>>
       </br><input type="submit" value="Créer le service" class="btn btn-primary">
       </form>
 
@@ -58,12 +93,15 @@
                 <td align="center">Champs de saisie </br>supplémentaires<br>
                     <select name="liste1" size=8 style="width:200px; height:200px;">
                         <?php
+                        $i=0;
                         $req2 = $bdd->prepare("DESCRIBE " . $name);
                         $req2->execute();
 
                         if ($req2->rowCount() > 0) { ?>
                             <?php while ($row = $req2->fetch(PDO::FETCH_BOTH)) { ?>
-                                <option value="<?= $row[0]; ?>" id="<?= $row[0]; ?>"><?= $row[0]; ?></option>
+                                <?php $i++; if($i > 4){ ?>
+                                  <option value="<?= $row[0]; ?>" id="<?= $row[0]; ?>"><?= $row[0] . " " . $row[1]; ?></option>
+                                  <?php } ?>
                             <?php } ?>
                         <?php } ?>
                 </td>
@@ -100,8 +138,9 @@
 
 </br>
 <center>
-    <form  action="verif_reservation.php" method="POST" enctype="multipart/form-data" id="column">
-        <label>Pour une meilleure visibilité entrez le nom de la colonne à créer sous cette forme sans espace (nomColonne)</label></br>
+    <form  action="verif_reservation.php?service=<?= $name; ?>" method="POST" enctype="multipart/form-data" id="column">
+        <label>Ajouter une colonne :</label></br>
+        <div id="error"></div>
         <input type="text" id="columnName" name="columnName" placeholder="Entrez le nom de la colonne à rajouter"
                onblur="verifyColumn()">
         <select name="type" id="choice" onchange="verify()">
@@ -115,12 +154,20 @@
         </select>
         <input type="hidden" name="nameCategorie" value="<?= $name ?>" id="inputHidden">
         <div id="newInput"></div>
-      </br><input type="submit" value="Ajouter" class="btn btn-primary">
+      </br><input type="submit" value="Ajouter" class="btn btn-primary" onclick="inputNumber()">
     </form><br>
 </center>
 
 <script type="text/javascript" src="input.js"></script>
 
 </body>
+<br><footer>
+    <img src="../../img/logo.png" width="80">
+    <section id="bottom">
+        <!--<p class="font">Conçu par : </br>JAUCH Anthony </br> BURIOT Vincent </br>JEAN-FRANCOIS Teddy</p>-->
+    </section>
+    <div><small> Concierge Expert - All rights reserved © </small></div>
+    <br>
+</footer>
 
 </html>

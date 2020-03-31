@@ -39,7 +39,7 @@ Class Service{
       include '../config.php';
 
       if (isset($nameCategorie) && !empty($nameCategorie)){
-        $req = $bdd -> prepare("CREATE TABLE " . $nameCategorie . "( id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255),image VARCHAR(255) )");
+        $req = $bdd -> prepare("CREATE TABLE " . $nameCategorie . "( id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255),image VARCHAR(255), heureSemaine TIME, date DATE, dateDebut DATE, dateFin DATE )");
         $req -> execute();
 
       /*$req2 = $bdd -> prepare("INSERT INTO " . $nameCategorie . "(nameCategorie) VALUES (:nameCategorie)");

@@ -141,7 +141,7 @@ void finish_with_error(MYSQL *con) {
     exit(1);
 }
 
-    void add(GtkWidget *widget, GtkWidget *window) {
+void add(GtkWidget *widget, GtkWidget *window) {
     MYSQL *con = mysql_init(NULL); //NULL = alocates / initializes and returns a new object
 
     if (con == NULL) {
@@ -184,7 +184,19 @@ void finish_with_error(MYSQL *con) {
         strcat(testJob, receiveJob);
         strcat(testJob, "'");
 
-        int8_t reqInsert[255] = "INSERT INTO serviceprovider (firstName, lastName, mail, tel, qrcode) VALUES('";
+        if (mysql_query(con, testJob)) {
+            finish_with_error(con);
+        }
+
+        MYSQL_RES *resultJob = mysql_store_result(con);
+
+        if (resultJob == NULL) {
+            finish_with_error(con);
+        }
+
+        MYSQL_ROW rowJob = mysql_fetch_row(resultJob);
+
+        int8_t reqInsert[255] = "INSERT INTO serviceprovider (firstName, lastName, mail, tel, qrcode,idJob) VALUES('";
         strcat(reqInsert, receiveFirstName);
         strcat(reqInsert, "','");
         strcat(reqInsert, receiveLastName);
@@ -194,6 +206,8 @@ void finish_with_error(MYSQL *con) {
         strcat(reqInsert, receivePhoneNumber);
         strcat(reqInsert, "','");
         strcat(reqInsert, path);
+        strcat(reqInsert, "','");
+        strcat(reqInsert, rowJob[0]);
         strcat(reqInsert, "')");
 
         if (mysql_query(con, reqInsert)) {
@@ -254,9 +268,16 @@ void verif(GtkWidget *widget, GtkWidget *window) {
     mysql_close(con);
 }
 
+bool verifFileds(){
+    if( lastName_clicked && firstName_clicked && address_clicked && email_clicked && job_clicked && phoneNumber_clicked ){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 //Input GTK Form
 void form(){
-
     GError *err = NULL;
 
     /* Creation d'un nouveau GtkBuilder */
@@ -291,8 +312,6 @@ void form(){
 
         button = GTK_WIDGET(gtk_builder_get_object(builder, "button"));
 
-
-
         //To send the variable entry
         g_signal_connect(button, "clicked", G_CALLBACK(lastName_clicked), lastNameForm);
         g_signal_connect(button, "clicked", G_CALLBACK(firstName_clicked), firstNameForm);
@@ -301,6 +320,7 @@ void form(){
         g_signal_connect(button, "clicked", G_CALLBACK(job_clicked), jobForm);
         g_signal_connect(button, "clicked", G_CALLBACK(phoneNumber_clicked), phoneNumberForm);
         g_signal_connect(button, "clicked", G_CALLBACK(add),window);
+
         g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
         g_signal_connect(window, "delete-event", G_CALLBACK(gtk_main_quit), NULL);
@@ -322,18 +342,7 @@ void SDL_ExitWithError(const char *message);
 int main(int argc, char **argv) {
     gtk_init(&argc, &argv);
     form();
-    if( lastName_clicked &&
-       firstName_clicked &&
-       address_clicked &&
-       email_clicked &&
-       job_clicked &&
-       phoneNumber_clicked ){
-        printf("\n Insertion OK");
-        insertBdd();
-        doBasicDemo();
-    }else{
-        printf("\n Insertion FAIL");
-    }
+    doBasicDemo();
     return EXIT_SUCCESS;
 }
 
@@ -460,8 +469,7 @@ static void printQr(const uint8_t qrcode[]) {
 
 }
 
-void SDL_ExitWithError(const char *message)
-{
+void SDL_ExitWithError(const char *message) {
     SDL_Log("ERREUR : %s > %s\n", message, SDL_GetError()); // pour eviter d'ecrire a chaque fois les log Erreur : ecran , init etc
     SDL_Quit();
     exit(EXIT_FAILURE);

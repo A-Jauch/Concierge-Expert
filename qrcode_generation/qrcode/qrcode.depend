@@ -5761,7 +5761,34 @@
 	<stddef.h>
 	<stdint.h>
 
-1584812877 source:c:\wamp64\www\concierge_expert\qrcode_generation\qrcode\main.c
+1584969424 source:c:\wamp64\www\concierge_expert\qrcode_generation\qrcode\main.c
+	<stdbool.h>
+	<stddef.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"qrcode.h"
+	<windows.h>
+	<math.h>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<winsock.h>
+	<MYSQL/mysql.h>
+	<gtk/gtk.h>
+
+1584570342 source:d:\wamp\www\concierge_expert\qrcode_generation\qrcode\qrcode.c
+	<assert.h>
+	<limits.h>
+	<stdlib.h>
+	<string.h>
+	"qrcode.h"
+
+1584570314 d:\wamp\www\concierge_expert\qrcode_generation\qrcode\qrcode.h
+	<stdbool.h>
+	<stddef.h>
+	<stdint.h>
+
+1585340326 source:d:\wamp\www\concierge_expert\qrcode_generation\qrcode\main.c
 	<stdbool.h>
 	<stddef.h>
 	<stdio.h>

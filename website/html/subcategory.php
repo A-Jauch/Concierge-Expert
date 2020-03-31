@@ -16,7 +16,7 @@ $categorie = $_POST['categorie'];
 <body class="bodi">
 
 <?php
-$req2 = $bdd->prepare("SELECT * FROM " . $name);
+$req2 = $bdd->prepare("SELECT * FROM " . $name. " WHERE id =1");
 $req2->execute();
 ?>
 
@@ -32,7 +32,8 @@ $req2->execute();
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <center><h1 class="font"><?= str_replace('_',' ',$name) ?></h3></center><br>
-                    <center><h6><?= $row['description']; ?></h6><br></center>
+                    <center><h6><?= $row['description']; ?></h6></center>
+                    <center><h6><i>Prix unitaire pour 1 heure : <?= $row['price']; ?>€</i></h6><br></center>
                   <?php } ?>
               <?php } ?>
                 </div>
@@ -55,34 +56,28 @@ $req2->execute();
 
                                             $test = $bdd->prepare("SELECT $variable[$i] FROM " . $name);
                                             $test->execute();
+                                            $test2=$test->fetchAll(PDO::FETCH_ASSOC);
                                             $res = $test->getColumnMeta(0);
-                                            if ($res['native_type'] == "VAR_STRING") {
-                                                $res['native_type'] = "TEXT";
-                                            }
-                                            if ($res['native_type'] == "BLOB") {
+                                            if ($res['native_type'] == "VAR_STRING" && $res['native_type'] == "BLOB") {
                                                 $res['native_type'] = "TEXT";
                                             }
                                             if ($res['native_type'] == "TIMESTAMP") {
                                                 $res['native_type'] = "TIME";
                                             }
                                             $i++;
-                                            if ($i > 4) {
-                                                ?>
-                                                <?php if($nameColumn['Field'] == "niveau") { ?>
-                                                  <label class="font"><?= $nameColumn['Field'] ?> : </label>
-                                                  <select name="index" class="form-control input-sm">
-                                                      <option value="">--Choississez une option--</option>
-                                                      <option value="1">Collège</option>
-                                                      <option value="2">Lycée</option>
-                                                      <option value="3">Supérieur</option>
-                                                  </select><br>
+                                            if ($i > 5){
+                                              if($nameColumn['Field'] == 'idUser' || $nameColumn['Field'] == 'order_id'){ ?>
+                                                  <input type="hidden"
+                                                         name="<?= $nameColumn['Field'] ?>"
+                                                         placeholder="<?= $nameColumn['Field'] ?>"
+                                                         class="form-control input-sm"><br>
                                                 <?php }else{ ?>
                                                 <label class="font"><?= $nameColumn['Field'] ?> : </label>
                                                 <input type="<?= $res['native_type'] ?>"
                                                        name="<?= $nameColumn['Field'] ?>"
                                                        placeholder="<?= $nameColumn['Field'] ?>"
                                                        class="form-control input-sm"><br>
-                                                <?php } ?>
+                                                 <?php } ?>
                                             <?php } ?>
                                         <?php } ?>
                                     <?php } ?>
@@ -100,6 +95,6 @@ $req2->execute();
             </div>
         </div>
     </div>
-</body>
+</body><br>
 
 </html>

@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', 'off');
-include 'config.php';
+  ini_set('display_errors', 'off');
+  include 'config.php';
 ?>
 
 <!DOCTYPE html>
@@ -26,45 +26,34 @@ include 'config.php';
                 </div>
                 <div class="panel-body">
                     <form action="verif_devis.php" method="POST" enctype="multipart/form-data" id="formDevis">
-
+                      <?php
+                        if (isset($_GET['error']) && $_GET['error'] === 'empty') {
+                            echo '<small> *Les champs doivent tous être remplis ! </small><br>';
+                        }
+                        if (isset($_GET['error']) && $_GET['error'] === 'invalid') {
+                            echo '<small> *Email non valide ! </small><br>';
+                        }
+                        ?>
                       <!-- Catégorie de prestation -->
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="md-form">
 
                                     <?php
-                                      $req2 = $bdd->prepare("SELECT name FROM SERVICE");
-                                      $req2->execute();
+                                      include 'searchSubcategories.php';
+                                      $subCategory = searchSubcategories();
                                     ?>
-
                                     <label class="font">Sélectionner une catégorie de prestation</label>
                                     <center><select name="index" class="form-control input-sm">
-                                            <?php if ($req2->rowCount() > 0) { ?>
-                                                <?php while ($row = $req2->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                    <option value="<?= $row['name']; ?>"><?= str_replace('_',' ',$row['name']) ?></option>
-                                                <?php } ?>
+                                            <?php for($j=0; $j < count($subCategory) ;$j++){ ?>
+                                                    <option value="<?= $subCategory[$j][0]; ?>"><?= str_replace('_',' ',$subCategory[$j][0]); ?></option>
                                              <?php } ?>
+
                                         </select></center>
                                     </br>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Sous-catégorie de prestation -->
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="md-form">
-
-                                    <label class="font">Sélectionner une sous-catégorie de prestation</label>
-                                    <center><select name="index" class="form-control input-sm">
-                                        <option value=""> --- Choississez une sous-catégorie --- </option>
-                                        </select></center>
-                                    </br>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Menu déroulant Bis -->
 
                         <!-- Information -->
                         <div class="row">
@@ -72,14 +61,14 @@ include 'config.php';
                                 <div class="md-form">
                                     <label class="font">Nom : </label>
                                     <input type="text" name="lastName" placeholder="Nom"
-                                           class="form-control input-sm"></br>
+                                           class="form-control input-sm formInput"></br>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="md-form">
                                     <label class="font">Prénom : </label>
                                     <input type="text" name="firstName" placeholder="Prénom"
-                                           class="form-control input-sm"></br>
+                                           class="form-control input-sm formInput"></br>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +78,7 @@ include 'config.php';
                         <div class="md-form">
                             <label class="font">Numéro de téléphone : </label>
                             <input type="number" name="phoneNumber" placeholder="Téléphone"
-                                   class="form-control input-sm"></br>
+                                   class="form-control input-sm formInput"></br>
                         </div>
                     </div>
 
@@ -98,7 +87,7 @@ include 'config.php';
                             <label class="font">Adresse e-mail : </label>
                             <div id="errorEmail"></div>
                             <input type="text" name="email" placeholder="E-mail"
-                                   class="form-control input-sm" id="email" onblur="verif_mail()"></br>
+                                   class="form-control input-sm formInput" id="email" onblur="verif_mail()"></br>
                         </div>
                     </div>
                 </div>
@@ -107,14 +96,14 @@ include 'config.php';
                         <div class="md-form">
                             <label class="font">Code postal : </label>
                             <input type="number" name="postalCode" placeholder="Code postal"
-                                   class="form-control input-sm"></br>
+                                   class="form-control input-sm formInput"></br>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="md-form">
                             <label class="font">Ville : </label>
                             <input type="text" name="city" placeholder="Ville"
-                                   class="form-control input-sm"></br>
+                                   class="form-control input-sm formInput"></br>
                         </div>
                     </div>
                 </div>
@@ -129,9 +118,10 @@ include 'config.php';
         <center><input type="submit" name="" value="Retour" class="btn btn-danger"></center>
     </form>
     </br>
+  </div>
 </div>
-</div>
-<script type="text/javascript" src="devis.js"></script>
+  <script type="text/javascript" src="devis.js"></script>
 </body>
+
 
 </html>
