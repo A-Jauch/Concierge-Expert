@@ -91,10 +91,6 @@ include 'html/config.php'; ?>
 
     <br>
     <?php
-<<<<<<< HEAD
-=======
-
->>>>>>> a6c001975ac3daaf2e79dbb935555b9d2099c205
       $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
       if ($connected) {
     ?>

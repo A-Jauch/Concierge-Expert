@@ -29,7 +29,7 @@ if (isset($_FILES['image']) && !empty($_FILES['image'])) {
 
                 $myService = new Service($nameCategorie,$fileDestination,$addIndex);
                 $myService->getName();echo '<br>';
-                echo $myService->getImage();echo '<br>';
+                $myService->getImage();echo '<br>';
                 $myService->getIndex();echo '<br>';
                 $myService->insertBdd($nameCategorie,$fileDestination,$addIndex);
 

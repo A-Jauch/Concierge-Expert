@@ -61,16 +61,10 @@ foreach ($test as $rows) {
 
     }
 
-
-
-
-
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
         if (isset($rows["price"])) {
 
-
             $insert = $bdd->prepare(" UPDATE " . $name . " SET price = " . $result . " WHERE id =" . $last_id);
-
             $insert->execute([$result]);
 
         }

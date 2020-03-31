@@ -1,7 +1,6 @@
 <?php
   session_start();
   include '../config.php';
-
   $name = $_GET['service'];
 
 ?>

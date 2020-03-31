@@ -1,9 +1,9 @@
 <?php
 session_start();
-function debug($variable)
+/*function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}
+}*/
 include '../config.php';
 if (isset($_POST['token'])){
     require_once 'stripe/init.php';
