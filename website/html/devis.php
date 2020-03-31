@@ -54,12 +54,6 @@
                                 </div>
                             </div>
                         </div>
-
-<<<<<<< HEAD
-                        <!-- Menu déroulant Bis -->
-
-=======
->>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
                         <!-- Information -->
                         <div class="row">
                             <div class="col-md-6">
