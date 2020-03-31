@@ -27,8 +27,5 @@ function searchSubcategories() {
         }
     }
     return $subCategory;
-<<<<<<< HEAD
-}
-=======
+
 } ?>
->>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
