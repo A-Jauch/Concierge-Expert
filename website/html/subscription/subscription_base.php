@@ -9,11 +9,12 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
 
     if(empty($res)) {
         $date = date('Y-m-d');
-        $req = $bdd -> prepare('INSERT INTO subscription(subscriptionType,idUser,dateStart) VALUES (:subscriptionType, :idUser, :dateStart)');
+        $req = $bdd -> prepare('INSERT INTO subscription(subscriptionType,idUser,dateStart,price) VALUES (:subscriptionType, :idUser, :dateStart,:price)');
         $req -> execute(array(
-                'subscriptionType' => 'base',
+                'subscriptionType' => 'Base',
                 'idUser' => $_SESSION['id'],
-                'dateStart' => $date
+                'dateStart' => $date,
+                'price' => 2400
             )
         );
         header('location: ../subscription.php?error=succeed&sub=base');

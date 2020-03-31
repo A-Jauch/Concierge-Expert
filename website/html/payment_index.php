@@ -37,7 +37,7 @@ $constprice = $test[0]['price'];
 foreach ($test as $rows) {
 
 
-    //  debug($constprice);
+
     $hour = strtotime($_POST['heureSemaine']);
 
     if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['dateDebut']) && isset($_POST['dateFin'])) {
@@ -46,28 +46,27 @@ foreach ($test as $rows) {
         $dateFin = idate('w', strtotime($_POST['dateFin']));
 
         $dateDif =$dateFin - $dateDebut  ;
-        debug($dateDebut);
+    /*    debug($dateDebut);
         debug($dateFin);
-        debug($dateDif);
+        debug($dateDif);*/
 
     }
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
         $stockHmin = idate('H', $hour) * 60;
-        //    debug($stockHmin);
+
         $totalH = (idate('i', $hour) + $stockHmin) / 60;
-        //    debug($totalH);
+
         $result = $totalH * $rows['price'];
-        debug($result);
+        //debug($result);
 
     }
 
 
-    //   debug($_POST);
+
 
 
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
         if (isset($rows["price"])) {
-            //debug($result);
 
 
             $insert = $bdd->prepare(" UPDATE " . $name . " SET price = " . $result . " WHERE id =" . $last_id);
@@ -91,11 +90,11 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
     $order_details = '
 <div class="table-responsive" id="order_table">
  <table class="table table-bordered table-striped">
-      <tr>  
-        <th>Nom Service</th>  
-        <th>Nombre Heures Au Jour</th>  
-        <th>Prix Horraire</th>  
-        <th>Total</th>  
+      <tr>
+        <th>Nom Service</th>
+        <th>Nombre Heures Au Jour</th>
+        <th>Prix Horraire</th>
+        <th>Total</th>
     </tr>
 ';
     if (!empty($price)) {
@@ -107,7 +106,7 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
                <td align="right"> ' . $constprice . '€</td>
                <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
               </tr>
-  
+
             ';
         }
 
@@ -126,14 +125,14 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     $order_details = '
 <div class="table" id="order_table">
  <table class="table table-bordered table-striped">
-      <tr>  
-        <th>Nom Service</th>  
+      <tr>
+        <th>Nom Service</th>
         <th>Nombre Heures Semaine</th>
-        <th>Date de Début</th>  
+        <th>Date de Début</th>
         <th>Date de Fin</th>
-        <th>Nombre de Jour de service</th>    
-        <th>Prix horaire</th>  
-        <th>Total</th>  
+        <th>Nombre de Jour de service</th>
+        <th>Prix horaire</th>
+        <th>Total</th>
     </tr>
 ';
     if (!empty($price)) {
@@ -147,10 +146,10 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <td>' . $rows["dateFin"] . '</td>
     <td>' . $dateDif . '</td>
 
-   <td align="right"> ' . $constprice . '€</td> 
+   <td align="right"> ' . $constprice . '€</td>
    <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
   </tr>
-  
+
             ';
         }
 
@@ -324,7 +323,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                         <br/>
                         <div align="center">
                             <input type="hidden" name="total_amount" value="<?php echo $result_cmd; ?>"/>
-                            <?php  debug($result_cmd);?>
+                            <?php // debug($result_cmd);?>
                             <input type="hidden" name="currency" value="EUR"/>
                             <input type="hidden" name="item_details" value="<?php echo $item_details; ?>"/>
                             <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>

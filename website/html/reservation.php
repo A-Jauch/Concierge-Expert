@@ -68,9 +68,17 @@
                                 <form action="subcategory.php" method="post">
                                   <input type="hidden" name="categorie" value="<?= $name ?>">
                                   <input type="hidden" name="name" value=<?= $row['name'] ?>>
-                                  <input type="submit" value="Réserver" class="btn btn-success">
                                   <?php
-                                    $connected = isset($_SESSION['mail']) && $_SESSION['mail'] = 'concierge_expert@gmail.com' ? true : false;
+                                  $connected = isset($_SESSION['mail']) ? true : false;
+                                  if ($connected) { ?>
+                                  <input type="submit" value="Réserver" class="btn btn-success">
+                                  <?php } else { ?>
+                                    <a href="connection.php" class="btn btn-success">Connectez-vous</a>
+                                  <?php } ?>
+
+                                  <?php
+
+                                    $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
                                     if ($connected) {
                                   ?>
                                   <input type="button" value="X" class="btn btn-danger" onclick="sub_delete('<?= $row['name'] ?>','<?= $name ?>')">
@@ -87,7 +95,7 @@
     </div>
 
     <?php
-      $connected = isset($_SESSION['mail']) && $_SESSION['mail'] = 'concierge_expert@gmail.com' ? true : false;
+      $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
       if ($connected) {
     ?>
         <center><form action="back_office/reservation_back.php?service=<?= $name; ?>" method="post">
