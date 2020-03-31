@@ -26,7 +26,7 @@ if (isset($_POST['token'])){
 
         $charge = \Stripe\Charge::create(array(
             'customer' => $customer->id,
-            'amount' => $_POST['total_amount'],
+            'amount' => $_POST['total_amount'] *100,
             'currency' => $_POST['currency'],
             'description' => $_POST['item_details'],
             'metadata' => array(
@@ -41,7 +41,7 @@ if (isset($_POST['token'])){
 
             $order_data = array(
                 ':order_number' => $order_number,
-                ':order_total_amount' => $amount,
+                ':order_total_amount' => $amount/100,
                 ':transaction_id' => $response['balance_transaction'],
                 ':card_cvc' => $_POST['card_cvc'],
                 ':card_expiry_month' => $_POST['card_expiry_month'],
@@ -97,7 +97,7 @@ if (isset($_POST['token'])){
 
 
 
-    <title>Payment Home</title>
+    <title>Terminal Paiement</title>
 </head>
 <body>
 
