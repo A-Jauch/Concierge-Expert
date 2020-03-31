@@ -16,15 +16,15 @@ $categorie = $_POST['categorie'];
 <body class="bodi">
 
 <?php
-$req2 = $bdd->prepare("SELECT * FROM " . $name  ." WHERE id =1");
+$req2 = $bdd->prepare("SELECT * FROM " . $name. " WHERE id =1");
 $req2->execute();
 ?>
 
 <div class="container">
     <div class=""><br>
         <?php if ($req2->rowCount() > 0) { ?>
-        <?php while ($row = $req2->fetch(PDO::FETCH_BOTH)) { ?>
-        <center><img src="<?= "back_office/" . $row['image'] ?>" width="200px"></center>
+            <?php while ($row = $req2->fetch(PDO::FETCH_BOTH)) { ?>
+                <center><img src="<?= "back_office/" . $row['image'] ?>" width="200px"></center>
     </div>
     <br>
     <div class="row centered-form">
@@ -33,12 +33,12 @@ $req2->execute();
                 <div class="panel-heading">
                     <center><h1 class="font"><?= str_replace('_',' ',$name) ?></h3></center><br>
                     <center><h6><?= $row['description']; ?></h6></center>
-                    <center><h6><i>Prix unitaire pour 1 heure : <?= $row['price']; ?></i></h6><br></center>
-                    <?php } ?>
-                    <?php } ?>
+                    <center><h6><i>Prix unitaire pour 1 heure : <?= $row['price']; ?>€</i></h6><br></center>
+                  <?php } ?>
+              <?php } ?>
                 </div>
                 <div class="panel-body">
-                    <form action="payment_index.php" method="POST" enctype="multipart/form-data">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
                                 <div class="form-group">
@@ -66,18 +66,18 @@ $req2->execute();
                                             }
                                             $i++;
                                             if ($i > 5){
-                                                if($nameColumn['Field'] == 'idUser' || $nameColumn['Field'] == 'order_id' ){ ?>
-                                                    <input type="hidden"
-                                                           name="<?= $nameColumn['Field'] ?>"
-                                                           placeholder="<?= $nameColumn['Field'] ?>"
-                                                           class="form-control input-sm"><br>
+                                              if($nameColumn['Field'] == 'idUser' || $nameColumn['Field'] == 'order_id'){ ?>
+                                                  <input type="hidden"
+                                                         name="<?= $nameColumn['Field'] ?>"
+                                                         placeholder="<?= $nameColumn['Field'] ?>"
+                                                         class="form-control input-sm"><br>
                                                 <?php }else{ ?>
-                                                    <label class="font"><?= $nameColumn['Field'] ?> : </label>
-                                                    <input type="<?= $res['native_type'] ?>"
-                                                           name="<?= $nameColumn['Field'] ?>"
-                                                           placeholder="<?= $nameColumn['Field'] ?>"
-                                                           class="form-control input-sm"><br>
-                                                <?php } ?>
+                                                <label class="font"><?= $nameColumn['Field'] ?> : </label>
+                                                <input type="<?= $res['native_type'] ?>"
+                                                       name="<?= $nameColumn['Field'] ?>"
+                                                       placeholder="<?= $nameColumn['Field'] ?>"
+                                                       class="form-control input-sm"><br>
+                                                 <?php } ?>
                                             <?php } ?>
                                         <?php } ?>
                                     <?php } ?>
@@ -96,6 +96,6 @@ $req2->execute();
             </div>
         </div>
     </div>
-</body>
+</body><br>
 
 </html>

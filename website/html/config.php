@@ -7,4 +7,5 @@
     echo ' Problème de connexion à la base de donnée '.$error;
     die();
   }
+
 ?>

@@ -1,7 +1,5 @@
 let columnName = document.getElementsByName("columnName").value;
 let size = document.getElementsByName("size").value;
-const firstData = document.getElementById("nameCategorie");
-firstData.hidden =  true; //comme ça il y aura forcément une colonne dans notre bdd
 const test = document.getElementById('inputAdded');
 
 function verify(){
@@ -12,8 +10,6 @@ function verify(){
   const container = document.getElementById("newInput");
   const input = document.createElement("input");
   const inputAdded = document.getElementById("inputAdded");
-
-  console.log(value);
 
   if( value === "CHAR" || value === "VARCHAR"){
     if (inputAdded != null) {
@@ -58,14 +54,14 @@ function verify(){
 }
 
 function deplacer(l1,l2,l3) {
-  if (l1.options.selectedIndex>=0) {
-    let option = new Option(l1.options[l1.options.selectedIndex].text,l1.options[l1.options.selectedIndex].value);
-    l2.options[l2.options.length] = option;
-    l1.options[l1.options.selectedIndex] = null;
-    l3.options[l3.options.length] = option;
-    l1.options[l1.options.selectedIndex] = null;
+ if (l1.options.selectedIndex>=0) {
+   let option = new Option(l1.options[l1.options.selectedIndex].text,l1.options[l1.options.selectedIndex].value);
+   l2.options[l2.options.length] = option;
+   l1.options[l1.options.selectedIndex] = null;
+   l3.options[l3.options.length] = option;
+   l1.options[l1.options.selectedIndex] = null;
   }else{
-    alert("Aucune option sélectionnée");
+     alert("Aucune option sélectionnée");
   }
 }
 
@@ -76,37 +72,36 @@ function traitement(){
 
 function newInput() {
 
-  let liste = document.getElementById("liste2");
-  let listeLength = document.getElementById("liste2").options.length;
-  const container = document.getElementById('newInput2');
+   let liste = document.getElementById("liste2");
+   let listeLength = document.getElementById("liste2").options.length;
+   const container = document.getElementById('newInput2');
 
-  const br = document.createElement('br');
-  const label = document.createElement('label');
-  const input = document.createElement('input');
+   const br = document.createElement('br');
+   const label = document.createElement('label');
+   const input = document.createElement('input');
 
-  for(let i=0; i<listeLength; i++){
-    label.innerHTML = liste.options[i].text + " :";
-    input.name = liste.options[i].text;
-    input.placeholder = liste.options[i].text;
-    input.value = liste.options[i].text;
+     for(let i=0; i<listeLength; i++){
+       label.innerHTML = liste.options[i].text + " :";
+       input.name = liste.options[i].text;
+       input.placeholder = liste.options[i].text;
+       input.value = liste.options[i].text;
 
-    container.appendChild(label);
-    container.appendChild(input);
-    container.appendChild(br);
-  }
+       container.appendChild(label);
+       container.appendChild(input);
+       container.appendChild(br);
+     }
 
 }
 
-// ALTER TABLE new DROP liste.options[i].value
 function deleteBdd(){
   let nameCategorie = document.getElementById("inputHidden").value;
   let liste = document.getElementById("liste3");
   let listeLength = document.getElementById("liste3").options.length;
   let array = [];
-  for(let i=0; i<listeLength; i++){
-    array.push(liste.options[i].value);
-    console.log(array[i]);
-  }
+    for(let i=0; i<listeLength; i++){
+      array.push(liste.options[i].value);
+      console.log(array[i]);
+    }
   //AJAX
 
   const request = new XMLHttpRequest();
@@ -116,6 +111,9 @@ function deleteBdd(){
     if(request.readyState === 4){
       const accept = document.getElementById('accept');
       accept.innerHTML += request.responseText;
+      const parent = document.getElementById('liste3');
+      const div = document.getElementById(nameCategorie);
+      parent.removeChild(div);
     }
   }
   request.send(`array=${array}&nameCategorie=${nameCategorie}`);
@@ -131,10 +129,10 @@ function verifyColumn(){
 function check(variable){
   let countNumbers = 0;
   for(let i=0; i < variable.length; i++){
-    const code = variable.charCodeAt(i);
-    if(code >= 48 && code <= 57){
-      countNumbers++;
-    }
+      const code = variable.charCodeAt(i);
+      if(code >= 48 && code <= 57){
+          countNumbers++;
+      }
   }
   return countNumbers > 0;
 }
@@ -143,22 +141,17 @@ function space(variable){
   for(let i=0; i < variable.length; i++){
     const name = variable.indexOf(" ");
     if(name != -1){
-      return true;
+        return true;
     }
   }
   return false;
 }
 
 function displayErrors(input, success){
-  /*const inputError = document.getElementById('error');
-  const small = document.createElement('small');
-  small.innerHTML = "*Invalid columnName";
-  small.style.color = "red";*/
   if( success ){
-    input.style="border: 1.5px solid red;";
-    //inputError.appendChild(small);
+      input.style="border: 1.5px solid red;";
   }else{
-    input.style="border: 1px solid grey;";
+      input.style="border: 1px solid grey;";
   }
 }
 
@@ -170,16 +163,6 @@ function empty(value){
   }
 }
 
-/*function addListe(){
-  let nameCategorie = document.getElementById("inputHidden").value;
-  const request = new XMLHttpRequest();
-  request.open('POST','verif_reservation.php');
-  request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-  request.onreadystatechange = function(){
-    if(request.readyState === 4){
-      const accept = document.getElementById('accept');
-      accept.innerHTML += request.responseText;
-    }
-  }
-  request.send(`name=${nameCategorie}`);
-}*/
+function inputNumber(){
+
+}

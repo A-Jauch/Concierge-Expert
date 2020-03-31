@@ -30,7 +30,7 @@ include 'html/config.php';
                         <div class="row">
                             <div class="col-lg-12 col-xl-126">
                                 <div class="form-group">
-                                    <?php
+                                  <?php
                                     if (isset($_GET['error']) && $_GET['error'] === 'size') {
                                         echo '<small> *Le fichier est trop volumineux ! </small><br>';
                                     }
@@ -43,7 +43,7 @@ include 'html/config.php';
                                     if (isset($_GET['error']) && $_GET['error'] === 'empty') {
                                         echo "<small> *Vous avez besoin d'insérer une image ! </small><br>";
                                     }
-                                    ?>
+                                   ?>
                                     <!-- Affiche -->
                                     <label class="font">Choix du fichier(png, jpg, jpeg) : </label>
                                     <input type="file" name="image" class="form-control input-md" multiple><br>
@@ -58,8 +58,8 @@ include 'html/config.php';
                                         </div>
                                     </div>
                                     <div class="inline">
-                                        <input type="checkbox" name="addIndex" value="yes">
-                                        <p class="inline" class="font">Cochez la case pour afficher ce service à la page index :</p>
+                                      <input type="checkbox" name="addIndex" value="yes">
+                                      <p class="inline" class="font">Cochez la case pour afficher ce service à la page index :</p>
                                     </div>
                                 </div>
                                 <center><input type="submit" value="Valider" class="btn btn-primary"></center>

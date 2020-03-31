@@ -1,7 +1,14 @@
 <?php
+<<<<<<< HEAD
 include '../config.php';
 
 $name = $_GET['service'];
+=======
+  session_start();
+  include '../config.php';
+
+  $name = $_GET['service'];
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
 
 ?>
 
@@ -10,6 +17,7 @@ $name = $_GET['service'];
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="./../css/style.css">
     <title>Reservation</title>
 </head>
@@ -39,12 +47,80 @@ $name = $_GET['service'];
         <label class="">Prix unitiare (pour 1heure) : </label></br>
         <input type="number" name="price" placeholder="Prix"></br>
         <label class="">Description du service : </label></br>
+=======
+    <link rel="stylesheet" href="../../css/style.css">
+    <title>Reservation Back</title>
+</head>
+
+<body>
+  <header>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-12 col-md-11 col-xs-12">
+                  <nav>
+                      <div class="align">
+                          <ul>
+                              <li><a href="../../index.php">Accueil</a></li>
+                              <li><a href="../service.php">Services</a></li>
+                              <a href="../../index.php" id="logo"><img src="../../img/logo.png" width="150px" alt="logo"></a>
+                              <li><a href="subscription.php">Abonnement</a></li>
+                              <?php
+                                      $connected = isset($_SESSION['mail']) ? true : false;
+                                      if ($connected) { ?>
+                              <li><a href="../deconnection.php">
+                                      <button type="button" class="btn btn-primary">Déconnexion</button>
+                                  </a>
+                              </li>
+                              <?php } else { ?>
+                                  <li><a href="../connection.php">
+                                          <button type="button" class="btn btn-primary">Espace Client</button>
+                                      </a>
+                                  </li>
+                              <?php } ?>
+                          </ul>
+                      </div>
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+<div id="accept"></div>
+<center>
+    <br><h1 class="font">Prévisualisation de votre nouveau service</h1></br>
+    <form action="new_service.php?service=<?= $name; ?>" id="addOption" method="post" enctype="multipart/form-data">
+        <?php
+          if (isset($_GET['error']) && $_GET['error'] === 'size') {
+              echo '<small> *Le fichier est trop volumineux ! </small><br>';
+          }
+          if (isset($_GET['error']) && $_GET['error'] === 'corrupted') {
+              echo '<small> *Le fichier est corrompu ! </small><br>';
+          }
+          if (isset($_GET['error']) && $_GET['error'] === 'type') {
+              echo '<small> *Vous ne pouvez pas envoyer des fichiers de ce type ! </small><br>';
+          }
+          if (isset($_GET['error']) && $_GET['error'] === 'empty') {
+              echo "<small> *Vous avez besoin de remplir tous les champs ! </small><br>";
+          }
+         ?>
+        <label class="font">Choix du fichier(png, jpg, jpeg) : </label></br>
+        <input type="file" name="image" multiple><br>
+        <label class="font">Entrez le nom du service : </label></br>
+        <input type="text" name="columName" placeholder="Nom du service"></br>
+        <label class="font">Prix unitiare (pour 1heure) : </label></br>
+        <input type="number" name="price" placeholder="Prix"></br>
+        <label class="font">Description du service : </label></br>
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
         <input type="text" name="description" placeholder="Entrez la description du service" style="width:180px; height:100px;"></br>
         <label class="">Heure par semaine: </label></br>
         <input type="time" name="heureSemaine" placeholder="heureSemaine"></br>
         <div id="newInput2"></div>
+<<<<<<< HEAD
         </br><input type="submit" value="Créer le service" class="btn btn-primary">
     </form>
+=======
+      </br><input type="submit" value="Créer le service" class="btn btn-primary">
+      </form>
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
 
     </form>
     <br></center>
@@ -67,8 +143,13 @@ $name = $_GET['service'];
                         if ($req2->rowCount() > 0) { ?>
                             <?php while ($row = $req2->fetch(PDO::FETCH_BOTH)) { ?>
                                 <?php $i++; if($i > 4){ ?>
+<<<<<<< HEAD
                                     <option value="<?= $row[0]; ?>" id="<?= $row[0]; ?>"><?= $row[0] . " " . $row[1]; ?></option>
                                 <?php } ?>
+=======
+                                  <option value="<?= $row[0]; ?>" id="<?= $row[0]; ?>"><?= $row[0] . " " . $row[1]; ?></option>
+                                  <?php } ?>
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
                             <?php } ?>
                         <?php } ?>
                 </td>
@@ -106,7 +187,11 @@ $name = $_GET['service'];
 </br>
 <center>
     <form  action="verif_reservation.php?service=<?= $name; ?>" method="POST" enctype="multipart/form-data" id="column">
+<<<<<<< HEAD
         <label>Pour une meilleure visibilité entrez le nom de la colonne à créer sous cette forme sans espace (nomColonne)</label></br>
+=======
+        <label>Ajouter une colonne :</label></br>
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
         <div id="error"></div>
         <input type="text" id="columnName" name="columnName" placeholder="Entrez le nom de la colonne à rajouter"
                onblur="verifyColumn()">
@@ -121,12 +206,27 @@ $name = $_GET['service'];
         </select>
         <input type="hidden" name="nameCategorie" value="<?= $name ?>" id="inputHidden">
         <div id="newInput"></div>
+<<<<<<< HEAD
         </br><input type="submit" value="Ajouter" class="btn btn-primary" onsubmit="">
+=======
+      </br><input type="submit" value="Ajouter" class="btn btn-primary" onclick="inputNumber()">
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
     </form><br>
 </center>
 
 <script type="text/javascript" src="input.js"></script>
 
 </body>
+<<<<<<< HEAD
+=======
+<br><footer>
+    <img src="../../img/logo.png" width="80">
+    <section id="bottom">
+        <!--<p class="font">Conçu par : </br>JAUCH Anthony </br> BURIOT Vincent </br>JEAN-FRANCOIS Teddy</p>-->
+    </section>
+    <div><small> Concierge Expert - All rights reserved © </small></div>
+    <br>
+</footer>
+>>>>>>> 74db16081cf5945cebbd3f50d5b6f8101a998c65
 
 </html>

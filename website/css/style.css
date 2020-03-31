@@ -60,6 +60,11 @@ nav a:hover{
 
 }
 
+.inlineButton{
+  display: flex;
+  justify-content: center;
+}
+
 .presentation{
   background-color: #DDDDDD;
   display: inline-block;
@@ -130,10 +135,27 @@ nav a:hover{
   color: #000000;
 }
 
+.card{
+  background-color: #DDDDDD;
+}
+
 footer{
   background-color: #DDDDDD;
   color: #000000;
   text-align: center;
+  margin-top: auto;
+  bottom: 0;
+  width: 100%;
+}
+
+#footer{
+  background-color: #DDDDDD;
+  color: #000000;
+  text-align: center;
+  margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 #bottom{

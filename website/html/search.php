@@ -7,18 +7,24 @@ if(isset($_POST['research'])) {
 
     for ($i = 0; $i < count($sc); $i++) {
         if ($sc[$i][0] == $_POST['research']) {
-            echo '<div class="card card-pos col-md-2">';
-            echo '<h2 style="text-align: center">' . $sc[$i][0] . '</h2>';
-            echo '<img style="margin-left: auto; margin-right: auto" class="size" width="100px" height="100px" src="back_office/' . $sc[$i][1] . '">';
+          echo '<center>';
+          echo '<div class="col-lg-3 col-sm-6 col-xs-12">';
+            echo '<div class="card text-center box" style="width: 15rem;">';
+              echo '<center><img class="size" width="100px" height="100px" src="back_office/' . $sc[$i][1] . '"></center>';
             echo '<br>';
-            echo '<form style="text-align: center" action="subcategory.php" method="post">';
-                echo '<input type="hidden" name="categorie" value="' . $sc[$i][2] . '">';
-                echo '<input type="hidden" name="name" value="' . $sc[$i][0] . '">';
-                echo '<input type="submit" value="Réserver" class="btn btn-success">';
-            echo '</form>';
-            echo '<br>';
+              echo '<div class="card-body">';
+              echo '<h5 class="card-title"><h4><b>'. $sc[$i][0] . '</h4></b></h5>';
+                echo '<form style="text-align: center" action="subcategory.php" method="post">';
+                    echo '<input type="hidden" name="categorie" value="' . $sc[$i][2] . '">';
+                    echo '<input type="hidden" name="name" value="' . $sc[$i][0] . '">';
+                    echo '<input type="submit" value="Réserver" class="btn btn-success">';
+                echo '</form>';
+              echo '<br>';
+              echo '</div>';
             echo '</div>';
-            exit;
+          echo '</div>';
+          echo '</center>';
+          exit;
         }
     }
     echo '<p>Ce service n\'existe pas</p>';

@@ -1,5 +1,6 @@
 <?php
 require('fpdf.php');
+$bdd = new PDO('mysql:host=localhost;dbname=concierge_expert','tedanvi','kLKLxEe8M1EfOdvG');
 
 class PDF extends FPDF{
 
@@ -11,7 +12,7 @@ class PDF extends FPDF{
   private $city;
   private $index;
 
-  // Getter - Setter
+  // Getters
   public function getLastName(): string{
       return $this->lastName;
   }
@@ -43,20 +44,30 @@ class PDF extends FPDF{
   // En-tête
   function Header(){
       // Logo
-      $this->Image('../../img/logo.png',10,6,30);
+      //$this->Image('../../img/logo.png',10,6,30);
       // Police Arial gras 15
       $this->SetFont('Arial','B',15);
       // Décalage à droite
       $this->Cell(80);
       // Titre
-      $this->Cell(30,20,'Voici votre devis',0,0,'C');
+      $this->Cell(30,10,'Demande de devis',0,0,'C');
       // Saut de ligne
       $this->Ln(20);
   }
 
   // Corps de page
-  function Main($lastName,$firstName,$phoneNumber,$email,$postalCode,$city,$index){
+  function headerTable(){
+    $this->SetFont('Times','B',12);
+    $this->Cell(40,10,'Prenom',1,0,'C');
+    $this->Cell(40,10,'Nom',1,0,'C');
+    $this->Cell(30,10,'Telephone',1,0,'C');
+    $this->Cell(40,10,'Adresse email',1,0,'C');
+    $this->Cell(40,10,'Adresse postale',1,0,'C');
+    $this->Ln();
+  }
 
+  function underTable($index){
+    echo $index[0];
   }
 
   // Pied de page
@@ -68,14 +79,13 @@ class PDF extends FPDF{
       // Numéro de page
       $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
   }
-
 }
 
-// Instanciation de la classe dérivée
-/*$pdf = new PDF();
-$pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Times','',12);
-$pdf->Output();*/
+  $pdf = new PDF();
+  $pdf->AliasNbPages();
+  $pdf->AddPage();
+  $pdf->headerTable();
+  $pdf->underTable($_POST);
+  $pdf->Output();
 
 ?>
