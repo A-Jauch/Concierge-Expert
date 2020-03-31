@@ -74,9 +74,9 @@ if (isset($_POST['token'])){
 
 
 
-                debug($_POST);
+            /*    debug($_POST);
                 debug($_SESSION);
-                debug($req);
+                debug($req);*/
 
 
                $req2=$bdd->prepare("UPDATE " . $_POST['item_details'] . " SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
