@@ -56,8 +56,8 @@ include 'html/config.php'; ?>
     <center><h1 class="font">Nos catégories de services les plus demandées</h1></center>
 
     <?php
-    $req2 = $bdd->prepare("SELECT * FROM SERVICE WHERE add_index = 'yes'");
-    $req2->execute();
+      $req2 = $bdd->prepare("SELECT * FROM SERVICE WHERE add_index = 'yes'");
+      $req2->execute();
     ?>
 
     <div class="container">

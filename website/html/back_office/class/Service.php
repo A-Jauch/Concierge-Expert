@@ -42,12 +42,6 @@ Class Service{
         $req = $bdd -> prepare("CREATE TABLE " . $nameCategorie . "( id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255),image VARCHAR(255), heureSemaine TIME, date DATE, dateDebut DATE, dateFin DATE )");
         $req -> execute();
 
-      /*$req2 = $bdd -> prepare("INSERT INTO " . $nameCategorie . "(nameCategorie) VALUES (:nameCategorie)");
-        $req2 -> execute(array(
-            'nameCategorie' => htmlspecialchars($nameCategorie)
-          )
-        );*/
-
         $req3 = $bdd -> prepare("INSERT INTO SERVICE(name, image,add_index) VALUES (:name, :image,:add_index)");
         $req3 -> execute(array(
             'name' => htmlspecialchars($nameCategorie),

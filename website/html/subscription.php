@@ -45,11 +45,11 @@ include 'config.php';
       </div>
   </header>
 
-    <main>
+    <main></br>
         <div class="container">
             <div class="row centered-form">
             <br><div class="col-lg-12 col-sm-12 col-xs-12">
-                <center><h3 class="font">Abonnement</h3>
+                <center><h3 class="font">Nos abonnements de base</h3>
                 <?php
                 if (isset($_SESSION['id']))
                 {
@@ -64,65 +64,121 @@ include 'config.php';
                       echo '<center><p style="color: red;">Il faut être connecté pour s\'abonner</p></center>';
                   }
 
-                  if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'base') {
-                      echo '<center><p style="color: red;">Achat de l\'abonnement de ' . $_GET['sub'] . ' réussi</p></center>';
-                  }
-
-                  if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'family') {
-                      echo '<center><p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p></center>';
-                  }
-
-                  if(isset($_GET['error']) && $_GET['error'] == 'succeed' && $_GET['sub'] == 'premium') {
-                      echo '<center><p style="color: red;">Achat de l\'abonnement ' . $_GET['sub'] . ' réussi</p></center>';
-                  }
-
                   if(isset($_GET['error']) && $_GET['error'] == 'subscribed') {
                       echo '<center><p style="color: red;">Vous êtes déjà abonné</p>';
                   }
                   ?>
                 </div>
-                  <div class="col-lg-4 col-sm-6 col-xs-12">
-                    <div class="card text-center box" style=""><br>
-                        <center><img class="size" width="110px" height="110px"
-                                     src="../img/base.png"></center>
-                        <div class="card-body">
-                            <h5 class="card-title" style="text-align: center">Abonnement de base</h5><br>
-                            <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 5j/7 de 9h à 20h</p>
-                            <p class="card-text" style="text-align: center">12h de services/mois</p><br>
-                            <center><a href="subscription/subscription_base.php" class="btn btn-primary">S'abonner</a></center>
+                <?php
+                  $req2 = $bdd->prepare("SELECT * FROM SUBSCRIPTION_TYPE");
+                  $req2->execute();
+
+                  if ($req2->rowCount() > 0) {
+                    while ($row = $req2->fetch(PDO::FETCH_ASSOC)) {
+                      if( $row['name'] == 'Abonnement Premium' || $row['name'] == 'Abonnement Familial' || $row['name'] == 'Abonnement de base' ){?>
+
+
+                        <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $row['name']; ?>">
+                          <div class="card text-center box" style=""><br>
+                              <center><img class="size" width="110px" height="110px"
+                                           src="<?= 'subscription/' . $row['image']; ?>"></center>
+                            <div class="card-body">
+                                <h5 class="card-title" style="text-align: center"><?= $row['name']; ?></h5>
+                                <h6 class="card-title" style="text-align: center">Prix : <?= $row['price']; ?>€ TTC/an</h6>
+                                <p class="card-text" style="text-align: center"><?= $row['description']; ?></p>
+                                <?php
+                                    $hourStart = intdiv($row['hourStart'],100);
+                                    if( ($row['hourStart'] % 100) < 10){
+                                      $minuteStart = "0" . ($row['hourStart'] % 100);
+                                    }else{
+                                      $minuteStart = ($row['hourStart'] % 100);
+                                    }
+
+                                    $hourEnd = intdiv($row['hourEnd'],100);
+                                    if( ($row['hourEnd'] % 100) < 10){
+                                      $minuteEnd = "0" . ($row['hourEnd'] % 100);
+                                    }else{
+                                      $minuteEnd = ($row['hourEnd'] % 100);
+                                    }
+                                 ?>
+                                <p class="card-text" style="text-align: center">Possibilités de réservation <?= $row['daysWeek']; ?>j/7 de <?= $hourStart; ?>h<?= $minuteStart; ?> à <?= $hourEnd; ?>h<?= $minuteEnd; ?></p>
+                                <p class="card-text" style="text-align: center"><?= $row['hoursMonth']; ?>h de services/mois</p>
+                                <center><a href="subscription/valid_subscription.php?subscription=<?= $row['name']; ?>" class="btn btn-primary">S'abonner</a></center>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6 col-xs-12">
-                    <div class="card text-center box" style=""><br>
-                        <center><img class="size" width="110px" height="110px"
-                                     src="../img/famille.png"></center>
-                      <div class="card-body">
-                          <h5 class="card-title" style="text-align: center">Abonnement Familial</h5><br>
-                          <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 6j/7 de 9h à 20h</p>
-                          <p class="card-text" style="text-align: center">25h de services/mois</p><br>
-                          <center><a href="subscription/subscription_family.php" class="btn btn-primary">S'abonner</a></center>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-sm-6 col-xs-12">
-                    <div class="card text-center box" style=""><br>
-                        <center><img class="size" width="110px" height="110px"
-                                     src="../img/premium.png"></center>
-                      <div class="card-body">
-                          <h5 class="card-title" style="text-align: center">Abonnement Premium</h5><br>
-                          <p class="card-text" style="text-align: center">Bénéficiez d'un accès privilégie en ilimité 7j/7 24h/24</p>
-                          <p class="card-text" style="text-align: center">50h de services/mois</p><br>
-                          <center><a href="subscription/subscription_premium.php" class="btn btn-primary">S'abonner</a></center>
-                      </div>
-                  </div>
-                </div>
+                        <?php } } ?>
+                      <?php } ?>
               </div>
             </div>
+
+      <div class="container">
+        <div class="row centered-form"><br>
+          <div class="col-lg-12 col-sm-12 col-xs-12">
+            <center><h3 class="font">Nos abonnements additionels</h3>
+          </div>
         </div>
+      </div>
+
+      <div class="container">
+          <div class="row centered-form" id="parent">
+            <?php
+              $req2 = $bdd->prepare("SELECT * FROM SUBSCRIPTION_TYPE");
+              $req2->execute();
+
+              if ($req2->rowCount() > 0) {
+                while ($row = $req2->fetch(PDO::FETCH_ASSOC)) {
+                  if( $row['name'] != 'Abonnement Premium' && $row['name'] != 'Abonnement Familial' && $row['name'] != 'Abonnement de base' ){?>
+
+
+                    <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $row['name']; ?>">
+                      <div class="card text-center box" style=""><br>
+                          <center><img class="size" width="110px" height="110px"
+                                       src="<?= 'subscription/' . $row['image']; ?>"></center>
+                        <div class="card-body">
+                            <h5 class="card-title" style="text-align: center"><?= $row['name']; ?></h5>
+                            <h6 class="card-title" style="text-align: center">Prix : <?= $row['price']; ?>€ TTC/an</h6>
+                            <p class="card-text" style="text-align: center"><?= $row['description']; ?></p>
+                            <?php
+                              $hourStart = intdiv($row['hourStart'],100);
+                              if( ($row['hourStart'] % 100) < 10){
+                                $minuteStart = "0" . ($row['hourStart'] % 100);
+                              }else{
+                                $minuteStart = ($row['hourStart'] % 100);
+                              }
+
+                              $hourEnd = intdiv($row['hourEnd'],100);
+                              if( ($row['hourEnd'] % 100) < 10){
+                                $minuteEnd = "0" . ($row['hourEnd'] % 100);
+                              }else{
+                                $minuteEnd = ($row['hourEnd'] % 100);
+                              }
+                             ?>
+                            <p class="card-text" style="text-align: center">Possibilités de réservation <?= $row['daysWeek']; ?>j/7 de <?= $hourStart; ?>h<?= $minuteStart; ?> à <?= $hourEnd; ?>h<?= $minuteEnd; ?></p>
+                            <p class="card-text" style="text-align: center"><?= $row['hoursMonth']; ?>h de services/mois</p>
+                            <center><a href="subscription/valid_subscription.php" class="btn btn-primary">S'abonner</a>
+                            <input type="button" value="X" class="btn btn-danger" onclick="deleteSubscription('<?= $row['name'] ?>')"></center>
+                        </div>
+                      </div>
+                    </div>
+                    <?php } } ?>
+                  <?php } ?>
+              </div>
+            </div></br>
+        <?php
+            $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
+            if ($connected) {
+          ?>
+            <center><a href="subscription/add_subscription.php">
+                    <button type="button" class="btn btn-primary">Ajouter un abonnement</button>
+                </a></center>
+            <br>
+          <?php } ?>
+
+          <script type="text/javascript" src="subscription/sub.js"></script>
     </main>
 
-    <footer id="footer">
+    <footer id="">
         <br>
         <section id="bottom">
             <a href=""><img src="../img/logo.png" width="80"></a>
@@ -130,7 +186,6 @@ include 'config.php';
         </section>
         <br>
     </footer>
-
 </body>
 
 </html>
