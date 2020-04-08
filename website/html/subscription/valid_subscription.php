@@ -33,7 +33,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
         $item_details = $_GET['subscription'];
 
 
-        echo 'ok';
+       // echo 'ok';
     } else {
         header('location: ../subscription.php?error=subscribed');
         exit;
@@ -65,7 +65,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
 ';
     if (!empty($res3)) {
         foreach ($res3 as $rows) {
-            debug($rows);
+            //debug($rows);
             $order_details .= '
             <tr>
    <td>' . $rows["name"] . '</td>

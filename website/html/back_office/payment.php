@@ -66,7 +66,7 @@ if (isset($_POST['token'])){
             customer_name, customer_address, customer_city,
             customer_pin, customer_state, customer_country,idUser,serviceName) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-            debug($order_data);
+            //debug($order_data);
             $req->execute([$order_data[':order_number'],$order_data[':order_total_amount'],$order_data[':transaction_id'],
                 $order_data[':card_cvc'],$order_data[':card_expiry_month'],$order_data[':card_expiry_year'],$order_data[':order_status'],
                 $order_data[':card_holder_number'],$order_data[':email_address'],$order_data[':customer_name'],$order_data[':customer_address'],$order_data[':customer_city']
