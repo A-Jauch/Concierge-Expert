@@ -1,9 +1,9 @@
 <?php
 session_start();
-/*function debug($variable)
+function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}*/
+}
 include '../config.php';
 if (isset($_POST['token'])){
     require_once 'stripe/init.php';
@@ -83,10 +83,16 @@ if (isset($_POST['token'])){
                $req2->execute();
 
 
+            $req3=$bdd->prepare("UPDATE subscription SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
+
+            $req3->execute();
+
+
 
         }
 }
-?>
+header("location:account.php");
+exit;?>
 
 <html>
 <head>
