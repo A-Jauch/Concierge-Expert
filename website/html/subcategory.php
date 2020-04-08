@@ -44,7 +44,6 @@ $req2->execute();
                     $abo = $bdd->prepare("SELECT idUser FROM subscription WHERE idUser =?");
                     $abo->execute([$_SESSION['id']]);
                     $res_abo = $abo->fetch(PDO::FETCH_ASSOC);
-                    var_dump($res_abo['idUser']);
                     ?>
                     <?php if (isset($res_abo['idUser']) && !empty($res_abo['idUser']) && $res_abo['idUser'] == $_SESSION['id']) {
 
