@@ -47,10 +47,11 @@
 
 <?php
 session_start();
+/*
 function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}
+}*/
 include '../config.php';
 $req = $bdd -> prepare('SELECT * FROM subscription WHERE idUser = ?');
 $req->execute(array($_SESSION['id']));

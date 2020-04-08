@@ -6,6 +6,7 @@ function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
 }
+
 if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
     $req = $bdd -> prepare('SELECT id FROM subscription WHERE idUser = ?');
     $req->execute(array($_SESSION['id']));
@@ -30,9 +31,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
         $last_id = $bdd->lastInsertId();
        // $result_cmd = $res2['price'];
         $item_details = $_GET['subscription'];
-      //  var_dump($result_cmd);
-        var_dump($item_details);
-        var_dump($last_id);
+
 
         echo 'ok';
     } else {
@@ -243,8 +242,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
                         </div>
                         <br/>
                         <div align="center">
-                            <?php $abo_price = number_format($res2['price']); ?>
-                            <input type="hidden" name="total_amount" value="<?php echo $abo_price; ?>"/>
+                            <input type="hidden" name="total_amount" value="<?php echo $res2['price']; ?>"/>
                             <?php // debug($result_cmd);?>
                             <input type="hidden" name="currency" value="EUR"/>
                             <input type="hidden" name="item_details" value="<?php echo $item_details; ?>"/>
