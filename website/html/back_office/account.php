@@ -1,9 +1,9 @@
-
-
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <script type="text/javascript" src="../js/jspdf.min.js"></script>
     <link rel="stylesheet" href="../../css/style.css">
 
 
@@ -47,15 +47,22 @@
 
 <?php
 session_start();
-/*
+
 function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}*/
+}
 include '../config.php';
 $req = $bdd -> prepare('SELECT * FROM subscription WHERE idUser = ?');
 $req->execute(array($_SESSION['id']));
 $res = $req->fetchAll(PDO::FETCH_ASSOC);
+
+
+$req5 = $bdd -> prepare('SELECT * FROM client WHERE id = ?');
+$req5->execute(array($_SESSION['id']));
+$res5 = $req5->fetchAll(PDO::FETCH_ASSOC);
+
+
 if (isset($_POST['name'])) {
     $name = $_POST['name'];
 
@@ -136,7 +143,7 @@ if (isset($_POST['name'])) {
 $req2 = $bdd -> prepare('SELECT * FROM order_table WHERE idUser = ?');
 $req2->execute(array($_SESSION['id']));
 $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
-//debug($res2);
+
 
 
 ?>
@@ -156,6 +163,7 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
                             $req4->execute(array($abo['order_id']));
                             $res4 = $req4->fetch(PDO::FETCH_ASSOC);
 
+                            echo 'Bonjour Monsieur : <b>' . $res5[0]['firstName'] . " " . $res5[0]['lastName'] . '</b><br>';
                             echo 'Abonnement actuel pour votre compte : <b>' . $abo['subscriptionType'] . '</b><br>';
                             echo 'Début le : <b>' . $abo['dateStart'] . '</b><br></center>';
 
@@ -184,36 +192,61 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
                 $res3 = $req3->fetchAll(PDO::FETCH_ASSOC);
                 //debug($res3);
             foreach($res3 as $info) {
-                        //debug($info);
-            ?>
 
+                $req2 = $bdd -> prepare('SELECT * FROM order_table WHERE idUser = ? AND order_id = ?');
+                $req2->execute([$_SESSION['id'] ,$rows['order_id']]);
+                $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
+
+                //debug($info);
+                //debug($res2);
+
+                ?>
+
+
+
+                        <input type="hidden" id="postalCode" value="<?= $_POST['postalCode'] ?>">
+                        <input type="hidden" id="city" value="<?= $_POST['city'] ?>">
 
                         <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $rows['serviceName']; ?>">
                             <div class="card text-center box" style=""><br>
-                                <center><img class="size" width="110px" height="110px"
-                                             src="<?=  $info['image']; ?>"></center>
-                                <div class="card-body">
-                                    <h5 class="card-title" style="text-align: center"><?= $info['name']; ?></h5>
-                                    <h6 class="card-title" style="text-align: center">Prix de la commande: <?= $rows['order_total_amount']; ?>€ TTC</h6>
-                                    <p class="card-text" style="text-align: center"><?= $info['description']; ?></p>
-                                    <h6 class="card-title" style="text-align: center">Commande Numéro :</h6>
-                                    <p class="card-text" style="text-align: center"><?= $rows['order_id']; ?></p>
-                                    <h6 class="card-title" style="text-align: center">Numéro de transaction :</h6>
-                                    <p class="card-text" style="text-align: center"><?= $rows['order_number']; ?></p>
+                                <form method="post" id="facture_from" action="facture_gen.php">
+
+                                    <center><img class="size" width="110px" height="110px"
+                                                 src="<?=  $info['image']; ?>"></center>
+                                    <div class="card-body">
+                                        <h5 class="card-title" style="text-align: center"><?= $info['name']; ?></h5>
+                                        <h6 class="card-title" style="text-align: center">Prix de la commande: <?= $rows['order_total_amount']; ?>€ TTC</h6>
+                                        <p class="card-text" style="text-align: center"><?= $info['description']; ?></p>
+                                        <h6 class="card-title" style="text-align: center">Commande Numéro :</h6>
+                                        <p class="card-text" style="text-align: center"><?= $rows['order_id']; ?></p>
+                                        <h6 class="card-title" style="text-align: center">Numéro de transaction :</h6>
+                                        <p class="card-text" style="text-align: center"><?= $rows['order_number']; ?></p>
+
+                                        <input type="hidden" name="amount" id="amount" value="<?= $rows['order_total_amount'] ?>">
+                                        <input type="hidden" name="name" id="name" value="<?= $info['name'] ?>">
+                                        <input type="hidden" name="order_id" id="order_id" value="<?= $rows['order_id'] ?>">
+                                        <input type="hidden" name="transac_nb" id="transac_nb"  value="<?=$rows['order_number'] ?>">
+                                        <input type="hidden" name="firstname" id="firstname"  value="<?=$res5[0]['firstName'] ?>">
+                                        <input type="hidden" name="lastname" id="lastname"  value="<?=$res5[0]['lastName'] ?>">
+                                        <input type="hidden" name="mail" id="mail"  value="<?=$res5[0]['mail'] ?>">
+
+                                        <input type="submit"  id="button_action" class="btn btn-success btn-sm"
+                                               onclick=""  value="Facture"/>
 
 
 
 
-                                    <?php
-
-                                    ?>
-                                </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     <?php }  ?>
+
             <?php } ?>
+
         </div>
     </div>
+
 
 
 
@@ -232,4 +265,6 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
     <div><small> Concierge Expert - All rights reserved © </small></div>
     <br>
 </footer>
+
+
 </html>
