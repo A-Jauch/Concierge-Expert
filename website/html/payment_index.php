@@ -3,10 +3,10 @@ include 'config.php';
 $name = $_POST['name'];
 
 $constprice = 0;
-function debug($variable)
+/*function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}
+}*/
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
 
@@ -131,7 +131,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 ';
     if (!empty($price)) {
         foreach ($price as $rows) {
-            debug($rows);
+          // debug($rows);
             $order_details .= '
             <tr>
    <td>' . $rows["name"] . '</td>
@@ -209,36 +209,35 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 
 <div class="container">
     <br/>
-    <h3 align="center"><a href="#">PHP Shopping Cart with Stripe Payment Integration</a></h3>
     <br/>
     <span id="message"></span>
     <div class="panel panel-default">
-        <div class="panel-heading">Order Process</div>
+        <div class="panel-heading">Information de paiement</div>
 
         <div class="panel-body">
             <form method="post" id="order_process_form" action="back_office/payment.php">
                 <div class="row">
                     <div class="col-md-8" style="border-right:1px solid #ddd;">
-                        <h4 align="center">Customer Details</h4>
+                        <h4 align="center">Details client</h4>
                         <div class="form-group">
-                            <label><b>Card Holder Name <span class="text-danger">*</span></b></label>
+                            <label><b>Propriétaire de la carte <span class="text-danger">*</span></b></label>
                             <input type="text" name="customer_name" id="customer_name" class="form-control" value=""/>
                             <span id="error_customer_name" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label><b>Email Address <span class="text-danger">*</span></b></label>
+                            <label><b>Adresse mail <span class="text-danger">*</span></b></label>
                             <input type="text" name="email_address" id="email_address" class="form-control" value=""/>
                             <span id="error_email_address" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label><b>Address <span class="text-danger">*</span></b></label>
+                            <label><b>Adresse <span class="text-danger">*</span></b></label>
                             <textarea name="customer_address" id="customer_address" class="form-control"></textarea>
                             <span id="error_customer_address" class="text-danger"></span>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label><b>City <span class="text-danger">*</span></b></label>
+                                    <label><b>Vile <span class="text-danger">*</span></b></label>
                                     <input type="text" name="customer_city" id="customer_city" class="form-control"
                                            value=""/>
                                     <span id="error_customer_city" class="text-danger"></span>
@@ -246,7 +245,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label><b>Zip <span class="text-danger">*</span></b></label>
+                                    <label><b>Code postal <span class="text-danger">*</span></b></label>
                                     <input type="text" name="customer_pin" id="customer_pin" class="form-control"
                                            value=""/>
                                     <span id="error_customer_pin" class="text-danger"></span>
@@ -256,7 +255,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label><b>State </b></label>
+                                    <label><b>Département </b></label>
                                     <input type="text" name="customer_state" id="customer_state" class="form-control"
                                            value=""/>
                                 </div>
@@ -269,7 +268,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 
                                 ?>
                                 <div class="form-group">
-                                    <label><b>Country <span class="text-danger">*</span></b></label>
+                                    <label><b>Pays <span class="text-danger">*</span></b></label>
                                     <select class="custom-select my-1 mr-sm-2" name="customer_country" id="customer_country">
                                         <?php $cont = 0;?>
                                         <?php $cont = $cont+1;?>
@@ -283,9 +282,9 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                             </div>
                         </div>
                         <hr/>
-                        <h4 align="center">Payment Details</h4>
+                        <h4 align="center">Detail de paiement</h4>
                         <div class="form-group">
-                            <label>Card Number <span class="text-danger">*</span></label>
+                            <label>Numero de carte <span class="text-danger">*</span></label>
                             <input type="text" name="card_holder_number" id="card_holder_number" class="form-control"
                                    placeholder="1234 5678 9012 3456" maxlength="20" onkeypress=""/>
                             <span id="error_card_number" class="text-danger"></span>
@@ -293,14 +292,14 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label>Expiry Month</label>
+                                    <label>Mois d'expiration</label>
                                     <input type="text" name="card_expiry_month" id="card_expiry_month"
                                            class="form-control" placeholder="MM" maxlength="2"
                                            onkeypress="return only_number(event);"/>
                                     <span id="error_card_expiry_month" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-4">
-                                    <label>Expiry Year</label>
+                                    <label>Année expiration</label>
                                     <input type="text" name="card_expiry_year" id="card_expiry_year"
                                            class="form-control" placeholder="YYYY" maxlength="4"
                                            onkeypress="return only_number(event);"/>
@@ -323,13 +322,13 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                             <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>
 
                             <input type="submit" name="button_action" id="button_action" class="btn btn-success btn-sm"
-                                 onclick="stripePay(event)"  value="Pay Now"/>
+                                 onclick="stripePay(event)"  value="Payer"/>
                         </div>
                         <br/>
                         </form>
                     </div>
                     <div class="col-md-4">
-                        <h4 align="center">Order Details</h4>
+                        <h4 align="center">Information de commande</h4>
                         <?php
                         echo $order_details;
                         ?>
@@ -539,7 +538,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
         if(validate_form() == true)
         {
             $('#button_action').attr('disabled', 'disabled');
-            $('#button_action').val('Payment Processing....');
+            $('#button_action').val('Paiement en cours....');
             Stripe.createToken({
                 number:$('#card_holder_number').val(),
                 cvc:$('#card_cvc').val(),

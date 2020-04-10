@@ -1,9 +1,11 @@
 <?php
 session_start();
-/*function debug($variable)
+
+function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}*/
+}
+
 include '../config.php';
 if (isset($_POST['token'])){
     require_once 'stripe/init.php';
@@ -43,11 +45,11 @@ if (isset($_POST['token'])){
                 ':order_number' => $order_number,
                 ':order_total_amount' => $amount/100,
                 ':transaction_id' => $response['balance_transaction'],
-                ':card_cvc' => $_POST['card_cvc'],
-                ':card_expiry_month' => $_POST['card_expiry_month'],
-                ':card_expiry_year' => $_POST['card_expiry_year'],
+                ':card_cvc' => hash('sha256',$_POST['card_cvc']),
+                ':card_expiry_month' => hash('sha256',$_POST['card_expiry_month']),
+                ':card_expiry_year' => hash('sha256',$_POST['card_expiry_year']),
                 ':order_status' => $response['status'],
-                ':card_holder_number' => $_POST['card_holder_number'],
+                ':card_holder_number' => hash( 'sha256',$_POST['card_holder_number']),
                 ':email_address' => $_POST['email_address'],
                 ':customer_name' => $_POST['customer_name'],
                 ':customer_address' => $_POST['customer_address'],
@@ -64,7 +66,7 @@ if (isset($_POST['token'])){
             customer_name, customer_address, customer_city,
             customer_pin, customer_state, customer_country,idUser,serviceName) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-            debug($order_data);
+            //debug($order_data);
             $req->execute([$order_data[':order_number'],$order_data[':order_total_amount'],$order_data[':transaction_id'],
                 $order_data[':card_cvc'],$order_data[':card_expiry_month'],$order_data[':card_expiry_year'],$order_data[':order_status'],
                 $order_data[':card_holder_number'],$order_data[':email_address'],$order_data[':customer_name'],$order_data[':customer_address'],$order_data[':customer_city']
@@ -83,10 +85,16 @@ if (isset($_POST['token'])){
                $req2->execute();
 
 
+            $req3=$bdd->prepare("UPDATE subscription SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
+
+            $req3->execute();
+
+
 
         }
 }
-?>
+header("location:account.php");
+exit;?>
 
 <html>
 <head>

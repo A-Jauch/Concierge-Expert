@@ -17,7 +17,14 @@ include 'html/config.php'; ?>
                   <nav>
                       <div class="align">
                           <ul>
+                              <?php
+                              $connected = isset($_SESSION['mail']) ? true : false;
+                              if ($connected) { ?>
+                              <li><a href="html/back_office/account.php">Historique</a></li>
+
+                              <?php } else { ?>
                               <li><a href="index.php">Accueil</a></li>
+                              <?php } ?>
                               <li><a href="html/service.php">Services</a></li>
                               <a href="index.php" id="logo"><img src="img/logo.png" width="150px" alt="logo"></a>
                               <li><a href="html/subscription.php">Abonnement</a></li>
