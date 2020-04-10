@@ -163,7 +163,7 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
                             $req4->execute(array($abo['order_id']));
                             $res4 = $req4->fetch(PDO::FETCH_ASSOC);
 
-                            echo 'Bonjour Monsieur : <b>' . $res5[0]['firstName'] . " " . $res5[0]['lastName'] . '</b><br>';
+                            echo 'Bonjour Mr/Mme : <b>' . $res5[0]['firstName'] . " " . $res5[0]['lastName'] . '</b><br>';
                             echo 'Abonnement actuel pour votre compte : <b>' . $abo['subscriptionType'] . '</b><br>';
                             echo 'Début le : <b>' . $abo['dateStart'] . '</b><br></center>';
 

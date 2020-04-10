@@ -25,7 +25,7 @@
                     <center><h3 class="font">Demande de devis</h3></center><br>
                 </div>
                 <div class="panel-body">
-                    <form action="verif_devis.php" method="POST" enctype="multipart/form-data" id="formDevis">
+                    <form action="jsDevis.php" method="POST" enctype="multipart/form-data" id="formDevis">
                       <?php
                         if (isset($_GET['error']) && $_GET['error'] === 'empty') {
                             echo '<small> *Les champs doivent tous être remplis ! </small><br>';
@@ -43,13 +43,16 @@
                                       include 'searchSubcategories.php';
                                       $subCategory = searchSubcategories();
                                     ?>
-                                    <label class="font">Sélectionner une catégorie de prestation</label>
-                                    <center><select name="index" class="form-control input-sm">
-                                            <?php for($j=0; $j < count($subCategory) ;$j++){ ?>
-                                                    <option value="<?= $subCategory[$j][0]; ?>"><?= str_replace('_',' ',$subCategory[$j][0]); ?></option>
-                                             <?php } ?>
-
-                                        </select></center>
+                                    <label class="font">Sélectionner une catégorie de prestation</label><br>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="ls-form">
+                                              <?php for($j=0; $j < count($subCategory) ;$j++){ ?>
+                                                 <div><input type="checkbox" name="choix[]" value="<?= $subCategory[$j][0]; ?>"><?= str_replace('_',' ',$subCategory[$j][0]); ?></div>
+                                               <?php } ?>
+                                           </div>
+                                       </div>
+                                   </div>
                                     </br>
                                 </div>
                             </div>
