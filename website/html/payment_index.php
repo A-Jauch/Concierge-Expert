@@ -3,10 +3,10 @@ include 'config.php';
 $name = $_POST['name'];
 
 $constprice = 0;
-/*function debug($variable)
+function debug($variable)
 {
     echo '<pre>' . print_r($variable, true) . '</pre>';
-}*/
+}
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
 
@@ -14,6 +14,9 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['da
 
     $insert->execute([$_POST['heureSemaine'], $_POST['date'], $name, $_SESSION['id']]);
     $last_id = $bdd->lastInsertId();
+    $_POST['id'] = $last_id;
+
+
 }
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
@@ -22,7 +25,11 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST
 
     $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name , $_SESSION['id']]);
     $last_id = $bdd->lastInsertId();
+    $_POST['id'] = $last_id;
+
+
 }
+
 
 
 $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =1");
@@ -67,12 +74,40 @@ foreach ($test as $rows) {
             $insert = $bdd->prepare(" UPDATE " . $name . " SET price = " . $result . " WHERE id =" . $last_id);
             $insert->execute([$result]);
 
+            $vide = 'image_vide';
+            $_POST['price'] = $result;
+            $_POST['idUser'] = $_SESSION['id'];
+            $_POST['description'] = "reservation";
+            $_POST['image'] = $vide;
+            $_POST['order_id'] = 0;
+
+
+
+
+
         }
 
         $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =" . $last_id);
         $req->execute();
         $price = $req->fetchAll(PDO::FETCH_ASSOC);
     }
+}
+
+$desc = $bdd->prepare(" DESCRIBE " .$name);
+$desc->execute();
+$try = $desc->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($try as $values){
+
+    //debug($values);
+    if ( $values['Type'] != 'int(11)' && $values['Type'] != 'double' &&  $values['Type'] != 'date' && $values['Type'] != 'time' && $values['Type'] != 'datetime' &&  $values['Type'] != 'timestamp' &&  $values['Type'] != 'float' ){
+
+            $_POST[$values['Field']] = "'".$_POST[$values['Field']]."'";
+     }
+    $req = $bdd->prepare(" UPDATE " . $name . " SET " . $values['Field'] . "= " . $_POST[$values['Field']] . " WHERE id = " . $last_id);
+    //debug($req);
+    $req->execute([$_POST[$values['Field']]]);
+
 }
 
 
@@ -98,14 +133,14 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
                <td>' . $rows["name"] . '</td>
                <td>' . $rows["heureSemaine"] . '</td>
                <td align="right"> ' . $constprice . '€</td>
-               <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
+               <td align="right"> ' . $rows["price"]. '€</td>
               </tr>
 
             ';
         }
 
     }
-    $result_cmd = number_format($rows['price']);
+    $result_cmd = $rows['price'];
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 
@@ -141,14 +176,14 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <td>' . $dateDif . '</td>
 
    <td align="right"> ' . $constprice . '€</td>
-   <td align="right"> ' . number_format($rows["price"], 2) . '€</td>
+   <td align="right"> ' . $rows["price"] . '€</td>
   </tr>
 
             ';
         }
 
     }
-    $result_cmd = number_format($rows['price']);
+    $result_cmd = $rows['price'];
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 }

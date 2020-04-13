@@ -204,8 +204,8 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-                        <input type="hidden" id="postalCode" value="<?= $_POST['postalCode'] ?>">
-                        <input type="hidden" id="city" value="<?= $_POST['city'] ?>">
+
+
 
                         <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $rows['serviceName']; ?>">
                             <div class="card text-center box" style=""><br>

@@ -97,8 +97,15 @@ $req2->execute();
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>
                         <input type="hidden" name="name" value="<?= $_POST['name'] ?>">
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="price" value="">
+                        <input type="hidden" name="description" value="">
+                        <input type="hidden" name="image" value="">
+
+
+
+
                         <center><input type="submit" value="Valider" class="btn btn-primary"></center>
                         </br>
                     </form>
