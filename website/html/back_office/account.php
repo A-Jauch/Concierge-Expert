@@ -199,12 +199,7 @@ $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
 
                 //debug($info);
                 //debug($res2);
-
                 ?>
-
-
-
-
 
 
                         <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $rows['serviceName']; ?>">
