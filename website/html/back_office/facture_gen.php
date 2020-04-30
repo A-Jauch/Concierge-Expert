@@ -124,6 +124,7 @@ include '../config.php';
             pdf.addPage();
             pdf.save('Commande_' + order_id + '.pdf');
 
+
         }
         genPDF();
 </script>

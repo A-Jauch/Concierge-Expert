@@ -46,7 +46,11 @@ include 'searchSubcategories.php';
 
     <br>
   <center>
-    <input class="form-control col-md-3" id="searchService" type="text" placeholder="Chercher un service" aria-label="Search">
+      <center>
+      <a href="webGL/exemple/projet.html"><button class="btn btn-primary" > Visualisation de service en 3D</button></a>
+      </center>
+      <br>
+      <input class="form-control col-md-3" id="searchService" type="text" placeholder="Chercher un service" aria-label="Search">
     <br>
     <button class="btn btn-warning" onclick="search()">Rechercher</button>
   <br></center>
