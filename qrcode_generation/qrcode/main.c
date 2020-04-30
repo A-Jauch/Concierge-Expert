@@ -48,7 +48,7 @@ const char *receiveFirstName,
         *receiveJob,
         *receivePhoneNumber;
 
-const char *path = "../receive_qrcode/qr_code_1.png";
+const char *path = "..\receive_qrcode\qr_code_1.png";
 
 //GTK Entry Function
 
