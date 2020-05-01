@@ -61,7 +61,7 @@ include 'searchSubcategories.php';
         <div class="row">
     <?php
         $sc = searchSubcategories();
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < sizeof($sc); $i++) {
             echo '<div class="col-lg-3 col-sm-6 col-xs-12">';
               echo '<div class="card text-center box" style="width: 15rem;">';
                 echo '<center><img class="size" width="100px" height="100px" src="back_office/' . $sc[$i][1] . '"></center>';
