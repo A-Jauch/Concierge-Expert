@@ -157,7 +157,12 @@ include 'config.php';
                             <p class="card-text" style="text-align: center">Possibilités de réservation <?= $row['daysWeek']; ?>j/7 de <?= $hourStart; ?>h<?= $minuteStart; ?> à <?= $hourEnd; ?>h<?= $minuteEnd; ?></p>
                             <p class="card-text" style="text-align: center"><?= $row['hoursMonth']; ?>h de services/mois</p>
                             <center><a href="subscription/valid_subscription.php?subscription=<?= $row['name']; ?>" class="btn btn-primary">S'abonner</a>
+                              <?php
+                                $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
+                                if ($connected) {
+                              ?>
                             <input type="button" value="X" class="btn btn-danger" onclick="deleteSubscription('<?= $row['name'] ?>')"></center>
+                              <?php } ?>
                         </div>
                       </div>
                     </div>

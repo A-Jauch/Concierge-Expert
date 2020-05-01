@@ -71,11 +71,14 @@ $req2->execute();
                                             $test->execute();
                                             $test2=$test->fetchAll(PDO::FETCH_ASSOC);
                                             $res = $test->getColumnMeta(0);
-                                            if ($res['native_type'] == "VAR_STRING" && $res['native_type'] == "BLOB") {
+                                            if ($res['native_type'] == "VAR_STRING" || $res['native_type'] == "BLOB") {
                                                 $res['native_type'] = "TEXT";
                                             }
                                             if ($res['native_type'] == "TIMESTAMP") {
                                                 $res['native_type'] = "TIME";
+                                            }
+                                            if ($res['native_type'] == "DOUBLE" || $res['native_type'] == "LONG") {
+                                                $res['native_type'] = "NUMBER";
                                             }
                                             $i++;
                                             if ($i > 5){

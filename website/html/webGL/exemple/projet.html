@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>World Toy</title>
+	<title>Babysitter 3D</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link type="text/css" rel="stylesheet" href="main.css">
@@ -94,7 +94,7 @@
 
 		var pi = Math.PI;
 
-    var centre;
+    var centre,controls;
     var wallGroup, doorGroup;
 
 
@@ -127,6 +127,7 @@
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 );
 				camera.position.set( 1000, 1200, 1000 );
 				camera.lookAt( 0, 400, 0 );
+
 
 				var listener = new THREE.AudioListener();
 				camera.add( listener );
@@ -213,10 +214,12 @@
         container.appendChild( stats.dom );
 
 				orbit = new OrbitControls( camera, renderer.domElement );
-				orbit.update();
+				orbit.enableZoom = false;
+				//orbit.update();
 
 
 				objects.push(wall(), ground(), office(), bed(), door(),bookCase(),dresser());
+
 
 
     }
@@ -240,7 +243,7 @@
 				if(mixer){mixer.update(delta);}
 				if(mixer2){mixer2.update(delta);}
 
-				//controls.update( delta );
+				orbit.update();
 
         renderer.render( scene, camera );
         stats.update();

@@ -145,6 +145,26 @@ $req2->execute(array($_SESSION['id']));
 $res2 = $req2->fetchAll(PDO::FETCH_ASSOC);
 
 
+if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
+
+$desc = $bdd->prepare(" DESCRIBE " .$name);
+$desc->execute();
+$try = $desc->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($try as $values){
+
+        //debug($values);
+        if ( $values['Type'] != 'int(11)' && $values['Type'] != 'double' &&  $values['Type'] != 'date' && $values['Type'] != 'time' && $values['Type'] != 'datetime' &&  $values['Type'] != 'timestamp' &&  $values['Type'] != 'float' ){
+
+            $_POST[$values['Field']] = "'".$_POST[$values['Field']]."'";
+        }
+        $req = $bdd->prepare(" UPDATE " . $name . " SET " . $values['Field'] . "= " . $_POST[$values['Field']] . " WHERE id = " . $last_id);
+        //debug($req);
+        $req->execute([$_POST[$values['Field']]]);
+
+    }
+}
+
 
 ?>
 <main></br>

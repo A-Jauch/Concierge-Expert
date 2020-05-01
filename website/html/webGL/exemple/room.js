@@ -43,16 +43,17 @@ function ground(){
 				var material3 = new THREE.MeshBasicMaterial( {map: ground_texture} );
         var ground = new THREE.Group();
 
-        var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), material3);
+        var mesh = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 1450 ), material3);
         mesh.rotation.x = - Math.PI / 2;
         mesh.receiveShadow = true;
 				//mesh.scale.z = -10;
         ground.add( mesh );
+				mesh.position.z = 325;
 
-       var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+       /*var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
         grid.material.opacity = 0.5;
         grid.material.transparent = true;
-        ground.add( grid );
+        ground.add( grid );*/
 
          // center
         var geometry = new THREE.CylinderBufferGeometry( 5, 5, 1000, 32 );
