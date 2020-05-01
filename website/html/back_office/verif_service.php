@@ -25,7 +25,12 @@ if (isset($_FILES['image']) && !empty($_FILES['image'])) {
                 //Insertion en bdd
 
                 $addIndex = $_POST['addIndex'];
-                $nameCategorie = $_POST['name'];
+
+                if( strpos($_POST['name']," ") != FALSE ){
+                  $nameCategorie = str_replace(" ","_",$_POST['name']);
+                }else{
+                  $nameCategorie = $_POST['name'];
+                }
 
                 $myService = new Service($nameCategorie,$fileDestination,$addIndex);
                 $myService->getName();echo '<br>';

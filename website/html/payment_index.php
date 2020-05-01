@@ -81,10 +81,6 @@ foreach ($test as $rows) {
             $_POST['image'] = $vide;
             $_POST['order_id'] = 0;
 
-
-
-
-
         }
 
         $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =" . $last_id);
@@ -133,14 +129,14 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
                <td>' . $rows["name"] . '</td>
                <td>' . $rows["heureSemaine"] . '</td>
                <td align="right"> ' . $constprice . '€</td>
-               <td align="right"> ' . $rows["price"]. '€</td>
+               <td align="right"> ' . number_format($rows["price"],2,".",'') . '€</td>
               </tr>
 
             ';
         }
 
     }
-    $result_cmd = $rows['price'];
+    $result_cmd = number_format($rows["price"],2,".",'');
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 
@@ -176,14 +172,14 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <td>' . $dateDif . '</td>
 
    <td align="right"> ' . $constprice . '€</td>
-   <td align="right"> ' . $rows["price"] . '€</td>
+   <td align="right"> ' . number_format($rows["price"],2,".",'') . '€</td>
   </tr>
 
             ';
         }
 
     }
-    $result_cmd = $rows['price'];
+    $result_cmd = number_format($rows["price"],2,".",'');
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 }

@@ -75,7 +75,7 @@ include 'config.php';
 
                   if ($req2->rowCount() > 0) {
                     while ($row = $req2->fetch(PDO::FETCH_ASSOC)) {
-                      if( $row['name'] == 'Abonnement Premium' || $row['name'] == 'Abonnement Familial' || $row['name'] == 'Abonnement de base' ){?>
+                      if( $row['name'] == 'Abonnement Premium' || $row['name'] == 'Abonnement Familial' || $row['name'] == 'Abonnement de base' ){ ?>
 
 
                         <div class="col-lg-4 col-sm-6 col-xs-12" id="<?= $row['name']; ?>">

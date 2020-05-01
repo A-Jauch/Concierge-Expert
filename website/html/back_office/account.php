@@ -22,7 +22,7 @@
                             <li><a href="../../index.php">Accueil</a></li>
                             <li><a href="../service.php">Services</a></li>
                             <a href="../../index.php" id="logo"><img src="../../img/logo.png" width="150px" alt="logo"></a>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="../subscription.php">Abonnement</a></li>
                             <?php
                             $connected = isset($_SESSION['mail']) ? true : false;
                             if ($connected) { ?>
