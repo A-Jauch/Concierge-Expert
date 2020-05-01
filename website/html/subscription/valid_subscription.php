@@ -16,29 +16,12 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
     $req2->execute(array($_GET['subscription']));
     $res2 = $req2->fetch();
 
-
-    if(empty($res)) {
-        $date = date('Y-m-d');
-        $req = $bdd -> prepare('INSERT INTO subscription(subscriptionType,idUser,dateStart,price) VALUES (:subscriptionType, :idUser, :dateStart,:price)');
-        $req -> execute(array(
-                'subscriptionType' => $_GET['subscription'],
-                'idUser' => $_SESSION['id'],
-                'dateStart' => $date,
-                'price' => $res2['price']
-
-            )
-        );
-        $last_id = $bdd->lastInsertId();
-       // $result_cmd = $res2['price'];
-        $item_details = $_GET['subscription'];
-
-
-       // echo 'ok';
-    } else {
+    if (!empty($res)){
         header('location: ../subscription.php?error=subscribed');
         exit;
     }
-} else {
+
+}else {
     header('location: ../subscription.php?error=connected');
     exit;
 } ?>
@@ -142,7 +125,7 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
         <div class="panel-heading">Information de paiement</div>
 
         <div class="panel-body">
-            <form method="post" id="order_process_form" action="../back_office/payment.php">
+            <form method="post" id="order_process_form" action="../back_office/payment.php?subscription=<?= $_GET['subscription']; ?>">
                 <div class="row">
                     <div class="col-md-8" style="border-right:1px solid #ddd;">
                         <h4 align="center">Details client</h4>
@@ -246,7 +229,6 @@ if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
                             <?php // debug($result_cmd);?>
                             <input type="hidden" name="currency" value="EUR"/>
                             <input type="hidden" name="item_details" value="<?php echo $item_details; ?>"/>
-                            <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>
 
                             <input type="submit" name="button_action" id="button_action" class="btn btn-success btn-sm"
                                  onclick="stripePay(event)"  value="Payer"/>

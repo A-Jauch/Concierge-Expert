@@ -6,8 +6,41 @@ function debug($variable)
     echo '<pre>' . print_r($variable, true) . '</pre>';
 }
 
+
+
 include '../config.php';
+
+
+
+
+
+
+
 if (isset($_POST['token'])){
+
+    if(isset($_SESSION['mail']) && !empty($_SESSION['mail'])) {
+        $req = $bdd -> prepare('SELECT id FROM subscription WHERE idUser = ?');
+        $req->execute(array($_SESSION['id']));
+        $res = $req->fetch();
+
+        $req2 = $bdd -> prepare('SELECT price FROM subscription_type WHERE name = ?');
+        $req2->execute(array($_GET['subscription']));
+        $res2 = $req2->fetch();
+
+
+        if(empty($res)) {
+            $date = date('Y-m-d');
+            $req = $bdd->prepare('INSERT INTO subscription(subscriptionType,idUser,dateStart,price) VALUES (:subscriptionType, :idUser, :dateStart,:price)');
+            $req->execute(array(
+                    'subscriptionType' => $_GET['subscription'],
+                    'idUser' => $_SESSION['id'],
+                    'dateStart' => $date,
+                    'price' => $res2['price']
+
+                )
+            );
+
+        }}
     require_once 'stripe/init.php';
     \Stripe\Stripe::setApiKey('sk_test_feqSYFv1Ln99D1PmBxpM4BZO00V6nPwdcS');
 
@@ -75,17 +108,17 @@ if (isset($_POST['token'])){
             $order_id = $bdd->lastInsertId();
 
 
-
             /*    debug($_POST);
                 debug($_SESSION);
                 debug($req);*/
 
+           $req2=$bdd->prepare("UPDATE " . $_POST['item_details'] . " SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
+            $req2->execute();
 
-               $req2=$bdd->prepare("UPDATE " . $_POST['item_details'] . " SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
-               $req2->execute();
-
-
-            $req3=$bdd->prepare("UPDATE subscription SET order_id = " . $order_id . " WHERE id =" .$_POST['last_id']);
+            $req = $bdd -> prepare('SELECT id FROM subscription WHERE idUser = ?');
+            $req->execute(array($_SESSION['id']));
+            $res = $req->fetch();
+            $req3=$bdd->prepare("UPDATE subscription SET order_id = " . $order_id . " WHERE id =" .$res['id']);
 
             $req3->execute();
 

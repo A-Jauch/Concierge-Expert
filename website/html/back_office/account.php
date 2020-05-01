@@ -63,6 +63,11 @@ $req5->execute(array($_SESSION['id']));
 $res5 = $req5->fetchAll(PDO::FETCH_ASSOC);
 
 
+
+
+
+
+
 if (isset($_POST['name'])) {
     $name = $_POST['name'];
 
@@ -177,13 +182,14 @@ $try = $desc->fetchAll(PDO::FETCH_ASSOC);
                     {
                         //$req=$bdd->query('SELECT subscriptionType FROM SUBSCRIPTION WHERE idUser =' . $_SESSION['id']);
                         //$subscription = $req->fetch(PDO::FETCH_ASSOC);
+                        echo 'Bonjour Mr/Mme : <b>' . $res5[0]['firstName'] . " " . $res5[0]['lastName'] . '</b><br>';
                         foreach ($res as $abo){
 
                             $req4 = $bdd -> prepare('SELECT order_number FROM order_table WHERE order_id = ?');
                             $req4->execute(array($abo['order_id']));
                             $res4 = $req4->fetch(PDO::FETCH_ASSOC);
 
-                            echo 'Bonjour Mr/Mme : <b>' . $res5[0]['firstName'] . " " . $res5[0]['lastName'] . '</b><br>';
+
                             echo 'Abonnement actuel pour votre compte : <b>' . $abo['subscriptionType'] . '</b><br>';
                             echo 'Début le : <b>' . $abo['dateStart'] . '</b><br></center>';
 
