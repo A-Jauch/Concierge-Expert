@@ -253,7 +253,7 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label><b>Vile <span class="text-danger">*</span></b></label>
+                                    <label><b>Ville <span class="text-danger">*</span></b></label>
                                     <input type="text" name="customer_city" id="customer_city" class="form-control"
                                            value=""/>
                                     <span id="error_customer_city" class="text-danger"></span>

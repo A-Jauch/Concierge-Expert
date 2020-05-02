@@ -83,12 +83,20 @@ include 'html/delay.php';
                                 <h5 class="card-title"><?= '<h3><b>' . str_replace('_',' ',$row['name']) . '</b></h3>'; ?></h5>
                                 <form action="html/reservation.php" method="post">
                                   <input type="hidden" name="name" value="<?= $row['name']; ?>">
-                                  <input type="submit" value="Visionner" class="btn btn-primary"><?php
+                                  <?php
+                                    $connected = isset($_SESSION['mail']) ? true : false;
+                                    if ($connected) { ?>
+                                  <input type="submit" value="Visionner" class="btn btn-primary">
+                                <?php } else { ?>
+                                  <a href="html/connection.php" class="btn btn-success">Connectez-vous</a>
+                                <?php } ?>
+
+                                  <?php
                                     $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
                                     if ($connected) {
                                   ?>
                                   <input type="button" value="X" class="btn btn-danger" onclick="deleteService('<?= $row['name'] ?>')">
-                                  <?php } ?>
+                                  <?php }  ?>
                                 </form>
                             </div>
                         </div>
