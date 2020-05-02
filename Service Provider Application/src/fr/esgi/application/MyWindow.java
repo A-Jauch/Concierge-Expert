@@ -2,18 +2,23 @@ package fr.esgi.application;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.ImageObserver;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.AttributedCharacterIterator;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
 import java.sql.*;
 import java.util.Random;
 
 public class MyWindow extends JFrame {
+
+     JList<String> list;
+     DefaultListModel<String> model;
+
+     JList<String> list2;
+     DefaultListModel<String> model2;
+
+    JList<String> list3;
+    DefaultListModel<String> model3;
 
     public MyWindow(String[] clientsList, String[] nameJobs, String[] serviceProviderName, String[] serviceName, String[] listInterventions) {
 
@@ -42,7 +47,26 @@ public class MyWindow extends JFrame {
         btnJob.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                printServiceProvider(jobList,serviceProviderName,contentPane);
+                System.out.println("###########################################");
+                if( model2 != null && list2 != null){
+                    model2.clear();
+                    getContentPane().remove(list2);
+                }
+                model2 = new DefaultListModel<>();
+                list2 = new JList(model2);
+                ArrayList<String> items2 = new ArrayList<String>(printServiceProvider(jobList,serviceProviderName));
+                for (int i = 0; i < items2.size(); i++) {
+                    System.out.println("ITEM PRESTATAIRE[" + i + "] --> " + items2.get(i));
+                    model2.addElement(items2.get(i));
+                }
+                list2.setBounds(50,100,180,480);
+
+                JScrollPane scrollPane = new JScrollPane(list2);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                contentPane.add(scrollPane);
+
+                contentPane.add(list2);
+                contentPane.repaint();
             }
         });
 
@@ -64,10 +88,25 @@ public class MyWindow extends JFrame {
         btnService.setBounds(560,30,50,30);
         btnService.setBackground(new Color(242, 92, 5));
         contentPane.add( btnService );
+
         btnService.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                printClients(serviceList,clientsList,serviceName,contentPane);
+                System.out.println("###########################################");
+                if( model != null && list != null){
+                    model.clear();
+                    getContentPane().remove(list);
+                }
+                model = new DefaultListModel<>();
+                list = new JList(model);
+                ArrayList<String> items = new ArrayList<String>(printClients(serviceList,clientsList,serviceName));
+                for (int i = 0; i < items.size(); i++) {
+                    System.out.println("ITEM CLIENT[" + i + "] --> " + items.get(i));
+                    model.addElement(items.get(i));
+                }
+                list.setBounds(370,100,180,480);
+                contentPane.add(list);
+                contentPane.repaint();
             }
         });
 
@@ -75,15 +114,6 @@ public class MyWindow extends JFrame {
         JLabel lbClient = new JLabel("Choisir un client:");
         lbClient.setBounds(410,65,160,30);
         contentPane.add( lbClient );
-
-        //CHOIX CLIENT AND PRESTATAIRE
-        JList<String> list = printClients(serviceList, clientsList, serviceName, contentPane);
-        list.setBounds(370,100,220,480);
-        contentPane.add(list);
-
-        JList<String> list2 = printServiceProvider(jobList,serviceProviderName,contentPane);
-        list2.setBounds(50,100,180,480);
-        contentPane.add(list2);
 
         JButton btnAssignation = new JButton("Assigner");
         btnAssignation.setBounds(220,600,160,30);
@@ -93,6 +123,7 @@ public class MyWindow extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                System.out.println("###########################################");
                 String[] newName;
 
                 try {
@@ -135,10 +166,20 @@ public class MyWindow extends JFrame {
                             idUsers = clientsId.getInt("id");
                         }
 
-                        ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser =  '" + idUsers + "'");
-                        while (reservationId.next()) {
-                            idReserv = reservationId.getInt("id");
-                            System.out.println("ID RESERVATION : " + reservationId.getInt("id"));
+                        if(serviceSelected.equals("Tous les services")){
+                            for (int i = 1; i < serviceName.length; i++) {
+                                ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceName[i] + " WHERE idUser =  '" + idUsers + "'");
+                                while (reservationId.next()) {
+                                    idReserv = reservationId.getInt("id");
+                                    System.out.println("ID RESERVATION : " + reservationId.getInt("id"));
+                                }
+                            }
+                        }else{
+                            ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser =  '" + idUsers + "'");
+                            while (reservationId.next()) {
+                                idReserv = reservationId.getInt("id");
+                                System.out.println("ID RESERVATION : " + reservationId.getInt("id"));
+                            }
                         }
 
                         String sql = ("INSERT INTO intervention(spName,clientName,numberReservation,serviceName,idReservation) VALUES(?,?,?,?,?)");
@@ -190,19 +231,23 @@ public class MyWindow extends JFrame {
                 btnText.addActionListener( new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
-                        ArrayList<String> itemsIntervention = new ArrayList<String>();
-                        try {
-                            //Connection to database
-                            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                                    "tedanvi",
-                                    "kLKLxEe8M1EfOdvG");
-
+                        System.out.println("###########################################");
                         String inputValue = textField.getText();
-                        getHistorique(contentPane2,inputValue,serviceName);
 
-                        } catch (Exception exc) {
-                            exc.printStackTrace();
+                        if( model3 != null && list3 != null){
+                            model3.clear();
+                            getContentPane().remove(list3);
                         }
+                        model3 = new DefaultListModel<>();
+                        list3 = new JList(model3);
+                        ArrayList<String> items3 = new ArrayList<String>(getHistorique(contentPane2,inputValue,serviceName));
+                        for (int i = 0; i < items3.size(); i++) {
+                            System.out.println("ITEM RESERVATION[" + i + "] --> " + items3.get(i));
+                            model3.addElement(items3.get(i));
+                        }
+                        list3.setBounds(90,130,700,300);
+                        contentPane2.add(list3);
+                        contentPane2.repaint();
                     }
                 });
             }
@@ -233,8 +278,7 @@ public class MyWindow extends JFrame {
         return jobLength;
     }
 
-    public static JList<String> printServiceProvider(JComboBox jobList, String[] serviceProviderName, JPanel contentPane){
-        System.out.println("###########################################");
+    public static ArrayList<String> printServiceProvider(JComboBox jobList, String[] serviceProviderName){
         ArrayList<String> items2 = new ArrayList<String>();
         int i = 0;
         try {
@@ -264,7 +308,6 @@ public class MyWindow extends JFrame {
                     while ( serviceProvider.next() ){
                         serviceProviderName[i] = serviceProvider.getString("lastName") + " " + serviceProvider.getString("firstName");
                         items2.add(serviceProviderName[i]);
-                        System.out.println(serviceProviderName[i]);
                         i++;
                     }
                 }
@@ -282,7 +325,6 @@ public class MyWindow extends JFrame {
                 while (serviceProvider.next()) {
                     serviceProviderName[i] = serviceProvider.getString("lastName") + " " + serviceProvider.getString("firstName");
                     items2.add(serviceProviderName[i]);
-                    System.out.println(serviceProviderName[i]);
                     i++;
                 }
             }
@@ -291,15 +333,10 @@ public class MyWindow extends JFrame {
             exc.printStackTrace();
         }
 
-        final JList<String> list2 = new JList(items2.toArray());
-        list2.setBounds(50,100,180,480);
-        contentPane.add(list2);
-        list2.repaint();
-
-        return list2;
+        return items2;
     }
 
-    public static JList<String> printClients(JComboBox serviceList, String[] clientsList, String[] serviceName, JPanel contentPane){
+    public static ArrayList<String> printClients(JComboBox serviceList, String[] clientsList, String[] serviceName){
         ArrayList<String> items = new ArrayList<String>();
         int i = 0;
         int[] listClients = new int[clientsList.length];
@@ -360,12 +397,7 @@ public class MyWindow extends JFrame {
             exc.printStackTrace();
         }
 
-        final JList<String> list = new JList(items.toArray());
-        list.setBounds(370,100,180,480);
-        contentPane.add(list);
-        list.repaint();
-
-        return list;
+        return items;
     }
 
     public static JFrame createFrame() {
@@ -378,7 +410,7 @@ public class MyWindow extends JFrame {
             return frame;
     }
 
-    public static JList<String> getHistorique(JPanel contentPane2, String inputValue,String[] serviceName){
+    public static ArrayList<String> getHistorique(JPanel contentPane2, String inputValue,String[] serviceName){
         ArrayList<String> items = new ArrayList<String>();
         String[] interventions;
         String[] interventionsService;
@@ -432,7 +464,7 @@ public class MyWindow extends JFrame {
                 ResultSet findServices = req.executeQuery("SELECT * FROM " + serviceName[k]);
                 while (findServices.next()) {
                     for (int i = 0; i < interventionLength; i++) {
-                        if ( findServices.getInt("idUser") == idUsersReservation[i] && findServices.getString("name").equals(interventionsService[i]) && findServices.getInt("id") == interventionsId[i]  ){
+                        if ( findServices.getInt("idUser") == idUsersReservation[i] && findServices.getString("name").equals(interventionsService[i]) && findServices.getInt("id") == interventionsId[i]  && findServices.getInt("order_id") != 0 ){
                             interventionsName[i] = findServices.getString("name");
                             interventionsDate[i] = findServices.getDate("date");
                             interventionsTime[i] = findServices.getTime("heureSemaine");
@@ -447,12 +479,7 @@ public class MyWindow extends JFrame {
                 exc.printStackTrace();
         }
 
-        final JList<String> listHistoric = new JList(items.toArray());
-        listHistoric.setBounds(150,130,800,480);
-        contentPane2.add(listHistoric);
-        listHistoric.updateUI();
-
-        return listHistoric;
+        return items;
     }
 
 }
