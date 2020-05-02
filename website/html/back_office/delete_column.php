@@ -2,7 +2,6 @@
   include '../config.php';
 
   $nameCategorie = $_POST['nameCategorie'];
-  var_dump($_POST);
   $array = $_POST['array']; //récupération de tous les éléments le la liste 3
   $newArray = explode(',',$array); //stockage dans un nouveau tableau
 

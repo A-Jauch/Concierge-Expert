@@ -1,5 +1,7 @@
 <?php session_start();
-include 'html/config.php'; ?>
+include 'html/config.php';
+include 'html/delay.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,6 +93,7 @@ include 'html/config.php'; ?>
                             </div>
                         </div>
                     </div>
+
                 <?php } ?>
             <?php } ?>
         </div>

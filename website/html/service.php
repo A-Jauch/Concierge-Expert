@@ -2,6 +2,7 @@
 session_start();
 include 'config.php';
 include 'searchSubcategories.php';
+include 'delay.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,14 +70,14 @@ include 'searchSubcategories.php';
                 echo '<div class="card-body">';
                 echo '<h5 class="card-title"><h4><b>'. str_replace('_',' ',$sc[$i][0]) . '</h4></b></h5>';
                   echo '<form style="text-align: center" action="subcategory.php" method="post">';
-                      echo '<input type="hidden" name="categorie" value="' . $sc[$i][2] . '">';
+                    echo '<input type="hidden" name="categorie" value="' . $sc[$i][2] . '">';
                       echo '<input type="hidden" name="name" value="' . $sc[$i][0] . '">';
                       $connected = isset($_SESSION['mail']) ? true : false;
-                      if ($connected) {
-                        echo '<input type="submit" value="Réserver" class="btn btn-success">';
-                      } else {
-                        echo '<a href="connection.php" class="btn btn-success">Connectez-vous</a>';
-                      }
+                        if ($connected) {
+                          echo '<input type="submit" value="Réserver" class="btn btn-success">';
+                        } else {
+                          echo '<a href="connection.php" class="btn btn-success">Connectez-vous</a>';
+                        }
                   echo '</form>';
                 echo '<br>';
                 echo '</div>';
