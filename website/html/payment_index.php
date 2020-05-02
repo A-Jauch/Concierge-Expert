@@ -1,49 +1,37 @@
 <?php session_start();
-include 'config.php';
-$name = $_POST['name'];
 
-$constprice = 0;
-function debug($variable)
-{
-    echo '<pre>' . print_r($variable, true) . '</pre>';
-}
+  include 'config.php';
+  $name = $_POST['name'];
+  $constprice = 0;
 
-if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
+  function debug($variable)
+  {
+      echo '<pre>' . print_r($variable, true) . '</pre>';
+  }
 
-    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,date,name,idUser)" . "VALUES (?,?,?,?)");
+  if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
+      $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,date,name,idUser)" . "VALUES (?,?,?,?)");
+      $insert->execute([$_POST['heureSemaine'], $_POST['date'], $name, $_SESSION['id']]);
+      $last_id = $bdd->lastInsertId();
+      $_POST['id'] = $last_id;
+      debug($_POST['date']);
+  }
 
-    $insert->execute([$_POST['heureSemaine'], $_POST['date'], $name, $_SESSION['id']]);
-    $last_id = $bdd->lastInsertId();
-    $_POST['id'] = $last_id;
+  if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
+      $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name,idUser)" . "VALUES (?,?,?,?,?)");
+      $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name , $_SESSION['id']]);
+      $last_id = $bdd->lastInsertId();
+      $_POST['id'] = $last_id;
+  }
 
-
-}
-
-if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
-
-    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name,idUser)" . "VALUES (?,?,?,?,?)");
-
-    $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name , $_SESSION['id']]);
-    $last_id = $bdd->lastInsertId();
-    $_POST['id'] = $last_id;
-
-
-}
-
-
-
-$req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =1");
-$req->execute();
-$test = $req->fetchAll(PDO::FETCH_ASSOC);
-$constprice = $test[0]['price'];
+  $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =1");
+  $req->execute();
+  $test = $req->fetchAll(PDO::FETCH_ASSOC);
+  $constprice = $test[0]['price'];
 ?>
 
 <?php
-
-
 foreach ($test as $rows) {
-
-
 
     $hour = strtotime($_POST['heureSemaine']);
 
@@ -80,11 +68,6 @@ foreach ($test as $rows) {
             $_POST['description'] = "reservation";
             $_POST['image'] = $vide;
             $_POST['order_id'] = 0;
-
-
-
-
-
         }
 
         $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =" . $last_id);
@@ -117,8 +100,8 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
     $item_details = '';
 
     $order_details = '
-<div class="table-responsive" id="order_table">
- <table class="table table-bordered table-striped">
+  <div class="table-responsive" id="order_table">
+   <table class="table table-bordered table-striped">
       <tr>
         <th>Nom Service</th>
         <th>Nombre Heures Au Jour</th>
@@ -202,8 +185,6 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <script src="js/jquery.creditCardValidator.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-
-
 
     <title>Payment Home</title>
 </head>
