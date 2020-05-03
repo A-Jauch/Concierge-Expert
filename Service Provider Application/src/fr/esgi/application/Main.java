@@ -14,8 +14,8 @@ public class Main {
         String[] nameJobs = new String[getSizeJob() + 1];
         String[] serviceProviderName = new String[getSizeServiceProvider() + 1];
         String[] categoryName = new String[getSizeCategory()];
-        String[] serviceName = new String[getSizeService(categoryName) + 1];
-        String[] listIdUser = new String[getSizeReservation(categoryName,serviceName)];
+        String[] serviceName = new String[getSizeService(categoryName)];
+        String[] listIdUser = new String[getSizeReservation(categoryName,serviceName)+1];
         String[] listIdNomiation = new String[listIdUser.length];
         String[] listInterventions = new String[getListInterventions()];
 
@@ -59,8 +59,8 @@ public class Main {
             }
 
 
-            serviceName[0] = "Tous les services";
-            i = 1;
+            //serviceName[1] = "Tous les services";
+            i = 0;
             //Get Service's name
             for (j = 0; j < categoryName.length; j++) {
                 ResultSet service = req.executeQuery("SELECT * FROM " + categoryName[j]);
@@ -72,7 +72,7 @@ public class Main {
             i = 0;
 
             //Get idUser
-            for (j = 1; j < serviceName.length ; j++) {
+            for (j = 0; j < serviceName.length; j++) {
                 ResultSet idUserName = req.executeQuery("SELECT * FROM " + serviceName[j] + " WHERE idUser IS NOT NULL ");
                 while ( idUserName.next() ) {
                     listIdUser[i] = idUserName.getString("idUser");
@@ -112,14 +112,14 @@ public class Main {
             //Connection to database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "tedanvi", "kLKLxEe8M1EfOdvG");
 
-                //Create statement
-                Statement req = con.createStatement();
+            //Create statement
+            Statement req = con.createStatement();
 
-                //Get column table client
-                ResultSet sizeClient = req.executeQuery("SELECT COUNT(*) FROM client");
-                while (sizeClient.next()) {
-                    clientLength = sizeClient.getInt(1);
-                }
+            //Get column table client
+            ResultSet sizeClient = req.executeQuery("SELECT COUNT(*) FROM client");
+            while (sizeClient.next()) {
+                clientLength = sizeClient.getInt(1);
+            }
 
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -135,14 +135,14 @@ public class Main {
             //Connection to database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "tedanvi", "kLKLxEe8M1EfOdvG");
 
-                //Create statement
-                Statement req = con.createStatement();
+            //Create statement
+            Statement req = con.createStatement();
 
-                //Get column table job
-                ResultSet sizeJob = req.executeQuery("SELECT COUNT(*) FROM job");
-                        while (sizeJob.next()) {
-                    jobLength = sizeJob.getInt(1);
-                }
+            //Get column table job
+            ResultSet sizeJob = req.executeQuery("SELECT COUNT(*) FROM job");
+            while (sizeJob.next()) {
+                jobLength = sizeJob.getInt(1);
+            }
 
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -158,14 +158,14 @@ public class Main {
             //Connection to database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "tedanvi", "kLKLxEe8M1EfOdvG");
 
-                //Create statement
-                Statement req = con.createStatement();
+            //Create statement
+            Statement req = con.createStatement();
 
-                //Get column table serviceprovider
-                ResultSet sizeServiceProvider = req.executeQuery("SELECT COUNT(*) FROM job");
-                        while (sizeServiceProvider.next()) {
-                    ServiceProviderLength = sizeServiceProvider.getInt(1);
-                }
+            //Get column table serviceprovider
+            ResultSet sizeServiceProvider = req.executeQuery("SELECT COUNT(*) FROM job");
+            while (sizeServiceProvider.next()) {
+                ServiceProviderLength = sizeServiceProvider.getInt(1);
+            }
 
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -181,14 +181,14 @@ public class Main {
             //Connection to database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "tedanvi", "kLKLxEe8M1EfOdvG");
 
-                //Create statement
-                Statement req = con.createStatement();
+            //Create statement
+            Statement req = con.createStatement();
 
-                //Get column table service
-                ResultSet sizeService = req.executeQuery("SELECT COUNT(*) FROM service");
-                while ( sizeService.next() ) {
-                    serviceLength = sizeService.getInt(1);
-                }
+            //Get column table service
+            ResultSet sizeService = req.executeQuery("SELECT COUNT(*) FROM service");
+            while ( sizeService.next() ) {
+                serviceLength = sizeService.getInt(1);
+            }
 
         } catch (Exception exc) {
             exc.printStackTrace();
@@ -205,23 +205,23 @@ public class Main {
             //Connection to database
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "tedanvi", "kLKLxEe8M1EfOdvG");
 
-                //Create statement
-                Statement req = con.createStatement();
+            //Create statement
+            Statement req = con.createStatement();
 
-                ResultSet category = req.executeQuery("SELECT * FROM SERVICE");
-                //Show results Jobs
-                while (category.next()) {
-                    categoryName[i] = category.getString("name");
-                    i++;
-                }
+            ResultSet category = req.executeQuery("SELECT * FROM SERVICE");
+            //Show results Jobs
+            while (category.next()) {
+                categoryName[i] = category.getString("name");
+                i++;
+            }
 
-                //Get column table serviceName
-                for(int j = 0; j < categoryName.length; j++) {
-                    ResultSet sizeServiceName = req.executeQuery("SELECT COUNT(*) FROM " + categoryName[j]);
-                    while ( sizeServiceName.next() ) {
-                        ServiceNameLength += sizeServiceName.getInt(1);
-                    }
+            //Get column table serviceName
+            for(int j = 0; j < categoryName.length; j++) {
+                ResultSet sizeServiceName = req.executeQuery("SELECT COUNT(*) FROM " + categoryName[j]);
+                while ( sizeServiceName.next() ) {
+                    ServiceNameLength += sizeServiceName.getInt(1);
                 }
+            }
 
         } catch (Exception exc) {
             exc.printStackTrace();

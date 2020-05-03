@@ -11,11 +11,11 @@ import java.util.Random;
 
 public class MyWindow extends JFrame {
 
-     JList<String> list;
-     DefaultListModel<String> model;
+    JList<String> list;
+    DefaultListModel<String> model;
 
-     JList<String> list2;
-     DefaultListModel<String> model2;
+    JList<String> list2;
+    DefaultListModel<String> model2;
 
     JList<String> list3;
     DefaultListModel<String> model3;
@@ -47,7 +47,6 @@ public class MyWindow extends JFrame {
         btnJob.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("###########################################");
                 if( model2 != null && list2 != null){
                     model2.clear();
                     getContentPane().remove(list2);
@@ -56,7 +55,6 @@ public class MyWindow extends JFrame {
                 list2 = new JList(model2);
                 ArrayList<String> items2 = new ArrayList<String>(printServiceProvider(jobList,serviceProviderName));
                 for (int i = 0; i < items2.size(); i++) {
-                    System.out.println("ITEM PRESTATAIRE[" + i + "] --> " + items2.get(i));
                     model2.addElement(items2.get(i));
                 }
                 list2.setBounds(50,100,180,480);
@@ -92,7 +90,6 @@ public class MyWindow extends JFrame {
         btnService.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("###########################################");
                 if( model != null && list != null){
                     model.clear();
                     getContentPane().remove(list);
@@ -101,7 +98,6 @@ public class MyWindow extends JFrame {
                 list = new JList(model);
                 ArrayList<String> items = new ArrayList<String>(printClients(serviceList,clientsList,serviceName));
                 for (int i = 0; i < items.size(); i++) {
-                    System.out.println("ITEM CLIENT[" + i + "] --> " + items.get(i));
                     model.addElement(items.get(i));
                 }
                 list.setBounds(370,100,180,480);
@@ -123,7 +119,6 @@ public class MyWindow extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                System.out.println("###########################################");
                 String[] newName;
 
                 try {
@@ -131,18 +126,15 @@ public class MyWindow extends JFrame {
                     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/concierge_expert?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                             "tedanvi",
                             "kLKLxEe8M1EfOdvG");
-                    
+
                     int idUsers = 0;
                     int idReserv = 0;
-                    
+
                     Statement req = con.createStatement();
 
                     String indice = list.getSelectedValue();
                     String indiceBis = list2.getSelectedValue();
                     String serviceSelected = serviceList.getSelectedItem().toString();
-                    System.out.println("CLIENT : " + indice);
-                    System.out.println("SERVICE PROVIDER : " + indiceBis);
-                    System.out.println("SERVICE : " + serviceSelected);
 
                     if( indice == null || indiceBis == null){
                         JLabel lbValidate = new JLabel("Vous devez choisir un prestataire ainsi qu'un client");
@@ -166,20 +158,9 @@ public class MyWindow extends JFrame {
                             idUsers = clientsId.getInt("id");
                         }
 
-                        if(serviceSelected.equals("Tous les services")){
-                            for (int i = 1; i < serviceName.length; i++) {
-                                ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceName[i] + " WHERE idUser =  '" + idUsers + "'");
-                                while (reservationId.next()) {
-                                    idReserv = reservationId.getInt("id");
-                                    System.out.println("ID RESERVATION : " + reservationId.getInt("id"));
-                                }
-                            }
-                        }else{
-                            ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser =  '" + idUsers + "'");
-                            while (reservationId.next()) {
-                                idReserv = reservationId.getInt("id");
-                                System.out.println("ID RESERVATION : " + reservationId.getInt("id"));
-                            }
+                        ResultSet reservationId = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser =  '" + idUsers + "'");
+                        while (reservationId.next()) {
+                            idReserv = reservationId.getInt("id");
                         }
 
                         String sql = ("INSERT INTO intervention(spName,clientName,numberReservation,serviceName,idReservation) VALUES(?,?,?,?,?)");
@@ -213,25 +194,24 @@ public class MyWindow extends JFrame {
                 contentPane2.setBackground(new Color(75, 178, 242));
 
                 JTextField textField = new JTextField();
-                textField.setBounds(300,40,225,35);
+                textField.setBounds(350,40,225,35);
                 contentPane2.add(textField);
 
                 JLabel lbText = new JLabel("Entrez votre nom de famille ainsi que votre prénom");
-                lbText.setBounds(295,11,600,11);
+                lbText.setBounds(340,11,600,11);
                 contentPane2.add( lbText );
 
                 JLabel lbHistorique= new JLabel("Voici ci-dessous votre historique d'interventions : ");
-                lbHistorique.setBounds(290,100,300,11);
+                lbHistorique.setBounds(350,100,300,11);
                 contentPane2.add( lbHistorique );
 
                 JButton btnText = new JButton("OK");
-                btnText.setBounds(540,41,50,30);
+                btnText.setBounds(590,41,50,30);
                 btnText.setBackground(new Color(242, 92, 5));
                 contentPane2.add( btnText );
                 btnText.addActionListener( new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
-                        System.out.println("###########################################");
                         String inputValue = textField.getText();
 
                         if( model3 != null && list3 != null){
@@ -242,10 +222,9 @@ public class MyWindow extends JFrame {
                         list3 = new JList(model3);
                         ArrayList<String> items3 = new ArrayList<String>(getHistorique(contentPane2,inputValue,serviceName));
                         for (int i = 0; i < items3.size(); i++) {
-                            System.out.println("ITEM RESERVATION[" + i + "] --> " + items3.get(i));
                             model3.addElement(items3.get(i));
                         }
-                        list3.setBounds(90,130,700,300);
+                        list3.setBounds(50,130,900,700);
                         contentPane2.add(list3);
                         contentPane2.repaint();
                     }
@@ -351,45 +330,22 @@ public class MyWindow extends JFrame {
 
             String serviceSelected = serviceList.getSelectedItem().toString();
 
-            if(serviceSelected.equals("Tous les services")){
-                for (int j = 1; j < serviceName.length; j++) {
-                    ResultSet clients = req.executeQuery("SELECT * FROM " + serviceName[j] + " WHERE idUser IS NOT NULL");
-                    //Show results Clients
-                    while (clients.next()) {
-                        listClients[i] = clients.getInt("idUser");
-                        listId[i] = clients.getInt("id");
-                        i++;
-                    }
-                }
-                i = 0;
+            ResultSet clients = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser IS NOT NULL");
+            //Show results Clients
+            while (clients.next()) {
+                listClients[i] = clients.getInt("idUser");
+                listId[i] = clients.getInt("id");
+                i++;
+            }
+            i = 0;
 
-                for (int j = 0; j < clientsList.length; j++) {
-                    ResultSet clientsNomination = req.executeQuery("SELECT * FROM client WHERE id = '" + listClients[j] + "'");
-                    //Show results clients
-                    while (clientsNomination.next()) {
-                        clientsList[i] = clientsNomination.getString("lastName") + " " + clientsNomination.getString("firstName");
-                        items.add(clientsList[i]);
-                        i++;
-                    }
-                }
-            }else{
-                ResultSet clients = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser IS NOT NULL");
-                //Show results Clients
-                while (clients.next()) {
-                    listClients[i] = clients.getInt("idUser");
-                    listId[i] = clients.getInt("id");
+            for (int j = 0; j < clientsList.length; j++) {
+                ResultSet clientsNomination = req.executeQuery("SELECT * FROM client WHERE id = '" + listClients[j] + "'");
+                //Show results clients
+                while (clientsNomination.next()) {
+                    clientsList[i] = clientsNomination.getString("lastName") + " " + clientsNomination.getString("firstName");
+                    items.add(clientsList[i]);
                     i++;
-                }
-                i = 0;
-
-                for (int j = 0; j < clientsList.length; j++) {
-                    ResultSet clientsNomination = req.executeQuery("SELECT * FROM client WHERE id = '" + listClients[j] + "'");
-                    //Show results clients
-                    while (clientsNomination.next()) {
-                        clientsList[i] = clientsNomination.getString("lastName") + " " + clientsNomination.getString("firstName");
-                        items.add(clientsList[i]);
-                        i++;
-                    }
                 }
             }
 
@@ -401,13 +357,13 @@ public class MyWindow extends JFrame {
     }
 
     public static JFrame createFrame() {
-            JFrame frame = new JFrame("Historique");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            frame.setSize(890, 550); //setSize
-            frame.setLocationRelativeTo(null); //move the window in the middle of the desktop
-            frame.setVisible(true);
+        JFrame frame = new JFrame("Historique");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(1000, 900); //setSize
+        frame.setLocationRelativeTo(null); //move the window in the middle of the desktop
+        frame.setVisible(true);
 
-            return frame;
+        return frame;
     }
 
     public static ArrayList<String> getHistorique(JPanel contentPane2, String inputValue,String[] serviceName){
@@ -445,6 +401,8 @@ public class MyWindow extends JFrame {
 
             int[] idUsersReservation = new int[interventionLength];
             Date[] interventionsDate = new Date[interventionLength];
+            Date[] interventionsDateStart = new Date[interventionLength];
+            Date[] interventionsDateEnd = new Date[interventionLength];
             Time[] interventionsTime = new Time[interventionLength];
             String[] interventionsName = new String[interventionLength];
             String[] newInputValue;
@@ -460,25 +418,44 @@ public class MyWindow extends JFrame {
             }
 
             j=1;
-            for (int k = 1; k < serviceName.length; k++) {
+            for (int k = 0; k < serviceName.length; k++) {
                 ResultSet findServices = req.executeQuery("SELECT * FROM " + serviceName[k]);
                 while (findServices.next()) {
                     for (int i = 0; i < interventionLength; i++) {
-                        if ( findServices.getInt("idUser") == idUsersReservation[i] && findServices.getString("name").equals(interventionsService[i]) && findServices.getInt("id") == interventionsId[i]  && findServices.getInt("order_id") != 0 ){
+                        if ( findServices.getInt("idUser") == idUsersReservation[i] && findServices.getString("name").equals(interventionsService[i])
+                                && findServices.getInt("id") == interventionsId[i] && findServices.getInt("order_id") != 0 ){
                             interventionsName[i] = findServices.getString("name");
-                            interventionsDate[i] = findServices.getDate("date");
                             interventionsTime[i] = findServices.getTime("heureSemaine");
-                            items.add("Intervention n°" + j + " chez " + interventions[i] + " pour le service " + interventionsName[i] + " le " + interventionsDate[i] + " pour " + interventionsTime[i] + " heures par semaine");
-                            j++;
+
+                            DatabaseMetaData findDate = con.getMetaData();
+                            /*
+                             * Métadonnées sur une table
+                             * getColumns( catalog , model schema name , model table name , model column name )
+                             */
+                            ResultSet resDate = findDate.getColumns(null, "%", serviceName[k], "%");
+
+                            while (resDate.next()) {
+                                String col_name = resDate.getString("COLUMN_NAME");
+
+                                if(col_name.equals("date")){
+                                    interventionsDate[i] = findServices.getDate("date");
+                                    items.add("Intervention n°" + j + " chez " + interventions[i] + " pour le service " + interventionsName[i] + " le " + interventionsDate[i] + " pour " + interventionsTime[i] + " heures par semaine");
+                                } else if ( col_name.equals("dateDebut") || col_name.equals("dateFin") ){
+                                    interventionsDateStart[i] = findServices.getDate("dateDebut");
+                                    interventionsDateEnd[i] = findServices.getDate("dateFin");
+                                    items.add("Intervention n°" + j + " chez " + interventions[i] + " pour le service " + interventionsName[i] + " début le " + interventionsDateStart[i] + " et fin le " + interventionsDateEnd[i] + " pour " + interventionsTime[i] + " heures par semaine");
+
+                                }
+                                j++;
+                            }
                         }
                     }
                 }
             }
 
-            } catch (Exception exc) {
-                exc.printStackTrace();
+        } catch (Exception exc) {
+            exc.printStackTrace();
         }
-
         return items;
     }
 
