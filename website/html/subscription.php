@@ -183,14 +183,13 @@ include 'config.php';
           <script type="text/javascript" src="subscription/sub.js"></script>
     </main>
 
-    <footer id="">
-        <br>
-        <section id="bottom">
-            <a href=""><img src="../img/logo.png" width="80"></a>
-            <div><small> Concierge Expert - All rights reserved © </small></div>
-        </section>
-        <br>
-    </footer>
+  <footer>
+      <br>
+      <img src="../img/logo.png" width="80">
+      <div><small>Conçu par : JAUCH Anthony - BURIOT Vincent - JEAN-FRANCOIS Teddy</small><br>
+          <small> Concierge Expert - All rights reserved © </small></div>
+      <br>
+  </footer>
 </body>
 
 </html>

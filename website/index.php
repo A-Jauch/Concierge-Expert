@@ -2,6 +2,7 @@
 include 'html/config.php';
 include 'html/delay.php';
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,45 +12,44 @@ include 'html/delay.php';
     <title>Concierge Expert</title>
 </head>
 <body>
-  <div id="accept"></div>
-  <header>
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-lg-12 col-md-11 col-xs-12">
-                  <nav>
-                      <div class="align">
-                          <ul>
-                              <?php
-                              $connected = isset($_SESSION['mail']) ? true : false;
-                              if ($connected) { ?>
-                              <li><a href="html/back_office/account.php">Historique</a></li>
-
-                              <?php } else { ?>
-                              <li><a href="index.php">Accueil</a></li>
-                              <?php } ?>
-                              <li><a href="html/service.php">Services</a></li>
-                              <a href="index.php" id="logo"><img src="img/logo.png" width="150px" alt="logo"></a>
-                              <li><a href="html/subscription.php">Abonnement</a></li>
-                                      <?php
-                                      $connected = isset($_SESSION['mail']) ? true : false;
-                                      if ($connected) { ?>
-                              <li><a href="html/deconnection.php">
-                                      <button type="button" class="btn btn-primary">Déconnexion</button>
-                                  </a>
-                              </li>
-                              <?php } else { ?>
-                                  <li><a href="html/connection.php">
-                                          <button type="button" class="btn btn-primary">Espace Client</button>
-                                      </a>
-                                  </li>
-                              <?php } ?>
-                          </ul>
-                      </div>
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </header>
+<div id="accept"></div>
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-11 col-xs-12">
+                <nav>
+                    <div class="align">
+                        <ul>
+                            <?php
+                            $connected = isset($_SESSION['mail']) ? true : false;
+                            if ($connected) { ?>
+                                <li><a href="html/back_office/account.php">Historique</a></li>
+                            <?php } else { ?>
+                                <li><a href="index.php">Accueil</a></li>
+                            <?php } ?>
+                            <li><a href="html/service.php">Services</a></li>
+                            <a href="index.php" id="logo"><img src="img/logo.png" width="150px" alt="logo"></a>
+                            <li><a href="html/subscription.php">Abonnement</a></li>
+                            <?php
+                            $connected = isset($_SESSION['mail']) ? true : false;
+                            if ($connected) { ?>
+                                <li><a href="html/deconnection.php">
+                                        <button type="button" class="btn btn-primary">Déconnexion</button>
+                                    </a>
+                                </li>
+                            <?php } else { ?>
+                                <li><a href="html/connection.php">
+                                        <button type="button" class="btn btn-primary">Espace Client</button>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
 
 <main>
     <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
@@ -65,8 +65,8 @@ include 'html/delay.php';
     <center><h1 class="font">Nos catégories de services les plus demandées</h1></center>
 
     <?php
-      $req2 = $bdd->prepare("SELECT * FROM SERVICE WHERE add_index = 'yes'");
-      $req2->execute();
+    $req2 = $bdd->prepare("SELECT * FROM SERVICE WHERE add_index = 'yes'");
+    $req2->execute();
     ?>
 
     <div class="container">
@@ -80,23 +80,24 @@ include 'html/delay.php';
                             <center><img class="size" width="100px" height="100px"
                                          src="<?= 'html/back_office/' . $row['image']; ?>"></center>
                             <div class="card-body">
-                                <h5 class="card-title"><?= '<h3><b>' . str_replace('_',' ',$row['name']) . '</b></h3>'; ?></h5>
+                                <h5 class="card-title"><?= '<h3><b>' . str_replace('_', ' ', $row['name']) . '</b></h3>'; ?></h5>
                                 <form action="html/reservation.php" method="post">
-                                  <input type="hidden" name="name" value="<?= $row['name']; ?>">
-                                  <?php
+                                    <input type="hidden" name="name" value="<?= $row['name']; ?>">
+                                    <?php
                                     $connected = isset($_SESSION['mail']) ? true : false;
                                     if ($connected) { ?>
-                                  <input type="submit" value="Visionner" class="btn btn-primary">
-                                <?php } else { ?>
-                                  <a href="html/connection.php" class="btn btn-success">Connectez-vous</a>
-                                <?php } ?>
+                                        <input type="submit" value="Visionner" class="btn btn-primary">
+                                    <?php } else { ?>
+                                        <a href="html/connection.php" class="btn btn-success">Connectez-vous</a>
+                                    <?php } ?>
 
-                                  <?php
+                                    <?php
                                     $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
                                     if ($connected) {
-                                  ?>
-                                  <input type="button" value="X" class="btn btn-danger" onclick="deleteService('<?= $row['name'] ?>')">
-                                  <?php }  ?>
+                                        ?>
+                                        <input type="button" value="X" class="btn btn-danger"
+                                               onclick="deleteService('<?= $row['name'] ?>')">
+                                    <?php } ?>
                                 </form>
                             </div>
                         </div>
@@ -109,13 +110,13 @@ include 'html/delay.php';
 
     <br>
     <?php
-      $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
-      if ($connected) {
-    ?>
-      <center><a href="html/back_office/add_service.php">
-              <button type="button" class="btn btn-primary">Ajouter un service</button>
-          </a></center>
-      <br>
+    $connected = isset($_SESSION['mail']) && $_SESSION['mail'] == 'concierge_expert@gmail.com' ? true : false;
+    if ($connected) {
+        ?>
+        <center><a href="html/back_office/add_service.php">
+                <button type="button" class="btn btn-primary">Ajouter un service</button>
+            </a></center>
+        <br>
     <?php } ?>
 
     <section class="presentation">
@@ -173,17 +174,15 @@ include 'html/delay.php';
     </section>
 </main>
 
-  <script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="index.js"></script>
 
-  <footer>
-      <br>
-      <img src="img/logo.png" width="80">
-      <section id="bottom">
-          <!--<p class="font">Conçu par : </br>JAUCH Anthony </br> BURIOT Vincent </br>JEAN-FRANCOIS Teddy</p>-->
-      </section>
-      <div><small> Concierge Expert - All rights reserved © </small></div>
-      <br>
-  </footer>
+<footer>
+    <br>
+    <img src="img/logo.png" width="80">
+    <div><small>Conçu par : JAUCH Anthony - BURIOT Vincent - JEAN-FRANCOIS Teddy</small><br>
+    <small> Concierge Expert - All rights reserved © </small></div>
+    <br>
+</footer>
 </body>
 
 </html>

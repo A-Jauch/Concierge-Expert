@@ -1,7 +1,6 @@
 <?php session_start();
-$_SESSION = [];
+    $_SESSION = [];
 
-header('location: ../index.php');
-exit;
-
+    header('location: ../index.php');
+    exit;
 ?>

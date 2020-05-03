@@ -161,11 +161,10 @@
 
 </body>
 <br><footer>
+    <br>
     <img src="../../img/logo.png" width="80">
-    <section id="bottom">
-        <!--<p class="font">Conçu par : </br>JAUCH Anthony </br> BURIOT Vincent </br>JEAN-FRANCOIS Teddy</p>-->
-    </section>
-    <div><small> Concierge Expert - All rights reserved © </small></div>
+    <div><small>Conçu par : JAUCH Anthony - BURIOT Vincent - JEAN-FRANCOIS Teddy</small><br>
+        <small> Concierge Expert - All rights reserved © </small></div>
     <br>
 </footer>
 

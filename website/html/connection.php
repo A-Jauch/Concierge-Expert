@@ -15,8 +15,9 @@ include 'config.php';
 
     <div class="container">
         <div class="">
-            <center><img src="../img/logo.png" width="200px" ></center>
-        </div><br>
+            <center><img src="../img/logo.png" width="200px"></center>
+        </div>
+        <br>
         <div class="row centered-form">
             <div class="col-lg-12 col-xl-12">
                 <div class="panel panel-default">
@@ -29,19 +30,22 @@ include 'config.php';
                                 <div class="col-lg-12 col-xl-126">
                                     <div class="form-group">
                                         <?php
-                                        if(isset($_GET['error']) && $_GET['error'] == 'password') {
+                                        if (isset($_GET['error']) && $_GET['error'] == 'password') {
                                             echo '<p style="color:red">Votre mail ou votre mot de passe est incorrect</p>';
                                         }
                                         ?>
                                         <label class="font">Mail : </label>
-                                        <input type="text" name="mail" placeholder="Mail" class="form-control input-md" multiple><br>
+                                        <input type="text" name="mail" placeholder="Mail" class="form-control input-md"
+                                               multiple><br>
                                         <label class="font">Mot de passe : </label>
-                                        <input type="password" name="password" placeholder="Mot de passe" class="form-control input-sm"><br>
+                                        <input type="password" name="password" placeholder="Mot de passe"
+                                               class="form-control input-sm"><br>
                                         <a href="inscription.php" class="btn btn-success">S'inscrire</a>
                                     </div>
                                 </div>
                             </div>
-                            <center><input type="submit" name="" value="Se connecter" class="btn btn-primary"></center><br>
+                            <center><input type="submit" name="" value="Se connecter" class="btn btn-primary"></center>
+                            <br>
                         </form>
                         <form action="../index.php" method="POST">
                             <center><input type="submit" name="" value="Retour" class="btn btn-danger"></center>

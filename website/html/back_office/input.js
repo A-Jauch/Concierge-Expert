@@ -53,12 +53,13 @@ function verify(){
 
 }
 
-function deplacer(l1,l2,l3) {
+function deplacer(l1,l2) {
+  /*
+   * Option --> Récupérer le nom et la value du champs sélectionné
+   */
  if (l1.options.selectedIndex>=0) {
    let option = new Option(l1.options[l1.options.selectedIndex].text,l1.options[l1.options.selectedIndex].value);
    l2.options[l2.options.length] = option;
-   l1.options[l1.options.selectedIndex] = null;
-   l3.options[l3.options.length] = option;
    l1.options[l1.options.selectedIndex] = null;
   }else{
      alert("Aucune option sélectionnée");
@@ -100,10 +101,8 @@ function deleteBdd(){
   let array = [];
     for(let i=0; i<listeLength; i++){
       array.push(liste.options[i].value);
-      console.log(array[i]);
     }
   //AJAX
-
   const request = new XMLHttpRequest();
   request.open('POST','delete_column.php');
   request.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
@@ -117,7 +116,6 @@ function deleteBdd(){
     }
   }
   request.send(`array=${array}&nameCategorie=${nameCategorie}`);
-
 }
 
 function verifyColumn(){
@@ -161,8 +159,4 @@ function empty(value){
   }else{
     return false;
   }
-}
-
-function inputNumber(){
-
 }

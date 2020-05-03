@@ -1,33 +1,70 @@
 <?php session_start();
+include 'config.php';
+$name = $_POST['name'];
+$constprice = 0;
 
-  include 'config.php';
-  $name = $_POST['name'];
-  $constprice = 0;
+$today = getdate();
 
-  function debug($variable)
-  {
-      echo '<pre>' . print_r($variable, true) . '</pre>';
-  }
+if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) && isset($_SESSION['mail'])) {
+    /*$date = date('d', strtotime($_POST['date']));
+    $datem = date('m', strtotime($_POST['date']));
+    $datey = date('Y', strtotime($_POST['date']));
+    $verifJ = $today['mday'] - $date;
+    $verifM = $today['mon'] - $datem;
 
-  if (!empty($_POST['heureSemaine']) && isset($_POST['date']) && !empty($_POST['date']) &&isset($_SESSION['mail'])) {
-      $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,date,name,idUser)" . "VALUES (?,?,?,?)");
-      $insert->execute([$_POST['heureSemaine'], $_POST['date'], $name, $_SESSION['id']]);
-      $last_id = $bdd->lastInsertId();
-      $_POST['id'] = $last_id;
-      debug($_POST['date']);
-  }
+    if (abs($verifJ) > 0 && abs($verifM) > 0) {
+        header('location: ../index.php?erreur=erreurdate');
+        exit;
+    }*/
 
-  if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
-      $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name,idUser)" . "VALUES (?,?,?,?,?)");
-      $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name , $_SESSION['id']]);
-      $last_id = $bdd->lastInsertId();
-      $_POST['id'] = $last_id;
-  }
+    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,date,name,idUser)" . "VALUES (?,?,?,?)");
+    $insert->execute([$_POST['heureSemaine'], $_POST['date'], $name, $_SESSION['id']]);
+    $last_id = $bdd->lastInsertId();
+    $_POST['id'] = $last_id;
+}
 
-  $req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =1");
-  $req->execute();
-  $test = $req->fetchAll(PDO::FETCH_ASSOC);
-  $constprice = $test[0]['price'];
+
+/*if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
+    $dateDebut = date('d', strtotime($_POST['dateDebut']));
+    $dateDebutm = date('m', strtotime($_POST['dateDebut']));
+    $dateDebuty = date('Y', strtotime($_POST['dateDebut']));
+
+
+    $dateFin = date('d', strtotime($_POST['dateFin']));
+    $dateFinm = date('m', strtotime($_POST['dateFin']));
+    $dateFiny = date('Y', strtotime($_POST['dateFin']));
+    //debug($today['mon']);
+    $verifdJ = $today['mday'] - $dateDebut;
+    $verifdM = $today['mon'] - $dateDebutm;
+
+    $veriffJ = $today['mday'] - $dateFin;
+    $veriffM = $today['mon'] - $dateFinm;
+
+
+    if (abs($verifdJ) > 0 && abs($verifdM) > 0) {
+        header('location: ../index.php?erreur=erreurdateDebut');
+        exit;
+    }
+
+    if (abs($veriffJ) > 0 && abs($veriffM) > 0) {
+        header('location: ../index.php?erreur=erreurdatefin');
+        exit;
+    }
+}*/
+
+if (!empty($_POST['heureSemaine']) && isset($_POST['dateDebut']) && isset($_POST['dateFin']) && !empty($_POST['dateFin']) && !empty($_POST['dateDebut'])) {
+
+    $insert = $bdd->prepare("INSERT INTO " . $name . "(heureSemaine,dateDebut,dateFin,name,idUser)" . "VALUES (?,?,?,?,?)");
+    $insert->execute([$_POST['heureSemaine'], $_POST['dateDebut'], $_POST['dateFin'], $name, $_SESSION['id']]);
+    $last_id = $bdd->lastInsertId();
+    $_POST['id'] = $last_id;
+}
+
+$req = $bdd->prepare("SELECT * FROM " . $name . " WHERE id =1");
+$req->execute();
+$test = $req->fetchAll(PDO::FETCH_ASSOC);
+$constprice = $test[0]['price'];
+
 ?>
 
 <?php
@@ -36,24 +73,19 @@ foreach ($test as $rows) {
     $hour = strtotime($_POST['heureSemaine']);
 
     if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['dateDebut']) && isset($_POST['dateFin'])) {
-
-        $dateDebut = idate('w', strtotime($_POST['dateDebut']));
-        $dateFin = idate('w', strtotime($_POST['dateFin']));
-
-        $dateDif =$dateFin - $dateDebut  ;
-    /*    debug($dateDebut);
-        debug($dateFin);
-        debug($dateDif);*/
-
+        $dateDebut = date('d', strtotime($_POST['dateDebut']));
+        $dateFin = date('d', strtotime($_POST['dateFin']));
+        $dateDif = $dateFin - $dateDebut;
     }
+
+    /*
+     * Conversion heure en int pour le multiplier avec le prix par heures
+     * 10:25 --> mettre 10h en minutes, y ajouter les 25 mins, reconversion du tout en heure * le prix unitaire
+     */
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
         $stockHmin = idate('H', $hour) * 60;
-
         $totalH = (idate('i', $hour) + $stockHmin) / 60;
-
         $result = $totalH * $rows['price'];
-        //debug($result);
-
     }
 
     if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
@@ -76,39 +108,37 @@ foreach ($test as $rows) {
     }
 }
 
-$desc = $bdd->prepare(" DESCRIBE " .$name);
+/*
+ * Insertion des champs inconnus
+ */
+
+$desc = $bdd->prepare(" DESCRIBE " . $name);
 $desc->execute();
 $try = $desc->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($try as $values){
-
-    //debug($values);
-    if ( $values['Type'] != 'int(11)' && $values['Type'] != 'double' &&  $values['Type'] != 'date' && $values['Type'] != 'time' && $values['Type'] != 'datetime' &&  $values['Type'] != 'timestamp' &&  $values['Type'] != 'float' ){
-
-            $_POST[$values['Field']] = "'".$_POST[$values['Field']]."'";
-     }
+foreach ($try as $values) {
+    if ($values['Type'] != 'int(11)' && $values['Type'] != 'double' && $values['Type'] != 'date' && $values['Type'] != 'time' && $values['Type'] != 'datetime' && $values['Type'] != 'timestamp' && $values['Type'] != 'float') {
+        // Concaténation pour que ça passe en string
+        $_POST[$values['Field']] = "'" . $_POST[$values['Field']] . "'";
+    }
     $req = $bdd->prepare(" UPDATE " . $name . " SET " . $values['Field'] . "= " . $_POST[$values['Field']] . " WHERE id = " . $last_id);
-    //debug($req);
     $req->execute([$_POST[$values['Field']]]);
-
 }
-
 
 if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
     $total_price = 0;
-
     $item_details = '';
-
     $order_details = '
-  <div class="table-responsive" id="order_table">
-   <table class="table table-bordered table-striped">
-      <tr>
-        <th>Nom Service</th>
-        <th>Nombre Heures Au Jour</th>
-        <th>Prix Horraire</th>
-        <th>Total</th>
-    </tr>
-';
+      <div class="table-responsive" id="order_table">
+       <table class="table table-bordered table-striped">
+          <tr>
+            <th>Nom Service</th>
+            <th>Nombre Heures Au Jour</th>
+            <th>Prix Horaire</th>
+            <th>Total</th>
+          </tr>
+     ';
+
     if (!empty($price)) {
         foreach ($price as $rows) {
             $order_details .= '
@@ -116,14 +146,14 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
                <td>' . $rows["name"] . '</td>
                <td>' . $rows["heureSemaine"] . '</td>
                <td align="right"> ' . $constprice . '€</td>
-               <td align="right"> ' . number_format($rows["price"],2,'.',''). '€</td>
+               <td align="right"> ' . number_format($rows["price"], 2, '.', '') . '€</td>
               </tr>
 
             ';
         }
 
     }
-    $result_cmd = number_format($rows["price"],2,'.','');
+    $result_cmd = number_format($rows["price"], 2, '.', '');
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 
@@ -131,47 +161,42 @@ if (!empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
 
 if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['dateDebut']) && isset($_POST['dateDebut']) && !empty($_POST['heureSemaine']) && isset($_POST['heureSemaine'])) {
     $total_price = 0;
-
     $item_details = '';
-
     $order_details = '
-<div class="table" id="order_table">
- <table class="table table-bordered table-striped">
-      <tr>
-        <th>Nom Service</th>
-        <th>Nombre Heures Semaine</th>
-        <th>Date de Début</th>
-        <th>Date de Fin</th>
-        <th>Nombre de Jour de service</th>
-        <th>Prix horaire</th>
-        <th>Total</th>
-    </tr>
-';
+        <div class="table" id="order_table">
+         <table class="table table-bordered table-striped">
+              <tr>
+                <th>Nom Service</th>
+                <th>Nombre Heures Semaine</th>
+                <th>Date de Début</th>
+                <th>Date de Fin</th>
+                <th>Nombre de Jour de service</th>
+                <th>Prix horaire</th>
+                <th>Total</th>
+            </tr>
+     ';
+
     if (!empty($price)) {
         foreach ($price as $rows) {
-          // debug($rows);
             $order_details .= '
-            <tr>
-   <td>' . $rows["name"] . '</td>
-   <td>' . $rows["heureSemaine"] . '</td>
-    <td>' . $rows["dateDebut"] . '</td>
-    <td>' . $rows["dateFin"] . '</td>
-    <td>' . $dateDif . '</td>
-
-   <td align="right"> ' . $constprice . '€</td>
-   <td align="right"> ' . number_format($rows["price"],2,'.','') . '€</td>
-  </tr>
-
-            ';
+              <tr>
+               <td>' . $rows["name"] . '</td>
+               <td>' . $rows["heureSemaine"] . '</td>
+               <td>' . $rows["dateDebut"] . '</td>
+               <td>' . $rows["dateFin"] . '</td>
+               <td>' . abs($dateDif) . '</td>
+            
+               <td align="right"> ' . $constprice . '€</td>
+               <td align="right"> ' . number_format($rows["price"], 2, '.', '') . '€</td>
+              </tr>
+             ';
         }
 
     }
-    $result_cmd = number_format($rows["price"],2,'.','');
+    $result_cmd = number_format($rows["price"], 2, '.', '');
     $item_details = $rows["name"];
     $order_details .= '</table></div>';
 }
-
-
 ?>
 
 
@@ -185,7 +210,6 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
     <script src="js/jquery.creditCardValidator.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
-
     <title>Payment Home</title>
 </head>
 <body>
@@ -285,15 +309,14 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                                 ?>
                                 <div class="form-group">
                                     <label><b>Pays <span class="text-danger">*</span></b></label>
-                                    <select class="custom-select my-1 mr-sm-2" name="customer_country" id="customer_country">
-                                        <?php $cont = 0;?>
-                                        <?php $cont = $cont+1;?>
-                                        <?php foreach($country as $countrys):?>
-                                            <option value="<?=$country[$cont]['nom_fr_fr']?>"><?=$country[$cont]['nom_fr_fr']?></option>
-                                        <?php $cont=$cont+1;?>
-                                        <?php endforeach;?>
+                                    <select class="custom-select my-1 mr-sm-2" name="customer_country"
+                                            id="customer_country">
+                                        <?php $cont = 0;
+                                        foreach ($country as $countrys) { ?>
+                                            <option value="<?= $country[$cont]['nom_fr_fr'] ?>"><?= $country[$cont]['nom_fr_fr'] ?></option>
+                                        <?php $cont = $cont + 1; } ?>
                                     </select>
-                                    <span id="error_customer_country" class="text-danger" ></span>
+                                    <span id="error_customer_country" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -338,21 +361,21 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
                             <input type="hidden" name="last_id" value="<?php echo $last_id; ?>"/>
 
                             <input type="submit" name="button_action" id="button_action" class="btn btn-success btn-sm"
-                                 onclick="stripePay(event)"  value="Payer"/>
+                                   onclick="stripePay(event)" value="Payer"/>
                         </div>
                         <br/>
-                        </form>
-                    </div>
-                    <div class="col-md-4">
-                        <h4 align="center">Information de commande</h4>
-                        <?php
-                        echo $order_details;
-                        ?>
-                    </div>
-                </div>
             </form>
         </div>
+        <div class="col-md-4">
+            <h4 align="center">Information de commande</h4>
+            <?php
+            echo $order_details;
+            ?>
+        </div>
     </div>
+    </form>
+</div>
+</div>
 </div>
 </body>
 
@@ -360,208 +383,11 @@ if (!empty($_POST['dateDebut']) && !empty($_POST['dateFin']) && isset($_POST['da
 <footer>
     <br>
     <img src="../img/logo.png" width="80">
-    <section id="bottom">
-        <!--<p class="font">Conçu par : </br>JAUCH Anthony </br> BURIOT Vincent </br>JEAN-FRANCOIS Teddy</p>-->
-    </section>
-    <div><small> Concierge Expert - All rights reserved © </small></div>
+    <div><small>Conçu par : JAUCH Anthony - BURIOT Vincent - JEAN-FRANCOIS Teddy</small><br>
+        <small> Concierge Expert - All rights reserved © </small></div>
     <br>
 </footer>
+
 </html>
 
-<script>
-
-
-    function validate_form()
-    {
-        let valid_card = 0;
-        let valid = false;
-        let card_cvc = $('#card_cvc').val();
-        let card_expiry_month = $('#card_expiry_month').val();
-        let card_expiry_year = $('#card_expiry_year').val();
-        let card_holder_number = $('#card_holder_number').val();
-        let email_address = $('#email_address').val();
-        let customer_name = $('#customer_name').val();
-        let customer_address = $('#customer_address').val();
-        let customer_city = $('#customer_city').val();
-        let customer_pin = $('#customer_pin').val();
-        let customer_country = $('#customer_country').val();
-        let name_expression = /^[a-z ,.'-]+$/i;
-        let email_expression = /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/;
-        let month_expression = /^01|02|03|04|05|06|07|08|09|10|11|12$/;
-        let year_expression = /^2017|2018|2019|2020|2021|2022|2023|2024|2025|2026|2027|2028|2029|2030|2031$/;
-        let cvv_expression = /^[0-9]{3,3}$/;
-
-        $('#card_holder_number').validateCreditCard(function(result){
-            if(result.valid)
-            {
-                $('#card_holder_number').removeClass('require');
-                $('#error_card_number').text('');
-                valid_card = 1;
-            }
-            else
-            {
-                $('#card_holder_number').addClass('require');
-                $('#error_card_number').text('Invalid Card Number');
-                valid_card = 0;
-            }
-        });
-
-        if(valid_card == 1)
-        {
-            if(!month_expression.test(card_expiry_month))
-            {
-                $('#card_expiry_month').addClass('require');
-                $('#error_card_expiry_month').text('Invalid Data');
-                valid = false;
-            }
-            else
-            {
-                $('#card_expiry_month').removeClass('require');
-                $('#error_card_expiry_month').text('');
-                valid = true;
-            }
-
-            if(!year_expression.test(card_expiry_year))
-            {
-                $('#card_expiry_year').addClass('require');
-                $('#error_card_expiry_year').error('Invalid Data');
-                valid = false;
-            }
-            else
-            {
-                $('#card_expiry_year').removeClass('require');
-                $('#error_card_expiry_year').error('');
-                valid = true;
-            }
-
-            if(!cvv_expression.test(card_cvc))
-            {
-                $('#card_cvc').addClass('require');
-                $('#error_card_cvc').text('Invalid Data');
-                valid = false;
-            }
-            else
-            {
-                $('#card_cvc').removeClass('require');
-                $('#error_card_cvc').text('');
-                valid = true;
-            }
-            if(!name_expression.test(customer_name))
-            {
-                $('#customer_name').addClass('require');
-                $('#error_customer_name').text('Invalid Name');
-                valid = false;
-            }
-            else
-            {
-                $('#customer_name').removeClass('require');
-                $('#error_customer_name').text('');
-                valid = true;
-            }
-
-            if(!email_expression.test(email_address))
-            {
-                $('#email_address').addClass('require');
-                $('#error_email_address').text('Invalid Email Address');
-                valid = false;
-            }
-            else
-            {
-                $('#email_address').removeClass('require');
-                $('#error_email_address').text('');
-                valid = true;
-            }
-
-            if(customer_address == '')
-            {
-                $('#customer_address').addClass('require');
-                $('#error_customer_address').text('Enter Address Detail');
-                valid = false;
-            }
-            else
-            {
-                $('#customer_address').removeClass('require');
-                $('#error_customer_address').text('');
-                valid = true;
-            }
-
-            if(customer_city == '')
-            {
-                $('#customer_city').addClass('require');
-                $('#error_customer_city').text('Enter City');
-                valid = false;
-            }
-            else
-            {
-                $('#customer_city').removeClass('require');
-                $('#error_customer_city').text('');
-                valid = true;
-            }
-
-            if(customer_pin == '')
-            {
-                $('#customer_pin').addClass('require');
-                $('#error_customer_pin').text('Enter Zip code');
-                valid = false;
-            }
-            else
-            {
-                $('#customer_pin').removeClass('require');
-                $('#error_customer_pin').text('');
-                valid = true;
-            }
-
-            if(customer_country == '')
-            {
-                $('#customer_country').addClass('require');
-                $('#error_customer_country').text('Enter Country Detail');
-                valid = false;
-            }
-            else
-            {
-                $('#customer_country').removeClass('require');
-                $('#error_customer_country').text('');
-                valid = true;
-            }
-
-
-        }
-        return valid;
-    }
-
-    Stripe.setPublishableKey('pk_test_0ZNFRCxwqh6nRz8Z7tmYzRyg00R6iW6ao7');
-
-    function stripeResponseHandler(status, response)
-    {
-        if(response.error)
-        {
-            $('#button_action').attr('disabled', false);
-            $('#message').html(response.error.message).show();
-        }
-        else
-        {
-            var token = response['id'];
-            $('#order_process_form').append("<input type='hidden' name='token' value='" + token + "' />");
-
-            $('#order_process_form').submit();
-        }
-    }
-
-    function stripePay(event)
-    {
-        event.preventDefault();
-
-        if(validate_form() == true)
-        {
-            $('#button_action').attr('disabled', 'disabled');
-            $('#button_action').val('Paiement en cours....');
-            Stripe.createToken({
-                number:$('#card_holder_number').val(),
-                cvc:$('#card_cvc').val(),
-                exp_month : $('#card_expiry_month').val(),
-                exp_year : $('#card_expiry_year').val()
-            }, stripeResponseHandler);
-            return false;
-        }
-    }
-</script>
+<script src="payment.js"></script>
