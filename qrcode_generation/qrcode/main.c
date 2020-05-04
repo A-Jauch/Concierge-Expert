@@ -48,7 +48,7 @@ const char *receiveFirstName,
         *receiveJob,
         *receivePhoneNumber;
 
-const char *path = "C:\\Users\\tjeanfrancois\\Desktop\\test.png";
+const char *path = "..\\decode_qrcode\\qr_code_1.png";
 
 //GTK Entry Function
 
@@ -196,7 +196,7 @@ void add(GtkWidget *widget, GtkWidget *window) {
 
         MYSQL_ROW rowJob = mysql_fetch_row(resultJob);
 
-        int8_t reqInsert[255] = "INSERT INTO serviceprovider (firstName, lastName, mail, tel, qrcode,idJob) VALUES('";
+        int8_t reqInsert[700] = "INSERT INTO serviceprovider (firstName, lastName, mail, tel, qrcode,idJob) VALUES('";
         strcat(reqInsert, receiveFirstName);
         strcat(reqInsert, "','");
         strcat(reqInsert, receiveLastName);
@@ -348,8 +348,8 @@ int main(int argc, char **argv) {
 
 static void doBasicDemo(void) {
 
-    char metier[15]="Job:";
-    char mail[15]="Mail:";
+    char metier[100]="Job:";
+    char mail[100]="Mail:";
     char test[255] =" ";
     char test2[255]=" ";
 
@@ -375,7 +375,7 @@ static void doBasicDemo(void) {
 static void printQr(const uint8_t qrcode[]) {
 
     /* Initialisation fichier */
- //   const char *path = "../decode_qrcode/qr_code_1.png";
+    const char *path2 = "..\\decode_qrcode\\qr_code_1.png";
 
     /* Initialisation SDL */
     SDL_Window *window = NULL;
@@ -450,8 +450,8 @@ static void printQr(const uint8_t qrcode[]) {
                     /* Exportation PNG */
                     screen = SDL_CreateRGBSurface(0, 750, 750, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
                     SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_RGBA32, screen->pixels, screen->pitch);
-                    IMG_SavePNG(screen, path);
-                    if (IMG_SavePNG(screen,path) != 0)
+                    IMG_SavePNG(screen, path2);
+                    if (IMG_SavePNG(screen,path2) != 0)
                         SDL_ExitWithError("Failed screenshot");
                     SDL_FreeSurface(screen);
                     break;

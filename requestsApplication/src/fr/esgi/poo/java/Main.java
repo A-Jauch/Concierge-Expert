@@ -14,9 +14,6 @@ public class Main {
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException { //JVM will show the error (not likely to on windows or linux)
 
-        /*DatabaseManager dt = new DatabaseManager();
-        System.out.println(Arrays.deepToString(dt.select("client")));*/
-
         //Apply look'n feel on window
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
