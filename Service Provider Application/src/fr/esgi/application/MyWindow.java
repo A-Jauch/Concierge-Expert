@@ -330,7 +330,7 @@ public class MyWindow extends JFrame {
 
             String serviceSelected = serviceList.getSelectedItem().toString();
 
-            ResultSet clients = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser IS NOT NULL");
+            ResultSet clients = req.executeQuery("SELECT * FROM " + serviceSelected + " WHERE idUser IS NOT NULL AND order_id != 0");
             //Show results Clients
             while (clients.next()) {
                 listClients[i] = clients.getInt("idUser");
@@ -396,6 +396,7 @@ public class MyWindow extends JFrame {
                 interventions[j] = intervention.getString("clientName");
                 interventionsService[j] = intervention.getString("serviceName");
                 interventionsId[j] = intervention.getInt("idReservation");
+                System.out.println("RETURN --> " + interventions[j]);
                 j++;
             }
 
