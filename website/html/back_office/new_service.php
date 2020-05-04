@@ -16,7 +16,12 @@ foreach ($_POST as $key => $value) {
 if ((isset($_POST['columName']) && !empty($_POST['columName'])) &&
     (isset($_POST['price']) && !empty($_POST['price'])) && (isset($_POST['description']) && !empty($_POST['description'])) && isset($_FILES['image'])) {
 
-    $columName = $_POST['columName'];
+    if( strpos($_POST['columName']," ") != FALSE ){
+      $columName = str_replace(" ","_",$_POST['columName']);
+    }else{
+      $columName = $_POST['columName'];
+    }
+
     $price = $_POST['price'];
     $description = $_POST['description'];
     $image = $variable[0];
@@ -42,7 +47,7 @@ if ((isset($_POST['columName']) && !empty($_POST['columName'])) &&
                 for ($j = 3; $j < count($variable); $j++) {
                     $string .= "," . $variable[$j][0] . " " . $variable[$j][1];
                 }
-                
+
                 $req = $bdd->prepare("CREATE TABLE " . $variable[0][0] . "(id INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,name VARCHAR(50), image VARCHAR(255),  price DOUBLE,description TEXT, heureSemaine TIME" . $string . ", idUser INT REFERENCES CLIENT(id), order_id INT(11) NULL )");
                 $req->execute();
 

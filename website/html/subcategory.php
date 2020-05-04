@@ -89,7 +89,7 @@ $req2->execute();
                                                                placeholder="<?= $nameColumn['Field'] ?>"
                                                                class="form-control input-sm"><br>
                                                     <?php } else { ?>
-                                                        <label class="font"><?= $nameColumn['Field'] ?> : </label>
+                                                        <label class="font"><?= str_replace('_', ' ', $nameColumn['Field']) ?> : </label>
                                                         <input type="<?= $res['native_type'] ?>"
                                                                name="<?= $nameColumn['Field'] ?>"
                                                                placeholder="<?= $nameColumn['Field'] ?>"

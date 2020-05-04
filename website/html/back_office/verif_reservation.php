@@ -4,8 +4,13 @@
   $nameCategorie = $_POST['nameCategorie'];
 
   if (isset($_POST['columnName']) && !empty($_POST['columnName'])){
-      $columnName = $_POST['columnName'];
+      if( strpos($_POST['columnName']," ") != FALSE ){
+        $columnName = str_replace(" ","_",$_POST['columnName']);
+      }else{
+        $columnName = $_POST['columnName'];
+      }
   }
+
 
   if (isset($_POST['type']) && !empty($_POST['type'])){
       $type = $_POST['type'];
